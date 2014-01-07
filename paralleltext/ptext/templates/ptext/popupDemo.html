@@ -1,0 +1,100 @@
+{% extends "parallel_display/display.html" %}
+{% load customList %}
+{% load dajaxice_templatetags %}
+
+{% block page1 %}
+{% dajaxice_js_import %}
+  <table id="left_table" style="vertical-align: top;">
+    {% for word in text1 %}
+      {% if word == "<p>" %}
+        <tr><td align="{{ text1Dir }}" width=100% style="vertical-align: top; height:5em">
+        {{ word }}
+      {% elif word == "</p>" %}
+        {{ word }}
+        </td></tr>
+      {% else %}
+        <a class="alert" 
+          href=# 
+          style="color:black;
+            background:none;
+            left:0px;
+            border:none;
+            padding:0px 0px;
+            margin:0px 0px;" 
+          rel="popover" 
+          data-content="{{ text1|get_definition:forloop.counter0 }}"
+          data-original-title="{{ text1|get_original:forloop.counter0 }}"
+          data-trigger="hover" 
+          data-placement="bottom"> {{ text1|get_original:forloop.counter0 }} </a> 
+        {% endif %}
+      {% endfor %}
+    </table>
+  </td>
+{% endblock %}
+
+
+
+{% block page2 %}	
+{% dajaxice_js_import %}
+  <td><table id="right_table" style="vertical-align: top;">
+    {% for word in text2 %}
+      {% if word == "<p>" %}
+        <tr><td align= "{{ text2Dir }}" width=100% style="vertical-align: top; height:5em">
+        {{ word }}
+      {% elif word == "</p>" %}
+        {{ word }}
+        </td></tr>
+      {% else %}
+        <a class="alert" 
+           href=# 
+           style="color:black;
+             background:none;
+             left:0px;
+             border:none;
+             padding:0px 0px;
+             margin:0px 0px;" 
+          rel="popover" 
+          data-content="{{ text2|get_definition:forloop.counter0 }}"
+          data-original-title="{{ text2|get_original:forloop.counter0 }}"
+          data-trigger="hover" 
+          data-placement="bottom"> {{ text2|get_original:forloop.counter0 }} </a> 
+        {% endif %}
+      {% endfor %}
+    </table>
+
+
+<!-- <script src="{{STATIC_URL}}/ptext/bootbox.min.js"></script> -->
+
+<script>
+$(document).on("click", ".alert", function(e) {
+bootbox.confirm("Do you want to add the word \"" + e.target.text + "\" to your dictionary?", function(yesNo) {
+  if (yesNo){
+      Dajaxice.parallel_display.insert_word(my_callback,{"word":e.target.text});
+    }
+});
+});
+
+$(document).on("hover",".alert",function(e){
+$("a").popover();
+});
+
+function my_callback(data) {
+  if (data.result == true)
+  {
+    if (data.word == '|||'){
+      bootbox.alert("This word is already in your dictionary.");
+
+    }
+    else{
+      bootbox.alert(data.word + " has been added to your dictionary.");
+    }
+  }
+  else
+  {
+    bootbox.alert("You have to be logged in to use this feature.")
+  }
+};
+
+
+</script>
+{% endblock %}  

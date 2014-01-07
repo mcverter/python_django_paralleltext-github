@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block bodycontent %}
+
+<!--
+<html>
+  <head>
+    <title> {{ title }}  </title>
+  </head>
+  <body>
+-->
+
+    <h2>{{ title }}</h2>
+    <p>Use this page to upload a text to the library</p>
+    <p>Two rules  must be followed</p>
+    <ol>
+      <li>All Chapters MUST be separated by the string "[CHAPTER]" on a separate line</li>
+      <li>All Paragraphs MUST be separated by at least two blank lines</li>
+    </ol>
+
+    <form enctype="multipart/form-data" action="/upload/" method="post">
+{% csrf_token %}
+      {{ form.as_p }}
+    <input type="submit">
+
+
+{% if form.errors %}
+<div id="form-error">
+	<p>The operation could not be performed because one or more error(s) occurred.<br />Please resubmit the form after making the following changes:</p>
+	<ul>
+	{% for field in form %}
+	<li>{{ field.errors|striptags }}</li>
+	{% endfor %}
+	</ul>
+</div>
+{% endif %}
+    </form>
+
+<!--
+  </body>
+</html>
+-->
+
+{% endblock %}
+

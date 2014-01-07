@@ -1,0 +1,410 @@
+************* Module models
+F:  9,0: Unable to import 'languages.models'
+************* Module tests
+R:  8,0:SimpleTest: Too many public methods (65/20)
+************* Module forms
+F:  8,0: Unable to import 'languages.models'
+C: 11,0:UploadForm: Missing docstring
+W: 11,0:UploadForm: Class has no __init__ method
+C: 14,4:UploadForm: Operator not preceded by a space
+    language=forms.ChoiceField(choices)
+            ^
+C: 15,4:UploadForm: Operator not preceded by a space
+    title=forms.CharField(label="Book Title: ")
+         ^
+C: 16,4:UploadForm: Operator not preceded by a space
+    file=forms.FileField(label="Upload File: ")
+        ^
+R: 11,0:UploadForm: Too few public methods (0/2)
+F:  9,0: Unable to import 'languages.models'
+R:  8,0:SimpleTest: Too many public methods (65/20)
+F:  9,0: Unable to import 'languages.models'
+R:  8,0:SimpleTest: Too many public methods (65/20)
+************* Module settings
+C: 20,0: Line too long (120/80)
+C: 23,0: Line too long (101/80)
+C: 27,0: Line too long (115/80)
+C:127,0: Line too long (88/80)
+C:178,0: Operator not preceded by a space
+DEBUG=True
+     ^
+************* Module urls
+C: 42,0: Line too long (101/80)
+C: 43,0: Line too long (99/80)
+C: 14,0: Invalid name "urlpatterns" for type constant (should match (([A-Z_][A-Z0-9_]*)|(__.*__))$)
+************* Module wsgi
+C: 29,0: Invalid name "application" for type constant (should match (([A-Z_][A-Z0-9_]*)|(__.*__))$)
+F:  9,0: Unable to import 'languages.models'
+************* Module test
+F:  9,0: Unable to import 'selenium'
+C: 20,4:TestPText.setUp: Invalid name "setUp" for type method (should match [a-z_][a-z0-9_]{2,30}$)
+C:127,4:TestPText.tearDown: Invalid name "tearDown" for type method (should match [a-z_][a-z0-9_]{2,30}$)
+R: 14,0:TestPText: Too many public methods (48/20)
+************* Module ajax
+C: 36,0: Line too long (119/80)
+F:  5,0: Unable to import 'languages.models'
+F:  6,0: Unable to import 'languages.models'
+F:  8,0: Unable to import 'languages.models'
+C: 11,0:UploadForm: Missing docstring
+W: 11,0:UploadForm: Class has no __init__ method
+C: 14,4:UploadForm: Operator not preceded by a space
+    language=forms.ChoiceField(choices)
+            ^
+C: 15,4:UploadForm: Operator not preceded by a space
+    title=forms.CharField(label="Book Title: ")
+         ^
+C: 16,4:UploadForm: Operator not preceded by a space
+    file=forms.FileField(label="Upload File: ")
+        ^
+R: 11,0:UploadForm: Too few public methods (0/2)
+F:  9,0: Unable to import 'languages.models'
+F:  9,0: Unable to import 'selenium'
+C: 20,4:TestPText.setUp: Invalid name "setUp" for type method (should match [a-z_][a-z0-9_]{2,30}$)
+C:127,4:TestPText.tearDown: Invalid name "tearDown" for type method (should match [a-z_][a-z0-9_]{2,30}$)
+R: 14,0:TestPText: Too many public methods (48/20)
+F:  8,0: Unable to import 'languages.models'
+C: 11,0:UploadForm: Missing docstring
+W: 11,0:UploadForm: Class has no __init__ method
+C: 14,4:UploadForm: Operator not preceded by a space
+    language=forms.ChoiceField(choices)
+            ^
+C: 15,4:UploadForm: Operator not preceded by a space
+    title=forms.CharField(label="Book Title: ")
+         ^
+C: 16,4:UploadForm: Operator not preceded by a space
+    file=forms.FileField(label="Upload File: ")
+        ^
+R: 11,0:UploadForm: Too few public methods (0/2)
+F:  9,0: Unable to import 'languages.models'
+R:  8,0:SimpleTest: Too many public methods (65/20)
+************* Module views
+R:  1,0: Similar lines in 2 files
+==test:5
+==test:5
+import unittest
+from bs4 import BeautifulSoup
+import re
+from selenium import webdriver
+
+LEFT = BeautifulSoup(open("../texts/Bible_Genesis/EN/ch_1.html"))
+
+
+class TestPText(unittest.TestCase):
+    '''
+    This class designed to test the popups module. Later on it will be extended
+    to test the dictionary functions as well
+    '''
+
+    def setUp(self):
+        '''
+        This sets up the test of thepopups
+        '''
+        self.driver = webdriver.Firefox()
+        #self.base_url = "http://parallel-text.herokuapp.com"
+        self.base_url = "http://127.0.0.1:8000"
+        self.accept_next_alert = True
+
+        #Getting the source code
+        driver = self.driver
+        driver.get(self.base_url + "/")
+        driver.find_element_by_link_text("Read Books").click()
+        combox = driver.find_element_by_id("id_book_dd")
+        for option in combox.find_elements_by_tag_name("option"):
+            if (option.text == 'Bible Bible Genesis'):
+                option.click()
+
+
+        driver.find_element_by_name("book_submit").click()
+        combox = driver.find_element_by_id('id_left_lang_dd')
+        for option in combox.find_elements_by_tag_name('option'):
+            if (option.text == 'English'):
+                option.click()
+
+        combox = driver.find_element_by_id('id_right_lang_dd')
+        for option in combox.find_elements_by_tag_name('option'):
+            if (option.text == 'Hebrew'):
+                option.click()
+
+
+        driver.find_element_by_name("chap_lang_submit").click()
+
+        self.html = driver.page_source
+
+
+    def test_num_of_tables(self):
+        '''
+        This test checks if the content has 2 tables
+        '''
+
+        num_of_tables = re.findall(
+            r"<table.*?/table>",self.html.encode('utf-8'),re.DOTALL)
+
+        self.assertEqual(2,
+            len(num_of_tables), "The content doesn't have 2 tables." )
+
+    def test_num_paragraphs_left(self):
+        '''
+        compare the number of paragrpahs
+        between the original file and the fetched page
+        '''
+
+
+        par_en = re.findall(r'<p.*?</p>', str(LEFT), re.DOTALL)
+
+        #paragraphs in self
+
+        par_self = re.findall(r'<table.*?/table>',
+            self.html.encode('utf-8'),re.DOTALL)
+
+        par_self = re.findall(r'<p.*?/p>',
+            par_self[1], re.DOTALL)
+
+        string_report = '''Original file has {} paragraphs and
+            self has {} paragraphs'''.format(
+                len(par_en), len(par_self))
+
+        self.assertEqual(len(par_en), len(par_self), string_report)
+
+
+
+
+    def test_popups(self):
+        '''
+        compare the number of words
+        between the original file and the fetched page
+        '''
+
+    #     #Make a long string from EN
+        en_content = re.findall(r'<p.*?</p>', str(LEFT), re.DOTALL)
+        en_content = re.findall(r'>.*?</p>', str(en_content), re.DOTALL)
+        en_content = str(en_content).replace('</p>','')
+        en_content = en_content.decode('string_escape')
+        en_content = en_content.decode('string_escape')
+        en_content = str(en_content).replace('>','')
+        en_content = str(en_content).replace('\'','')
+        en_content = str(en_content).replace('\"','')
+        en_content = str(en_content).replace('[','')
+        en_content = str(en_content).replace(']','')
+        en_content = str(en_content).replace('\\n','')
+        en_content = str(en_content).replace('\\r','')
+        en_content = str(en_content).replace(',', '')
+        en_content = en_content.split()
+
+
+    #     #Make a long string from self
+        self_content = re.findall(r'<table.*?</table>',
+            self.html, re.DOTALL)
+        self_content = re.findall(r'data-original-title=.*?data',
+            self_content[0],re.DOTALL)
+
+        string_report = '''Original file has {} words and self
+        has {} words'''.format(len(en_content), len(self_content))
+        self.assertEqual(len(en_content), len(self_content), string_report)
+
+
+    def tearDown(self):
+        self.driver.quit()
+
+
+
+if __name__ ==  '__main__':
+    unittest.main()
+
+
+R:  1,0: Similar lines in 6 files
+==models:7
+==models:7
+==models:7
+==models:7
+==models:7
+==models:7
+from django.db import models
+from languages.models import Languages
+
+# Create your models here.
+
+
+class BookInfo (models.Model):
+    '''
+    (a) BookInfo:  (i)title, (ii) author, (iii) #chapters
+    '''
+    id = models.AutoField(primary_key=True)
+    title = models.CharField(max_length=96)
+    author = models.CharField(max_length=64)
+    chaps = models.IntegerField()
+
+class BookTranslation (models.Model):
+    '''
+    (b) BookTranslation: (i)language (ii) bookid
+    (iii) translator (iv) copyright
+    '''
+    id = models.AutoField(primary_key=True)
+    book_id  = models.ForeignKey(BookInfo)
+    language_id = models.ForeignKey(Languages)
+    translator_name = models.CharField(max_length=32)
+    copyright_info = models.CharField(max_length=32)
+R:  1,0: Similar lines in 3 files
+==forms:6
+==forms:6
+==forms:6
+from django import forms
+from languages.models import Languages
+# Create your models here.
+
+class UploadForm (forms.Form):
+#    import pdb; pdb.set_trace()
+    choices = Languages.objects.all().values_list('abbr', 'name')
+    language=forms.ChoiceField(choices)
+    title=forms.CharField(label="Book Title: ")
+    file=forms.FileField(label="Upload File: ")
+
+
+Report
+======
+305 statements analysed.
+
+Messages by category
+--------------------
+
++-----------+-------+---------+-----------+
+|type       |number |previous |difference |
++===========+=======+=========+===========+
+|convention |26     |4        |+22.00     |
++-----------+-------+---------+-----------+
+|refactor   |12     |4        |+8.00      |
++-----------+-------+---------+-----------+
+|warning    |3      |1        |+2.00      |
++-----------+-------+---------+-----------+
+|error      |0      |0        |=          |
++-----------+-------+---------+-----------+
+
+
+
+% errors / warnings by module
+-----------------------------
+
++-------+------+--------+---------+-----------+
+|module |error |warning |refactor |convention |
++=======+======+========+=========+===========+
+|forms  |0.00  |33.33   |8.33     |15.38      |
++-------+------+--------+---------+-----------+
+
+
+
+Messages
+--------
+
++-----------+------------+
+|message id |occurrences |
++===========+============+
+|F0401      |13          |
++-----------+------------+
+|C0322      |10          |
++-----------+------------+
+|C0301      |7           |
++-----------+------------+
+|R0904      |6           |
++-----------+------------+
+|C0103      |6           |
++-----------+------------+
+|W0232      |3           |
++-----------+------------+
+|R0903      |3           |
++-----------+------------+
+|R0801      |3           |
++-----------+------------+
+|C0111      |3           |
++-----------+------------+
+
+
+
+Global evaluation
+-----------------
+Your code has been rated at 8.66/10 (previous run: 7.86/10)
+
+Duplication
+-----------
+
++-------------------------+-------+---------+-----------+
+|                         |now    |previous |difference |
++=========================+=======+=========+===========+
+|nb duplicated lines      |275    |25       |+250.00    |
++-------------------------+-------+---------+-----------+
+|percent duplicated lines |28.321 |19.531   |+8.79      |
++-------------------------+-------+---------+-----------+
+
+
+
+Statistics by type
+------------------
+
++---------+-------+-----------+-----------+------------+---------+
+|type     |number |old number |difference |%documented |%badname |
++=========+=======+===========+===========+============+=========+
+|module   |33     |9          |+24.00     |100.00      |0.00     |
++---------+-------+-----------+-----------+------------+---------+
+|class    |21     |7          |+14.00     |85.71       |0.00     |
++---------+-------+-----------+-----------+------------+---------+
+|method   |14     |2          |+12.00     |100.00      |28.57    |
++---------+-------+-----------+-----------+------------+---------+
+|function |1      |0          |+1.00      |100.00      |0.00     |
++---------+-------+-----------+-----------+------------+---------+
+
+
+
+Raw metrics
+-----------
+
++----------+-------+------+---------+-----------+
+|type      |number |%     |previous |difference |
++==========+=======+======+=========+===========+
+|code      |374    |38.40 |43       |+331.00    |
++----------+-------+------+---------+-----------+
+|docstring |311    |31.93 |64       |+247.00    |
++----------+-------+------+---------+-----------+
+|comment   |108    |11.09 |5        |+103.00    |
++----------+-------+------+---------+-----------+
+|empty     |181    |18.58 |36       |+145.00    |
++----------+-------+------+---------+-----------+
+
+
+
+External dependencies
+---------------------
+::
+
+    bs4 
+      \-BeautifulSoup (test)
+    dajaxice 
+      \-core 
+      | \-dajaxice_autodiscover (urls)
+      | \-dajaxice_config (urls)
+      \-decorators 
+        \-dajaxice_register (ajax)
+    django 
+      \-conf 
+      | \-settings (urls)
+      | \-urls 
+      |   \-include (urls)
+      |   \-patterns (urls)
+      |   \-url (urls)
+      \-contrib 
+      | \-admin (urls)
+      | \-auth 
+      |   \-models 
+      |     \-User (ajax)
+      \-core 
+      | \-management 
+      | | \-execute_from_command_line (manage)
+      | \-wsgi 
+      |   \-get_wsgi_application (wsgi)
+      \-db 
+      | \-models (models)
+      \-forms (forms)
+      \-test 
+      | \-TestCase (tests)
+      \-utils 
+        \-simplejson (ajax)
+
+
+

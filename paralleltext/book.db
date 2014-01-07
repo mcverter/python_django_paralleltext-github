@@ -1,0 +1,2450 @@
+--
+-- PostgreSQL database dump
+--
+
+SET statement_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SET check_function_bodies = false;
+SET client_min_messages = warning;
+
+--
+-- Name: plpgsql; Type: EXTENSION; Schema: -; Owner: 
+--
+
+CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
+
+
+--
+-- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner: 
+--
+
+COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
+
+
+SET search_path = public, pg_catalog;
+
+SET default_tablespace = '';
+
+SET default_with_oids = false;
+
+--
+-- Name: Languages_languages; Type: TABLE; Schema: public; Owner: paralleltext; Tablespace: 
+--
+
+CREATE TABLE "Languages_languages" (
+    "langID" integer NOT NULL,
+    abbr character varying(2) NOT NULL,
+    name character varying(70) NOT NULL
+);
+
+
+ALTER TABLE public."Languages_languages" OWNER TO paralleltext;
+
+--
+-- Name: Languages_languages_langID_seq; Type: SEQUENCE; Schema: public; Owner: paralleltext
+--
+
+CREATE SEQUENCE "Languages_languages_langID_seq"
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public."Languages_languages_langID_seq" OWNER TO paralleltext;
+
+--
+-- Name: Languages_languages_langID_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: paralleltext
+--
+
+ALTER SEQUENCE "Languages_languages_langID_seq" OWNED BY "Languages_languages"."langID";
+
+
+--
+-- Name: Languages_translations; Type: TABLE; Schema: public; Owner: paralleltext; Tablespace: 
+--
+
+CREATE TABLE "Languages_translations" (
+    "definitionID" integer NOT NULL,
+    "fromLang" character varying(2) NOT NULL,
+    "toLang" character varying(2) NOT NULL,
+    original character varying(50) NOT NULL,
+    definition text NOT NULL
+);
+
+
+ALTER TABLE public."Languages_translations" OWNER TO paralleltext;
+
+--
+-- Name: Languages_userdictionary; Type: TABLE; Schema: public; Owner: paralleltext; Tablespace: 
+--
+
+CREATE TABLE "Languages_userdictionary" (
+    id integer NOT NULL,
+    "userID" character varying(2) NOT NULL,
+    "definitionID" character varying(2) NOT NULL
+);
+
+
+ALTER TABLE public."Languages_userdictionary" OWNER TO paralleltext;
+
+--
+-- Name: Languages_userdictionary_id_seq; Type: SEQUENCE; Schema: public; Owner: paralleltext
+--
+
+CREATE SEQUENCE "Languages_userdictionary_id_seq"
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public."Languages_userdictionary_id_seq" OWNER TO paralleltext;
+
+--
+-- Name: Languages_userdictionary_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: paralleltext
+--
+
+ALTER SEQUENCE "Languages_userdictionary_id_seq" OWNED BY "Languages_userdictionary".id;
+
+
+--
+-- Name: auth_group; Type: TABLE; Schema: public; Owner: paralleltext; Tablespace: 
+--
+
+CREATE TABLE auth_group (
+    id integer NOT NULL,
+    name character varying(80) NOT NULL
+);
+
+
+ALTER TABLE public.auth_group OWNER TO paralleltext;
+
+--
+-- Name: auth_group_id_seq; Type: SEQUENCE; Schema: public; Owner: paralleltext
+--
+
+CREATE SEQUENCE auth_group_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.auth_group_id_seq OWNER TO paralleltext;
+
+--
+-- Name: auth_group_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: paralleltext
+--
+
+ALTER SEQUENCE auth_group_id_seq OWNED BY auth_group.id;
+
+
+--
+-- Name: auth_group_permissions; Type: TABLE; Schema: public; Owner: paralleltext; Tablespace: 
+--
+
+CREATE TABLE auth_group_permissions (
+    id integer NOT NULL,
+    group_id integer NOT NULL,
+    permission_id integer NOT NULL
+);
+
+
+ALTER TABLE public.auth_group_permissions OWNER TO paralleltext;
+
+--
+-- Name: auth_group_permissions_id_seq; Type: SEQUENCE; Schema: public; Owner: paralleltext
+--
+
+CREATE SEQUENCE auth_group_permissions_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.auth_group_permissions_id_seq OWNER TO paralleltext;
+
+--
+-- Name: auth_group_permissions_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: paralleltext
+--
+
+ALTER SEQUENCE auth_group_permissions_id_seq OWNED BY auth_group_permissions.id;
+
+
+--
+-- Name: auth_permission; Type: TABLE; Schema: public; Owner: paralleltext; Tablespace: 
+--
+
+CREATE TABLE auth_permission (
+    id integer NOT NULL,
+    name character varying(50) NOT NULL,
+    content_type_id integer NOT NULL,
+    codename character varying(100) NOT NULL
+);
+
+
+ALTER TABLE public.auth_permission OWNER TO paralleltext;
+
+--
+-- Name: auth_permission_id_seq; Type: SEQUENCE; Schema: public; Owner: paralleltext
+--
+
+CREATE SEQUENCE auth_permission_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.auth_permission_id_seq OWNER TO paralleltext;
+
+--
+-- Name: auth_permission_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: paralleltext
+--
+
+ALTER SEQUENCE auth_permission_id_seq OWNED BY auth_permission.id;
+
+
+--
+-- Name: auth_user; Type: TABLE; Schema: public; Owner: paralleltext; Tablespace: 
+--
+
+CREATE TABLE auth_user (
+    id integer NOT NULL,
+    password character varying(128) NOT NULL,
+    last_login timestamp with time zone NOT NULL,
+    is_superuser boolean NOT NULL,
+    username character varying(30) NOT NULL,
+    first_name character varying(30) NOT NULL,
+    last_name character varying(30) NOT NULL,
+    email character varying(75) NOT NULL,
+    is_staff boolean NOT NULL,
+    is_active boolean NOT NULL,
+    date_joined timestamp with time zone NOT NULL
+);
+
+
+ALTER TABLE public.auth_user OWNER TO paralleltext;
+
+--
+-- Name: auth_user_groups; Type: TABLE; Schema: public; Owner: paralleltext; Tablespace: 
+--
+
+CREATE TABLE auth_user_groups (
+    id integer NOT NULL,
+    user_id integer NOT NULL,
+    group_id integer NOT NULL
+);
+
+
+ALTER TABLE public.auth_user_groups OWNER TO paralleltext;
+
+--
+-- Name: auth_user_groups_id_seq; Type: SEQUENCE; Schema: public; Owner: paralleltext
+--
+
+CREATE SEQUENCE auth_user_groups_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.auth_user_groups_id_seq OWNER TO paralleltext;
+
+--
+-- Name: auth_user_groups_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: paralleltext
+--
+
+ALTER SEQUENCE auth_user_groups_id_seq OWNED BY auth_user_groups.id;
+
+
+--
+-- Name: auth_user_id_seq; Type: SEQUENCE; Schema: public; Owner: paralleltext
+--
+
+CREATE SEQUENCE auth_user_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.auth_user_id_seq OWNER TO paralleltext;
+
+--
+-- Name: auth_user_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: paralleltext
+--
+
+ALTER SEQUENCE auth_user_id_seq OWNED BY auth_user.id;
+
+
+--
+-- Name: auth_user_user_permissions; Type: TABLE; Schema: public; Owner: paralleltext; Tablespace: 
+--
+
+CREATE TABLE auth_user_user_permissions (
+    id integer NOT NULL,
+    user_id integer NOT NULL,
+    permission_id integer NOT NULL
+);
+
+
+ALTER TABLE public.auth_user_user_permissions OWNER TO paralleltext;
+
+--
+-- Name: auth_user_user_permissions_id_seq; Type: SEQUENCE; Schema: public; Owner: paralleltext
+--
+
+CREATE SEQUENCE auth_user_user_permissions_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.auth_user_user_permissions_id_seq OWNER TO paralleltext;
+
+--
+-- Name: auth_user_user_permissions_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: paralleltext
+--
+
+ALTER SEQUENCE auth_user_user_permissions_id_seq OWNED BY auth_user_user_permissions.id;
+
+
+--
+-- Name: books_bookinfo; Type: TABLE; Schema: public; Owner: paralleltext; Tablespace: 
+--
+
+CREATE TABLE books_bookinfo (
+    id integer NOT NULL,
+    title character varying(96) NOT NULL,
+    author character varying(64) NOT NULL,
+    chaps integer NOT NULL
+);
+
+
+ALTER TABLE public.books_bookinfo OWNER TO paralleltext;
+
+--
+-- Name: books_bookinfo_id_seq; Type: SEQUENCE; Schema: public; Owner: paralleltext
+--
+
+CREATE SEQUENCE books_bookinfo_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.books_bookinfo_id_seq OWNER TO paralleltext;
+
+--
+-- Name: books_bookinfo_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: paralleltext
+--
+
+ALTER SEQUENCE books_bookinfo_id_seq OWNED BY books_bookinfo.id;
+
+
+--
+-- Name: books_booktranslation; Type: TABLE; Schema: public; Owner: paralleltext; Tablespace: 
+--
+
+CREATE TABLE books_booktranslation (
+    id integer NOT NULL,
+    book_id_id integer NOT NULL,
+    language_id_id integer NOT NULL,
+    translator_name character varying(32) NOT NULL,
+    copyright_info character varying(32) NOT NULL
+);
+
+
+ALTER TABLE public.books_booktranslation OWNER TO paralleltext;
+
+--
+-- Name: books_booktranslation_id_seq; Type: SEQUENCE; Schema: public; Owner: paralleltext
+--
+
+CREATE SEQUENCE books_booktranslation_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.books_booktranslation_id_seq OWNER TO paralleltext;
+
+--
+-- Name: books_booktranslation_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: paralleltext
+--
+
+ALTER SEQUENCE books_booktranslation_id_seq OWNED BY books_booktranslation.id;
+
+
+--
+-- Name: django_admin_log; Type: TABLE; Schema: public; Owner: paralleltext; Tablespace: 
+--
+
+CREATE TABLE django_admin_log (
+    id integer NOT NULL,
+    action_time timestamp with time zone NOT NULL,
+    user_id integer NOT NULL,
+    content_type_id integer,
+    object_id text,
+    object_repr character varying(200) NOT NULL,
+    action_flag smallint NOT NULL,
+    change_message text NOT NULL,
+    CONSTRAINT django_admin_log_action_flag_check CHECK ((action_flag >= 0))
+);
+
+
+ALTER TABLE public.django_admin_log OWNER TO paralleltext;
+
+--
+-- Name: django_admin_log_id_seq; Type: SEQUENCE; Schema: public; Owner: paralleltext
+--
+
+CREATE SEQUENCE django_admin_log_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.django_admin_log_id_seq OWNER TO paralleltext;
+
+--
+-- Name: django_admin_log_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: paralleltext
+--
+
+ALTER SEQUENCE django_admin_log_id_seq OWNED BY django_admin_log.id;
+
+
+--
+-- Name: django_content_type; Type: TABLE; Schema: public; Owner: paralleltext; Tablespace: 
+--
+
+CREATE TABLE django_content_type (
+    id integer NOT NULL,
+    name character varying(100) NOT NULL,
+    app_label character varying(100) NOT NULL,
+    model character varying(100) NOT NULL
+);
+
+
+ALTER TABLE public.django_content_type OWNER TO paralleltext;
+
+--
+-- Name: django_content_type_id_seq; Type: SEQUENCE; Schema: public; Owner: paralleltext
+--
+
+CREATE SEQUENCE django_content_type_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.django_content_type_id_seq OWNER TO paralleltext;
+
+--
+-- Name: django_content_type_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: paralleltext
+--
+
+ALTER SEQUENCE django_content_type_id_seq OWNED BY django_content_type.id;
+
+
+--
+-- Name: django_session; Type: TABLE; Schema: public; Owner: paralleltext; Tablespace: 
+--
+
+CREATE TABLE django_session (
+    session_key character varying(40) NOT NULL,
+    session_data text NOT NULL,
+    expire_date timestamp with time zone NOT NULL
+);
+
+
+ALTER TABLE public.django_session OWNER TO paralleltext;
+
+--
+-- Name: users_useraccount; Type: TABLE; Schema: public; Owner: paralleltext; Tablespace: 
+--
+
+CREATE TABLE users_useraccount (
+    user_id integer NOT NULL,
+    native_lang character varying(2) NOT NULL
+);
+
+
+ALTER TABLE public.users_useraccount OWNER TO paralleltext;
+
+--
+-- Name: langID; Type: DEFAULT; Schema: public; Owner: paralleltext
+--
+
+ALTER TABLE ONLY "Languages_languages" ALTER COLUMN "langID" SET DEFAULT nextval('"Languages_languages_langID_seq"'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: paralleltext
+--
+
+ALTER TABLE ONLY "Languages_userdictionary" ALTER COLUMN id SET DEFAULT nextval('"Languages_userdictionary_id_seq"'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: paralleltext
+--
+
+ALTER TABLE ONLY auth_group ALTER COLUMN id SET DEFAULT nextval('auth_group_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: paralleltext
+--
+
+ALTER TABLE ONLY auth_group_permissions ALTER COLUMN id SET DEFAULT nextval('auth_group_permissions_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: paralleltext
+--
+
+ALTER TABLE ONLY auth_permission ALTER COLUMN id SET DEFAULT nextval('auth_permission_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: paralleltext
+--
+
+ALTER TABLE ONLY auth_user ALTER COLUMN id SET DEFAULT nextval('auth_user_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: paralleltext
+--
+
+ALTER TABLE ONLY auth_user_groups ALTER COLUMN id SET DEFAULT nextval('auth_user_groups_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: paralleltext
+--
+
+ALTER TABLE ONLY auth_user_user_permissions ALTER COLUMN id SET DEFAULT nextval('auth_user_user_permissions_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: paralleltext
+--
+
+ALTER TABLE ONLY books_bookinfo ALTER COLUMN id SET DEFAULT nextval('books_bookinfo_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: paralleltext
+--
+
+ALTER TABLE ONLY books_booktranslation ALTER COLUMN id SET DEFAULT nextval('books_booktranslation_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: paralleltext
+--
+
+ALTER TABLE ONLY django_admin_log ALTER COLUMN id SET DEFAULT nextval('django_admin_log_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: paralleltext
+--
+
+ALTER TABLE ONLY django_content_type ALTER COLUMN id SET DEFAULT nextval('django_content_type_id_seq'::regclass);
+
+
+--
+-- Data for Name: Languages_languages; Type: TABLE DATA; Schema: public; Owner: paralleltext
+--
+
+COPY "Languages_languages" ("langID", abbr, name) FROM stdin;
+185	AA	Afar
+186	AB	Abkhazian
+187	AE	Avestan
+188	AF	Afrikaans
+189	AK	Akan
+190	AM	Amharic
+191	AN	Aragonese
+192	AR	Arabic
+193	AS	Assamese
+194	AV	Avaric
+195	AY	Aymara
+196	AZ	Azerbaijani
+197	BA	Bashkir
+198	BE	Belarusian
+199	BG	Bulgarian
+200	BH	Bihari languages
+201	BI	Bislama
+202	BM	Bambara
+203	BN	Bengali
+204	BO	Tibetan
+205	BR	Breton
+206	BS	Bosnian
+207	CA	Catalan
+208	CE	Chechen
+209	CH	Chamorro
+210	CO	Corsican
+211	CR	Cree
+212	CS	Czech
+213	CU	Church Slavic
+214	CV	Chuvash
+215	CY	Welsh
+216	DA	Danish
+217	DE	German
+218	DV	Divehi
+219	DZ	Dzongkha
+220	EE	Ewe
+221	EL	Greek, Modern (1453)
+222	EN	English
+223	EO	Esperanto
+224	ES	Spanish
+225	ET	Estonian
+226	EU	Basque
+227	FA	Persian
+228	FF	Fulah
+229	FI	Finnish
+230	FJ	Fijian
+231	FO	Faroese
+232	FR	French
+233	FY	Western Frisian
+234	GA	Irish
+235	GD	Gaelic
+236	GL	Galician
+237	GN	Guarani
+238	GU	Gujarati
+239	GV	Manx
+240	HA	Hausa
+241	HE	Hebrew
+242	HI	Hindi
+243	HO	Hiri Motu
+244	HR	Croatian
+245	HT	Haitian
+246	HU	Hungarian
+247	HY	Armenian
+248	HZ	Herero
+249	IA	Interlingua (International Auxiliary Language Association)
+250	ID	Indonesian
+251	IE	Interlingue
+252	IG	Igbo
+253	II	Sichuan Yi
+254	IK	Inupiaq
+255	IO	Ido
+256	IS	Icelandic
+257	IT	Italian
+258	IU	Inuktitut
+259	JA	Japanese
+260	JV	Javanese
+261	KA	Georgian
+262	KG	Kongo
+263	KI	Kikuyu
+264	KJ	Kuanyama
+265	KK	Kazakh
+266	KL	Kalaallisut
+267	KM	Central Khmer
+268	KN	Kannada
+269	KO	Korean
+270	KR	Kanuri
+271	KS	Kashmiri
+272	KU	Kurdish
+273	KV	Komi
+274	KW	Cornish
+275	KY	Kirghiz
+276	LA	Latin
+277	LB	Luxembourgish
+278	LG	Ganda
+279	LI	Limburgan
+280	LN	Lingala
+281	LO	Lao
+282	LT	Lithuanian
+283	LU	Luba-Katanga
+284	LV	Latvian
+285	MG	Malagasy
+286	MH	Marshallese
+287	MI	Maori
+288	MK	Macedonian
+289	ML	Malayalam
+290	MN	Mongolian
+291	MR	Marathi
+292	MS	Malay
+293	MT	Maltese
+294	MY	Burmese
+295	NA	Nauru
+296	NB	Bokmål, Norwegian
+297	ND	Ndebele, North
+298	NE	Nepali
+299	NG	Ndonga
+300	NL	Dutch
+301	NN	Norwegian Nynorsk
+302	NO	Norwegian
+303	NR	Ndebele, South
+304	NV	Navajo
+305	NY	Chichewa
+306	OC	Occitan (post 1500)
+307	OJ	Ojibwa
+308	OM	Oromo
+309	OR	Oriya
+310	OS	Ossetian
+311	PA	Panjabi
+312	PI	Pali
+313	PL	Polish
+314	PS	Pushto
+315	PT	Portuguese
+316	QU	Quechua
+317	RM	Romansh
+318	RN	Rundi
+319	RO	Romanian
+320	RU	Russian
+321	RW	Kinyarwanda
+322	SA	Sanskrit
+323	SC	Sardinian
+324	SD	Sindhi
+325	SE	Northern Sami
+326	SG	Sango
+327	SI	Sinhala
+328	SK	Slovak
+329	SL	Slovenian
+330	SM	Samoan
+331	SN	Shona
+332	SO	Somali
+333	SQ	Albanian
+334	SR	Serbian
+335	SS	Swati
+336	ST	Sotho, Southern
+337	SU	Sundanese
+338	SV	Swedish
+339	SW	Swahili
+340	TA	Tamil
+341	TE	Telugu
+342	TG	Tajik
+343	TH	Thai
+344	TI	Tigrinya
+345	TK	Turkmen
+346	TL	Tagalog
+347	TN	Tswana
+348	TO	Tonga (Tonga Islands)
+349	TR	Turkish
+350	TS	Tsonga
+351	TT	Tatar
+352	TW	Twi
+353	TY	Tahitian
+354	UG	Uighur
+355	UK	Ukrainian
+356	UR	Urdu
+357	UZ	Uzbek
+358	VE	Venda
+359	VI	Vietnamese
+360	VO	Volapük
+361	WA	Walloon
+362	WO	Wolof
+363	XH	Xhosa
+364	YI	Yiddish
+365	YO	Yoruba
+366	ZA	Zhuang
+367	ZH	Chinese
+\.
+
+
+--
+-- Name: Languages_languages_langID_seq; Type: SEQUENCE SET; Schema: public; Owner: paralleltext
+--
+
+SELECT pg_catalog.setval('"Languages_languages_langID_seq"', 367, true);
+
+
+--
+-- Data for Name: Languages_translations; Type: TABLE DATA; Schema: public; Owner: paralleltext
+--
+
+COPY "Languages_translations" ("definitionID", "fromLang", "toLang", original, definition) FROM stdin;
+936	HE	EN	הַמָּֽיִם׃	water
+2029	HE	EN	 וַיֹּ֥אמֶר	to say  ; to tell;; to be said, to be told, to be related  ; to be ordered  ; שנאמר - as it is said
+916	HE	EN	1	
+1874	HE	EN	אֱלֹהִ֖ים	God;; God  ; האלוהים - God
+1862	HE	EN	׀	
+955	HE	EN	לָאֹור֙	in light of, considering  ; as viewed by;; (biblical) to curse;; sunlight  ; light, lamp;; fire, blaze (noun);; Or (Hebrew name)
+2199	HE	EN		
+1902	HE	EN	(Hebrew)	
+922	HE	EN	הַשָּׁמַ֖יִם	sky, heaven  ; (talmudic) God;; to put  ; to appoint;; Semite;; to assess, to appraise
+923	HE	EN	וְאֵ֥ת	term used to indicate a direct object   ; et  ; אותי - me  ; אותך, אתכם, אתכן - you  ; אותו - him, it  ; אותה - her, it  ; אותנו - us  ; אותם, אותן - them;; you (female, singular);; spade, shovel
+924	HE	EN	הָאָֽרֶץ׃	land, country  ; earth, world  ; ארצה - to Israel  ; ארצה! - down! (command to animal)  ; הארץ - Israel (literally: the country)  ; הארץ - ground
+925	HE	EN	 וְהָאָ֗רֶץ	land, country  ; earth, world  ; ארצה - to Israel  ; ארצה! - down! (command to animal)  ; הארץ - Israel (literally: the country)  ; הארץ - ground
+926	HE	EN	הָיְתָ֥ה	to be, to exist  ; to happen, to take place, to occur  ; to become, to develop into;; to have
+927	HE	EN	תֹ֙הוּ֙	(flowery) emptiness, desolation, nothingness;; to wonder, to be amazed, to be dumbfounded  ; to ponder, to reflect
+928	HE	EN	וָבֹ֔הוּ	to stare into space, to daydream, to gaze
+929	HE	EN	וְחֹ֖שֶׁךְ	(literary) to become dark, to go black;; (flowery) dark, gloomy, lifeless;; darkness  ; evil, forces of darkness;; (literary) to withhold
+1687	HE	EN	אֱלֹהִ֔ים	God;; God  ; האלוהים - God
+2200	HE	EN	Bible	
+956	HE	EN	יֹ֔ום	day (cf. night)  ; day (calendar day, 24-hour period)  ; ימים - days, period, time  ; לימים - eventually, in time
+1283	HE	EN	יֹ֥ום	day (cf. night)  ; day (calendar day, 24-hour period)  ; ימים - days, period, time  ; לימים - eventually, in time
+2203	HE	EN	Chapter	
+1568	HE	EN	אֶחָֽד׃	one  ; single  ; unique  ; first, former  ; someone, somebody  ; כאחד - simultaneously, at the same time, at one and the same time;; someone, anyone  ; one, a type;; to join, to unite  ; to combine, to merge  ; to unify, to consolidate;; to be united
+2202	HE	EN	:	
+1209	HE	EN	אֱלֹהִ֤ים	God;; God  ; האלוהים - God
+1215	HE	EN	בָּרָ֣א	to create  ; הבורא - Creator (God);; to deforest, to cut down trees;; to be deforested, to be cut down (trees)
+1766	HE	EN	וּבֵ֥ין	between  ; amongst  ; בינינו - between you and me  ; מבין - an expression to indicate one or several of a number of items;; inter-;; yen (currency);; (mathematics) to interpolate
+941	HE	EN	וַֽיְהִי־אֹֽור׃	
+942	HE	EN	 וַיַּ֧רְא	(literary) God-fearing person;; to fear  ; to stand in awe of, to respect
+994	HE	EN	וַֽיְהִי־עֶ֥רֶב	
+1510	HE	EN	 וַיִּקְרָ֨א	Leviticus (third book of Bible);; to read  ; to call out to, to summon (ל)  ; to call, to name  ; to shout;; to be called, to be named  ; to be nicknamed  ; to be read  ; to be summoned;; to be read
+939	HE	EN	יְהִ֣י	to be, to exist  ; to happen, to take place, to occur  ; to become, to develop into
+946	HE	EN	וַיַּבְדֵּ֣ל	to segregate, to separate;; to be different  ; to be separated;; to be differentiated, to be told apart  ; to be distinguished  ; to be separated;; to be isolated, to be split off, to be detached  ; to be differentiated, to be told apart
+966	HE	EN	יְהִ֥י	to be, to exist  ; to happen, to take place, to occur  ; to become, to develop into
+967	HE	EN	רָקִ֖יעַ	(flowery) heavens, firmament
+1731	HE	EN	אֱלֹהִ֛ים	God;; God  ; האלוהים - God
+1250	HE	EN	עַל־פְּנֵ֣י	to cause to faint, to knock out, to shock
+931	HE	EN	תְהֹ֑ום	abyss, chasm, great depth  ; difference (opinion), gulf;; (literary) to rage, to roil
+932	HE	EN	וְר֣וּחַ	wind, breeze  ; (literary) soul  ; spirit, essence;; space, gap  ; (typography, printing) spacing;; to be common, to be widespread, to be accepted;; to space;; profit  ; gain;; to be relieved  ; to be more comfortable
+1849	HE	EN	 וַיֹּ֣אמֶר	to say  ; to tell;; to be said, to be told, to be related  ; to be ordered  ; שנאמר - as it is said
+921	HE	EN	אֵ֥ת	term used to indicate a direct object   ; et  ; אותי - me  ; אותך, אתכם, אתכן - you  ; אותו - him, it  ; אותה - her, it  ; אותנו - us  ; אותם, אותן - them;; you (female, singular);; spade, shovel
+957	HE	EN	וְלַחֹ֖שֶׁךְ	darkness  ; evil, forces of darkness;; (flowery) dark, gloomy, lifeless;; whisper, murmur  ; incantation, spell  ; בלחש - quietly, in a whisper;; (literary) to withhold
+958	HE	EN	קָ֣רָא	to read  ; to call out to, to summon (ל)  ; to call, to name  ; to shout
+959	HE	EN	לָ֑יְלָה	night;; (literary) night
+2201	HE	EN	Genesis	
+934	HE	EN	מְרַחֶ֖פֶת	to hover, to float (in the air);; hovercraft;; (slang) daydreaming;; (chemistry) suspended material
+935	HE	EN	עַל־פְּנֵ֥י	to cause to faint, to knock out, to shock
+940	HE	EN	אֹ֑ור	sunlight  ; light, lamp;; fire, blaze (noun);; (Biblical) Illuminated, shone;; Or (Hebrew name)
+951	HE	EN	הַחֹֽשֶׁךְ׃	to be darkened;; (flowery) dark, gloomy, lifeless;; darkness  ; evil, forces of darkness;; to become dark  ; to darken, to black out
+1163	HE	EN	וַֽיְהִי־בֹ֖קֶר	
+1107	HE	EN	הָאֹ֖ור	sunlight  ; light, lamp;; fire, blaze (noun)
+1593	HE	EN	אֱלֹהִ֑ים	God;; God  ; האלוהים - God
+944	HE	EN	אֶת־הָאֹ֖ור	
+945	HE	EN	כִּי־טֹ֑וב	
+970	HE	EN	וִיהִ֣י	to be, to exist  ; to happen, to take place, to occur  ; to become, to develop into
+971	HE	EN	מַבְדִּ֔יל	to differentiate, to tell apart  ; to distinguish  ; to separate  ; to make "havdala" (ceremony at termination of Sabbath or festival);; tin
+973	HE	EN	מַ֖יִם	water;; ocean, sea  ; (biblical) West  ; abundance, plethora, profusion
+974	HE	EN	לָמָֽיִם׃	water
+1013	HE	EN	אֶ֔רֶץ	land, country  ; earth, world  ; ארצה - to Israel  ; ארצה! - down! (command to animal)  ; הארץ - Israel (literally: the country)  ; הארץ - ground
+1768	HE	EN	וּבֵ֣ין	between  ; amongst  ; בינינו - between you and me  ; מבין - an expression to indicate one or several of a number of items;; inter-;; yen (currency);; (mathematics) to interpolate
+1141	HE	EN	הַמַּ֜יִם	water
+1002	HE	EN	מִתַּ֤חַת	below, underneath  ; under  ; less than;; below, beneath, under  ; subordinate;; to pull;; (slang) bottom, buttocks, behind, "arse"
+978	HE	EN	וַיַּבְדֵּ֗ל	to segregate, to separate;; to be different  ; to be separated;; to be differentiated, to be told apart  ; to be distinguished  ; to be separated;; to be isolated, to be split off, to be detached  ; to be differentiated, to be told apart
+979	HE	EN	בֵּ֤ין	between  ; amongst  ; בינינו - between you and me  ; מבין - an expression to indicate one or several of a number of items;; inter-;; (mathematics) to interpolate;; yen (currency)
+980	HE	EN	הַמַּ֙יִם֙	water
+982	HE	EN	מִתַּ֣חַת	below, underneath  ; under  ; less than;; below, beneath, under  ; subordinate;; to pull;; (slang) bottom, buttocks, behind, "arse"
+983	HE	EN	לָרָקִ֔יעַ	(flowery) heavens, firmament
+977	HE	EN	אֶת־הָרָקִיעַ֒	
+1831	HE	EN	 וַיִּקְרָ֧א	Leviticus (third book of Bible);; to read  ; to call out to, to summon (ל)  ; to call, to name  ; to shout;; to be called, to be named  ; to be nicknamed  ; to be read  ; to be summoned;; to be read
+987	HE	EN	מֵעַ֣ל	above, over  ; on top of  ; from on top of, off of  ; (flowery) away from;; to embezzle, to misappropriate;; on  ; about, regarding  ; because of, for  ; with, including  ; beside, near, at  ; by;; super- (superhuman, supernatural);; burden  ; yoke
+992	HE	EN	לָֽרָקִ֖יעַ	(flowery) heavens, firmament
+1012	HE	EN	לַיַּבָּשָׁה֙	land, dry land;; to dry out, to become dry;; dry  ; dried out, dried up  ; arid  ; shrill  ; desiccated  ; (colloquial) boring, monotonous, humorless;; to dry  ; to dry out, to dry up;; dryness  ; monotony, sameness
+1003	HE	EN	הַשָּׁמַ֙יִם֙	sky, heaven  ; (talmudic) God;; to put  ; to appoint;; Semite;; to assess, to appraise
+976	HE	EN	אֱלֹהִים֮	God;; God  ; האלוהים - God
+969	HE	EN	הַמָּ֑יִם	water
+1079	HE	EN	וַֽיְהִי־כֵֽן׃	
+988	HE	EN	לָרָקִ֑יעַ	(flowery) heavens, firmament
+1189	HE	EN	וַיַּ֥רְא	(literary) God-fearing person;; to fear  ; to stand in awe of, to respect
+1274	HE	EN	וַֽיְהִי־כֵֽן׃	
+993	HE	EN	שָׁמָ֑יִם	sky, heaven  ; (talmudic) God;; Semite;; to put  ; to appoint;; water;; ocean, sea  ; (biblical) West  ; abundance, plethora, profusion;; to assess, to appraise
+997	HE	EN	שֵׁנִֽי׃	second  ; Monday;; difference;; (literary) scarlet, crimson;; Shani (also: Shany) (Hebrew name);; dental;; two (when counting in the masculine);; tooth;; nu, the 13th letter of the Greek alphabet;; to sleep;; to change, to alter  ; to switch  ; (colloquial) to make a difference;; to repeat, to review
+1000	HE	EN	יִקָּו֨וּ	to hope;; to pool (water)
+1191	HE	EN	כִּי־טֹֽוב׃	
+1178	HE	EN	 וַיַּ֣עַשׂ	
+1004	HE	EN	אֶל־מָקֹ֣ום	
+1005	HE	EN	אֶחָ֔ד	one  ; single  ; unique  ; first, former  ; someone, somebody  ; כאחד - simultaneously, at the same time, at one and the same time;; someone, anyone  ; one, a type;; to join, to unite  ; to combine, to merge  ; to unify, to consolidate;; to be united
+1006	HE	EN	וְתֵרָאֶ֖ה	to see  ; to perceive, to notice, to understand, to determine  ; to check, to investigate, to examine;; to show  ; to indicate  ; to explain, to demonstrate;; to be visible  ; to look, to appear  ; to please;; to be shown, to be indicated
+1007	HE	EN	הַיַּבָּשָׁ֑ה	dry  ; dried out, dried up  ; arid  ; shrill  ; desiccated  ; (colloquial) boring, monotonous, humorless;; land, dry land;; to dry out, to become dry
+1395	HE	EN	בְּתֹ֣וךְ	inside  ; within, in  ; בתוכו - internally, inside oneself;; inside, interior  ; basis, main idea, central theme;; center, middle  ; (physics) medium  ; (art) solvent  ; בתווך - in between, in the middle
+918	HE	EN	 בְּרֵאשִׁ֖ית	(literary) at first, in the beginning  ; מבראשית - from the beginning, over again, anew;; Genesis (first book of the Bible);; from time immemorial, from the beginning;; beginning, outset  ; origin, source  ; (biblical, talmudic) first fruits, first harvest;; main  ; head, chief
+1014	HE	EN	וּלְמִקְוֵ֥ה	to hope;; (Judaism) ritual bath;; hoped for, desired, longed for
+1015	HE	EN	הַמַּ֖יִם	water
+1016	HE	EN	קָרָ֣א	to read  ; to call out to, to summon (ל)  ; to call, to name  ; to shout
+1017	HE	EN	יַמִּ֑ים	day (cf. night)  ; day (calendar day, 24-hour period)  ; ימים - days, period, time  ; לימים - eventually, in time;; ocean, sea  ; (biblical) West  ; abundance, plethora, profusion
+1120	HE	EN	הַמַּ֔יִם	water
+986	HE	EN	אֲשֶׁ֖ר	that, which, whom  ; who  ; as regards, in regard to  ; באשר - with respect to, with regard to  ; מאשר - than, rather than, compared to;; bliss, happiness;; to approve;; Asher (Hebrew name);; to confirm  ; to approve, to O.K.;; Asher (one of the twelve tribes of Israel);; to fall, to drop  ; (education system) to drop out
+1063	HE	EN	לְהַבְדִּ֕יל	to differentiate, to tell apart  ; to distinguish  ; to separate  ; to make "havdala" (ceremony at termination of Sabbath or festival);; but different!  ; vastly different, a thousand times different  ; as opposed to, compared to
+1083	HE	EN	הַמְּאֹרֹ֖ת	
+1038	HE	EN	 וַתֹּוצֵ֨א	to be removed, to be taken out  ; to be expelled, to be ejected;; effect (usu. refers to scientific phenomenon)
+1059	HE	EN	יְהִ֤י	to be, to exist  ; to happen, to take place, to occur  ; to become, to develop into
+1040	HE	EN	דֶּ֠שֶׁא	grass  ; (biblical) general term for various plants
+1089	HE	EN	וְאֶת־הַמָּאֹ֤ור	
+1065	HE	EN	הַיֹּ֖ום	today  ; now, currently;; day (cf. night)  ; day (calendar day, 24-hour period)  ; ימים - days, period, time  ; לימים - eventually, in time
+1067	HE	EN	הַלָּ֑יְלָה	tonight;; night
+1086	HE	EN	הַגָּדֹל֙	to be enlarged, to be expanded;; to grow up, to grow older  ; to grow (physically)  ; to develop, to flourish  ; to increase, to multiply  ; to become stronger;; size  ; magnitude, enormity;; to enlarge, to expand
+1046	HE	EN	עֹֽשֶׂה־פְּרִ֛י	
+1133	HE	EN	הַגְּדֹלִ֑ים	size  ; magnitude, enormity;; to grow up, to grow older  ; to grow (physically)  ; to develop, to flourish  ; to increase, to multiply  ; to become stronger
+1024	HE	EN	הָאָ֙רֶץ֙	land, country  ; earth, world  ; ארצה - to Israel  ; ארצה! - down! (command to animal)  ; הארץ - Israel (literally: the country)  ; הארץ - ground
+1025	HE	EN	דֶּ֔שֶׁא	grass  ; (biblical) general term for various plants
+1026	HE	EN	עֵ֚שֶׂב	weed;; to weed;; to be weeded
+1027	HE	EN	מַזְרִ֣יעַ	to inseminate (animals)
+1028	HE	EN	זֶ֔רַע	to sow  ; to spread, to disseminate;; seed  ; semen  ; sperm  ; (literary) scion;; arm, upper arm  ; handle  ; arm (of river)  ; (military) arm, service, branch
+1029	HE	EN	עֵ֣ץ	tree  ; wood;; (flowery) to advise
+1030	HE	EN	פְּרִ֞י	fruit  ; product, result  ; profit;; pre-;; bovine, bull
+1031	HE	EN	עֹ֤שֶׂה	to do  ; to make  ; to produce, to create;; (talmudic, Jewish law) positive command;; (talmudic) to cause someone to do something
+1032	HE	EN	פְּרִי֙	fruit  ; product, result  ; profit;; pre-;; bovine, bull
+1033	HE	EN	לְמִינֹ֔ו	kind, species  ; (grammar) gender  ; type, sort;; to sort
+1515	HE	EN	הַשָּׁמַ֔יִם	sky, heaven  ; (talmudic) God;; to put  ; to appoint;; Semite;; to assess, to appraise
+1041	HE	EN	עֵ֣שֶׂב	weed;; to weed;; to be weeded
+1042	HE	EN	מַזְרִ֤יעַ	to inseminate (animals)
+1043	HE	EN	זֶ֙רַע֙	to sow  ; to spread, to disseminate;; seed  ; semen  ; sperm  ; (literary) scion;; arm, upper arm  ; handle  ; arm (of river)  ; (military) arm, service, branch
+1161	HE	EN	בָּאָֽרֶץ׃	land, country  ; earth, world  ; ארצה - to Israel  ; ארצה! - down! (command to animal)  ; הארץ - Israel (literally: the country)  ; הארץ - ground
+1165	HE	EN	חֲמִישִֽׁי׃	fifth  ; (colloquial) Thursday (fifth day)
+1048	HE	EN	זַרְעֹו־בֹ֖ו	
+1082	HE	EN	אֶת־שְׁנֵ֥י	
+1023	HE	EN	תַּֽדְשֵׁ֤א	(literary) to cover with grass, to grow grass
+1060	HE	EN	מְאֹרֹת֙	(literary) curse
+1282	HE	EN	וַֽיְהִי־בֹ֖קֶר	
+1056	HE	EN	שְׁלִישִֽׁי׃	third  ; (colloquial) Tuesday;; third (1/3)  ; trimester;; (military) adjutant;; Yishai, Jesse (Hebrew name)
+1085	HE	EN	אֶת־הַמָּאֹ֤ור	
+1068	HE	EN	וְהָי֤וּ	to be, to exist  ; to happen, to take place, to occur  ; to become, to develop into;; to have
+1069	HE	EN	לְאֹתֹת֙	signalman
+1070	HE	EN	וּלְמֹ֣ועֲדִ֔ים	appointed time  ; specific time, specific date  ; commemorative date  ; במועדו - at the right time, on time;; to lose one's balance, to trip, to stumble;; habitual, known, has a history of being (a criminal, a dangerous intersection, an area that floods during heavy rains);; to be earmarked, to be appointed;; (biblical) to be warned  ; to be called as a witness
+1071	HE	EN	וּלְיָמִ֖ים	day (cf. night)  ; day (calendar day, 24-hour period)  ; ימים - days, period, time  ; לימים - eventually, in time;; ocean, sea  ; (biblical) West  ; abundance, plethora, profusion
+1072	HE	EN	וְשָׁנִֽים׃	year  ; school year  ; שנים - years (a long period of time);; string, cord  ; (anatomy) capillary;; two (when counting in the masculine);; tooth
+1073	HE	EN	 וְהָי֤וּ	to be, to exist  ; to happen, to take place, to occur  ; to become, to develop into;; to have
+1074	HE	EN	לִמְאֹורֹת֙	den, lair  ; (colloquial) hovel
+1100	HE	EN	לְהָאִ֖יר	to shine, to glow  ; to illuminate, to light up  ; to clarify, to explain
+1078	HE	EN	עַל־הָאָ֑רֶץ	
+1146	HE	EN	לְמִינֵ֔הוּ	kind, species  ; (grammar) gender  ; type, sort
+1045	HE	EN	וְעֵ֧ץ	tree  ; wood;; (flowery) to advise
+1098	HE	EN	בִּרְקִ֣יעַ	(flowery) heavens, firmament
+1106	HE	EN	בֵּ֥ין	between  ; amongst  ; בינינו - between you and me  ; מבין - an expression to indicate one or several of a number of items;; inter-;; (mathematics) to interpolate;; yen (currency)
+1091	HE	EN	לְמֶמְשֶׁ֣לֶת	government;; to be compared, to be equated, to be related;; to be appointed (refers to a ruler, king)
+1088	HE	EN	הַיֹּ֔ום	today  ; now, currently;; day (cf. night)  ; day (calendar day, 24-hour period)  ; ימים - days, period, time  ; לימים - eventually, in time
+1188	HE	EN	לְמִינֵ֑הוּ	kind, species  ; (grammar) gender  ; type, sort
+1053	HE	EN	 וַֽיְהִי־עֶ֥רֶב	
+1102	HE	EN	 וְלִמְשֹׁל֙	for example, for instance;; proverb, fable, allegory;; to rule, to reign
+1119	HE	EN	יִשְׁרְצ֣וּ	to swarm  ; to infest;; to be spawned
+1105	HE	EN	וּֽלֲהַבְדִּ֔יל	to differentiate, to tell apart  ; to distinguish  ; to separate  ; to make "havdala" (ceremony at termination of Sabbath or festival);; but different!  ; vastly different, a thousand times different  ; as opposed to, compared to
+1093	HE	EN	וְאֵ֖ת	term used to indicate a direct object   ; et  ; אותי - me  ; אותך, אתכם, אתכן - you  ; אותו - him, it  ; אותה - her, it  ; אותנו - us  ; אותם, אותן - them;; you (female, singular);; spade, shovel
+1127	HE	EN	עַל־פְּנֵ֖י	to cause to faint, to knock out, to shock
+1094	HE	EN	הַכֹּוכָבִֽים׃	star  ; asterisk
+1095	HE	EN	 וַיִּתֵּ֥ן	to give  ; to allow to, to permit to;; (biblical) to be given (only in future tense)
+1887	HE	EN	וְאֵ֨ת	term used to indicate a direct object   ; et  ; אותי - me  ; אותך, אתכם, אתכן - you  ; אותו - him, it  ; אותה - her, it  ; אותנו - us  ; אותם, אותן - them;; you (female, singular);; spade, shovel
+1154	HE	EN	פְּר֣וּ	Peru;; pro;; bovine, bull;; (flowery) to be fruitful and multiply
+1305	HE	EN	בַּיֹּ֣ום	staging, stage-managing;; day (cf. night)  ; day (calendar day, 24-hour period)  ; ימים - days, period, time  ; לימים - eventually, in time
+1104	HE	EN	וּבַלַּ֔יְלָה	night;; mixture, mash  ; mixing;; (literary) night;; mixture, concoction, medley, pot-pourri
+1109	HE	EN	הַחֹ֑שֶׁךְ	to be darkened;; (flowery) dark, gloomy, lifeless;; darkness  ; evil, forces of darkness;; to become dark  ; to darken, to black out
+1852	HE	EN	אֱלֹהִ֗ים	God;; God  ; האלוהים - God
+1092	HE	EN	הַלַּ֔יְלָה	tonight;; night
+1121	HE	EN	שֶׁ֖רֶץ	insect, bug  ; vermin;; to swarm  ; to infest;; to run;; runner, sprinter  ; (chess) bishop
+1123	HE	EN	חַיָּ֑ה	animal  ; beast  ; (Jewish law) non-domesticated animal;; Chaya (also: Haya) (Hebrew name);; to vitalize, to rejuvenate  ; (flowery) to allow to live;; (biblical) life, soul;; to live;; alive  ; alert, vivacious  ; raw, uncooked; fresh
+1124	HE	EN	וְעֹוף֙	bird  ; poultry  ; chicken, the flesh of the domestic fowl as food;; to fly
+1125	HE	EN	יְעֹופֵ֣ף	to flutter, to fly  ; to wave
+1461	HE	EN	לֵאמֹ֑ר	to say  ; to tell;; (formal) to say, saying: (at the beginning of a quote)  ; meaning, which means, in other words;; (flowery) utterance, word, saying
+1350	HE	EN	עַל־הָאָ֔רֶץ	
+1128	HE	EN	רְקִ֥יעַ	(flowery) heavens, firmament
+1129	HE	EN	הַשָּׁמָֽיִם׃	sky, heaven  ; (talmudic) God;; to put  ; to appoint;; Semite;; to assess, to appraise
+1130	HE	EN	 וַיִּבְרָ֣א	to create  ; הבורא - Creator (God);; to deforest, to cut down trees;; to be created;; to be deforested, to be cut down (trees)
+1132	HE	EN	אֶת־הַתַּנִּינִ֖ם	
+1134	HE	EN	וְאֵ֣ת	term used to indicate a direct object   ; et  ; אותי - me  ; אותך, אתכם, אתכן - you  ; אותו - him, it  ; אותה - her, it  ; אותנו - us  ; אותם, אותן - them;; you (female, singular);; spade, shovel
+1135	HE	EN	כָּל־נֶ֣פֶשׁ	to go on vacation, to relax
+1136	HE	EN	הַֽחַיָּ֣ה	to resuscitate, to revive  ; to raise from the dead;; to be resuscitated, to be revived  ; to be raised from the dead;; animal  ; beast  ; (Jewish law) non-domesticated animal;; alive  ; alert, vivacious  ; raw, uncooked; fresh;; to live;; (biblical) life, soul
+1138	HE	EN	הָֽרֹמֶ֡שֶׂת	
+1139	HE	EN	אֲשֶׁר֩	that, which, whom  ; who  ; as regards, in regard to  ; באשר - with respect to, with regard to  ; מאשר - than, rather than, compared to;; bliss, happiness;; to approve;; Asher (Hebrew name);; to confirm  ; to approve, to O.K.;; Asher (one of the twelve tribes of Israel);; to fall, to drop  ; (education system) to drop out
+1140	HE	EN	שָׁרְצ֨וּ	to run;; to want to, to intend to  ; to want, to desire;; to swarm  ; to infest;; insect, bug  ; vermin;; runner, sprinter  ; (chess) bishop;; to placate  ; to satisfy
+1142	HE	EN	לְמִֽינֵהֶ֗ם	
+1144	HE	EN	כָּל־עֹ֤וף	to fly
+1145	HE	EN	כָּנָף֙	wing  ; sail (of a windmill)  ; fender (of a car)  ; cantilever section of a door  or window that opens outward or inward  ; corner or edge of a garment  ; כנפיים - pilot's wings (insignia)  ; כנפיים - paratrooper's wings (insignia);; halyard, halliard
+1150	HE	EN	 וַיְבָ֧רֶךְ	to bless;; to be blessed;; (biblical) to feed  ; to give food to a mourner
+1151	HE	EN	אֹתָ֛ם	you (plural, male);; with ...;; spade, shovel
+1099	HE	EN	הַשָּׁמָ֑יִם	sky, heaven  ; (talmudic) God;; to put  ; to appoint;; Semite;; to assess, to appraise
+1155	HE	EN	וּרְב֗וּ	to argue with, to quarrel with;; rabbi  ; רבותיו - one's rabbis, one's teachers;; to increase;; to increase, to multiply;; most  ; majority  ; (biblical) abundance, much;; (biblical) to increase, to expand  ; (talmudic) to include
+1156	HE	EN	וּמִלְא֤וּ	to fill;; (Aramaic) no, negative;; to fill, to become full  ; to complete  ; to reach a certain age;; filled, full  ; fulfilled;; (Aramaic) no, not;; Lao (language)
+1157	HE	EN	אֶת־הַמַּ֙יִם֙	
+1158	HE	EN	בַּיַּמִּ֔ים	day (cf. night)  ; day (calendar day, 24-hour period)  ; ימים - days, period, time  ; לימים - eventually, in time;; ocean, sea  ; (biblical) West  ; abundance, plethora, profusion
+1159	HE	EN	וְהָעֹ֖וף	bird  ; poultry  ; chicken, the flesh of the domestic fowl as food
+1160	HE	EN	יִ֥רֶב	
+1162	HE	EN	 וַֽיְהִי־עֶ֥רֶב	
+1116	HE	EN	רְבִיעִֽי׃	fourth  ; Wednesday;; (flowery) quarter  ; (geometry) 90-degree arc, quarter of a circumference
+1211	HE	EN	אֶת־הָֽאָדָם֙	
+1174	HE	EN	וָרֶ֛מֶשׂ	insect, bug;; to creep, to crawl, to swarm
+1203	HE	EN	וּבַבְּהֵמָה֙	beast, animal (usu. domesticated)  ; (biblical, Jewish law) animal  ; (slang) vulgar person, animal, pig;; Bahamas, Bahama islands
+1182	HE	EN	לְמִינָ֗הּ	kind, species  ; (grammar) gender  ; type, sort;; to sort
+1185	HE	EN	וְאֵ֛ת	term used to indicate a direct object   ; et  ; אותי - me  ; אותך, אתכם, אתכן - you  ; אותו - him, it  ; אותה - her, it  ; אותנו - us  ; אותם, אותן - them;; you (female, singular);; spade, shovel
+1183	HE	EN	וְאֶת־הַבְּהֵמָה֙	
+1186	HE	EN	כָּל־רֶ֥מֶשׂ	to creep, to crawl, to swarm
+1175	HE	EN	וְחַֽיְתֹו־אֶ֖רֶץ	
+1176	HE	EN	לְמִינָ֑הּ	kind, species  ; (grammar) gender  ; type, sort;; to sort
+1179	HE	EN	אֱלֹהִים֩	God;; God  ; האלוהים - God
+1180	HE	EN	אֶת־חַיַּ֨ת	
+1181	HE	EN	הָאָ֜רֶץ	land, country  ; earth, world  ; ארצה - to Israel  ; ארצה! - down! (command to animal)  ; הארץ - Israel (literally: the country)  ; הארץ - ground
+1208	HE	EN	 וַיִּבְרָ֨א	to create  ; הבורא - Creator (God);; to deforest, to cut down trees;; to be created;; to be deforested, to be cut down (trees)
+1184	HE	EN	לְמִינָ֔הּ	kind, species  ; (grammar) gender  ; type, sort;; to sort
+1173	HE	EN	בְּהֵמָ֥ה	beast, animal (usu. domesticated)  ; (biblical, Jewish law) animal  ; (slang) vulgar person, animal, pig;; Bahamas, Bahama islands
+1187	HE	EN	הָֽאֲדָמָ֖ה	reddening; painting red;; land, earth, soil  ; ground (noun)  ; plot (land);; red
+1194	HE	EN	נַֽעֲשֶׂ֥ה	to be made from  ; to be done, to be carried out  ; to become;; to do  ; to make  ; to produce, to create
+1195	HE	EN	אָדָ֛ם	man, person, human being  ; someone, somebody  ; האדם - mankind, humanity;; Adam (Hebrew name);; red  ; (colloquial) Lipstick  ; ruby (precious stone);; to become red;; red;; red (noun);; (literary) to silence, to quieten  ; (literary) to cease moving, to stand still
+1196	HE	EN	בְּצַלְמֵ֖נוּ	to photograph, to film  ; to photocopy;; image  ; idol
+1197	HE	EN	כִּדְמוּתֵ֑נוּ	figure, image  ; personality, identity  ; character
+1199	HE	EN	בִדְגַ֨ת	fish (collective noun)
+1200	HE	EN	הַיָּ֜ם	ocean, sea  ; (biblical) West  ; abundance, plethora, profusion
+1239	HE	EN	עַל־הָאָֽרֶץ׃	
+1202	HE	EN	הַשָּׁמַ֗יִם	sky, heaven  ; (talmudic) God;; to put  ; to appoint;; Semite;; to assess, to appraise
+1168	HE	EN	תֹּוצֵ֨א	effect (usu. refers to scientific phenomenon);; to be removed, to be taken out  ; to be expelled, to be ejected
+1204	HE	EN	וּבְכָל־הָאָ֔רֶץ	
+1205	HE	EN	וּבְכָל־הָרֶ֖מֶשׂ	
+1206	HE	EN	הָֽרֹמֵ֥שׂ	insect, bug
+1315	HE	EN	אֹתֹ֑ו	with ...;; spade, shovel
+1217	HE	EN	זָכָ֥ר	male  ; man  ; (grammar) masculine gender;; to remember  ; to recall (memory)  ; to keep in mind  ; to remember as  ; to take into account;; memory (of someone or something)  ; remnant, trace, vestige  ; in memory of
+1212	HE	EN	בְּצַלְמֹ֔ו	to photograph, to film  ; to photocopy;; photographer, cinematographer;; image  ; idol
+1213	HE	EN	בְּצֶ֥לֶם	photographer, cinematographer;; image  ; idol;; shadow  ; shade  ; iota, trace;; onion  ; (botany) tuber
+1392	HE	EN	לְמַאֲכָ֑ל	food  ; למאכל - edible;; to consume, destroy;; to be fed;; corrosive, caustic;; to be consumed, to be destroyed;; consumed, corroded
+1170	HE	EN	נֶ֤פֶשׁ	soul, spirit  ; person  ; לנפש - per person  ; לנפשו - for oneself;; to go on vacation, to relax;; vacation, holiday;; to rest  ; to go on vacation, to relax
+1218	HE	EN	וּנְקֵבָ֖ה	female  ; (grammar) feminine;; tunnel, aqueduct;; to stipulate  ; to quote (price);; pinhole, aperture;; to puncture, to pierce;; to pierce, to punch a hole with a hole puncher;; to be pierced, to be punched with a hole puncher
+1219	HE	EN	בָּרָ֥א	to create  ; הבורא - Creator (God);; to deforest, to cut down trees;; to be deforested, to be cut down (trees)
+1220	HE	EN	אֹתָֽם׃	you (plural, male);; with ...;; spade, shovel
+1221	HE	EN	 וַיְבָ֣רֶךְ	to bless;; to be blessed;; (biblical) to feed  ; to give food to a mourner
+1222	HE	EN	אֹתָם֮	you (plural, male);; with ...;; spade, shovel
+1223	HE	EN	אֱלֹהִים֒	God;; God  ; האלוהים - God
+1224	HE	EN	וַיֹּ֨אמֶר	to say  ; to tell;; to be said, to be told, to be related  ; to be ordered  ; שנאמר - as it is said
+1225	HE	EN	לָהֶ֜ם	to, toward  ; of  ; for  ; until, till  ; into  ; לך, לכם, לכן - you, to you  ; לו - him, to him  ; לה - her, to her  ; לנו - us, to us  ; להם, להן - them, to them
+1227	HE	EN	פְּר֥וּ	Peru;; pro;; bovine, bull;; (flowery) to be fruitful and multiply
+1228	HE	EN	וּרְב֛וּ	to argue with, to quarrel with;; rabbi  ; רבותיו - one's rabbis, one's teachers;; to increase;; to increase, to multiply;; most  ; majority  ; (biblical) abundance, much;; (biblical) to increase, to expand  ; (talmudic) to include
+1229	HE	EN	וּמִלְא֥וּ	to fill;; (Aramaic) no, negative;; to fill, to become full  ; to complete  ; to reach a certain age;; filled, full  ; fulfilled;; (Aramaic) no, not;; Lao (language)
+1230	HE	EN	אֶת־הָאָ֖רֶץ	
+1231	HE	EN	וְכִבְשֻׁ֑הָ	ewe  ; sheep;; to conquer  ; to level (a road)  ; to captivate  ; (literary) to restrain oneself, to overcome one's inclinations, to hold back;; sheep  ; mutton;; to preserve, to pickle;; ramp, gangway;; lamb  ; (biblical) lamb, kid;; (flowery) to feel embarrassed, to be ashamed
+1235	HE	EN	וּבְעֹ֣וף	bird  ; poultry  ; chicken, the flesh of the domestic fowl as food
+1393	HE	EN	וְעֵ֤ץ	tree  ; wood;; (flowery) to advise
+1394	HE	EN	הַֽחַיִּים֙	life  ; lifestyle  ; (slang) lifeblood, be-all and end-all  ; alive  ; בחיי - I swear to you!, upon my life!  ; בחייך - You don't say! I don't believe it! Do me a favor  ; בחיים - alive, living;; alive  ; alert, vivacious  ; raw, uncooked; fresh;; to live
+1556	HE	EN	אִשָּׁ֔ה	woman  ; wife  ; אשתו - his wife;; fire  ; passion, fervor
+1251	HE	EN	כָל־הָאָ֔רֶץ	
+1278	HE	EN	עָשָׂ֔ה	to do  ; to make  ; to produce, to create;; (talmudic, Jewish law) positive command;; (talmudic) to cause someone to do something
+1271	HE	EN	אֶת־כָּל־יֶ֥רֶק	
+1233	HE	EN	בִּדְגַ֤ת	fish (collective noun)
+1234	HE	EN	הַיָּם֙	ocean, sea  ; (biblical) West  ; abundance, plethora, profusion
+1237	HE	EN	וּבְכָל־חַיָּ֖ה	
+1238	HE	EN	הָֽרֹמֶ֥שֶׂת	
+1242	HE	EN	הִנֵּה֩	here! here is  ; הינו - he is, it is (male)  ; הנני - (literary) here I am;; here, to here, hither;; (biblical) they (female)
+1243	HE	EN	נָתַ֨תִּי	to give  ; to allow to, to permit to
+1244	HE	EN	לָכֶ֜ם	to, toward  ; of  ; for  ; until, till  ; into  ; לך, לכם, לכן - you, to you  ; לו - him, to him  ; לה - her, to her  ; לנו - us, to us  ; להם, להן - them, to them
+1245	HE	EN	אֶת־כָּל־עֵ֣שֶׂב	
+1256	HE	EN	זָ֑רַע	to sow  ; to spread, to disseminate;; seed  ; semen  ; sperm  ; (literary) scion;; arm, upper arm  ; handle  ; arm (of river)  ; (military) arm, service, branch
+1257	HE	EN	לָכֶ֥ם	to, toward  ; of  ; for  ; until, till  ; into  ; לך, לכם, לכן - you, to you  ; לו - him, to him  ; לה - her, to her  ; לנו - us, to us  ; להם, להן - them, to them
+1252	HE	EN	וְאֶת־כָּל־הָעֵ֛ץ	
+1253	HE	EN	אֲשֶׁר־בֹּ֥ו	
+1254	HE	EN	פְרִי־עֵ֖ץ	
+1255	HE	EN	זֹרֵ֣עַ	to sow  ; to spread, to disseminate;; seed  ; semen  ; sperm  ; (literary) scion;; arm, upper arm  ; handle  ; arm (of river)  ; (military) arm, service, branch
+1248	HE	EN	זֶ֗רַע	to sow  ; to spread, to disseminate;; seed  ; semen  ; sperm  ; (literary) scion;; arm, upper arm  ; handle  ; arm (of river)  ; (military) arm, service, branch
+1258	HE	EN	יִֽהְיֶ֖ה	to be, to exist  ; to happen, to take place, to occur  ; to become, to develop into;; to have
+1259	HE	EN	לְאָכְלָֽה׃	to eat  ; to destroy, to consume  ; (slang) to use, to use up  ; (slang) to fall for it  ; (slang) to put up with, to absorb, to receive  ; (slang) to worry one, to eat one up;; food  ; dining, meal;; to consume, destroy
+1260	HE	EN	 וּֽלְכָל־חַיַּ֣ת	
+1261	HE	EN	הָ֠אָרֶץ	land, country  ; earth, world  ; ארצה - to Israel  ; ארצה! - down! (command to animal)  ; הארץ - Israel (literally: the country)  ; הארץ - ground
+1262	HE	EN	וּלְכָל־עֹ֨וף	
+1263	HE	EN	הַשָּׁמַ֜יִם	sky, heaven  ; (talmudic) God;; to put  ; to appoint;; Semite;; to assess, to appraise
+1264	HE	EN	וּלְכֹ֣ל	all  ; any  ; every  ; כולו - (slang) only, merely  ; כולו - whole  ; מכל - of all;; to all, to everyone  ; of everything;; everything, all  ; everybody, everyone
+1266	HE	EN	רֹומֵ֣שׂ	to creep, to crawl, to swarm
+1267	HE	EN	עַל־הָאָ֗רֶץ	
+1268	HE	EN	אֲשֶׁר־בֹּו֙	
+1269	HE	EN	נֶ֣פֶשׁ	soul, spirit  ; person  ; לנפש - per person  ; לנפשו - for oneself;; to go on vacation, to relax;; vacation, holiday;; to rest  ; to go on vacation, to relax
+1232	HE	EN	וּרְד֞וּ	to oppress, to tyrannize, to subjugate;; to collect (honey from a hive)  ; to remove (bread from an oven);; to descend, to go down  ; to decrease  ; to lessen, to diminish  ; to get off (train, bus), to get out (cab), to alight  ; to fall (rain, snow)  ; (colloquial) to come off (stain)  ; to emigrate from Israel  ; (slang) to come down on (someone)
+1272	HE	EN	עֵ֖שֶׂב	weed;; to weed;; to be weeded
+1273	HE	EN	לְאָכְלָ֑ה	to eat  ; to destroy, to consume  ; (slang) to use, to use up  ; (slang) to fall for it  ; (slang) to put up with, to absorb, to receive  ; (slang) to worry one, to eat one up;; food  ; dining, meal;; to consume, destroy
+1275	HE	EN	 וַיַּ֤רְא	(literary) God-fearing person;; to fear  ; to stand in awe of, to respect
+1270	HE	EN	חַיָּ֔ה	animal  ; beast  ; (Jewish law) non-domesticated animal;; Chaya (also: Haya) (Hebrew name);; to vitalize, to rejuvenate  ; (flowery) to allow to live;; (biblical) life, soul;; to live;; alive  ; alert, vivacious  ; raw, uncooked; fresh
+1279	HE	EN	וְהִנֵּה־טֹ֖וב	
+1280	HE	EN	מְאֹ֑ד	very, very much, greatly;; vapor, fume, steam  ; mist;; (flowery) might, strength, will
+1281	HE	EN	וַֽיְהִי־עֶ֥רֶב	
+1284	HE	EN	הַשִּׁשִּֽׁי׃	sixth  ; (colloquial) Friday
+1291	HE	EN	2	
+1293	HE	EN	 וַיְכֻלּ֛וּ	to be able  ; to be allowed  ; it may, possibly  ; could have;; (flowery) to be finished, to be over, to be completed  ; (flowery) to have run out, to be all gone;; (literary) to finish, to end, to complete  ; to eliminate, to annihilate, to destroy completely
+1294	HE	EN	הַשָּׁמַ֥יִם	sky, heaven  ; (talmudic) God;; to put  ; to appoint;; Semite;; to assess, to appraise
+1621	HE	EN	בֹּ֑ו	in, at; with, by; for
+1277	HE	EN	אֶת־כָּל־אֲשֶׁ֣ר	
+1297	HE	EN	 וַיְכַ֤ל	to be able  ; to be allowed  ; it may, possibly  ; could have
+1313	HE	EN	הַשְּׁבִיעִ֔י	seventh;; to satiate, to satisfy;; to swear in, to administer an oath
+1301	HE	EN	מְלַאכְתֹּ֖ו	work, labor  ; handicrafts
+1303	HE	EN	עָשָׂ֑ה	to do  ; to make  ; to produce, to create;; (talmudic, Jewish law) positive command;; (talmudic) to cause someone to do something
+1326	HE	EN	וְהָאָ֖רֶץ	land, country  ; earth, world  ; ארצה - to Israel  ; ארצה! - down! (command to animal)  ; הארץ - Israel (literally: the country)  ; הארץ - ground
+1296	HE	EN	וְכָל־צְבָאָֽם׃	
+1622	HE	EN	פֶּן־תְּמֻתֽוּן׃	
+1624	HE	EN	הַנָּחָ֖שׁ	snake, serpent;; (literary) magic, sorcery, witchcraft
+1625	HE	EN	אֶל־הָֽאִשָּׁ֑ה	
+1626	HE	EN	לֹֽא־מֹ֖ות	llama;; mother  ; אימהות - matriarchs;; forearm  ; cubit (measurement);; middle finger  ; (Euphemism) penis;; verification  ; authentication;; nation, people
+1627	HE	EN	תְּמֻתֽוּן׃	
+1090	HE	EN	הַקָּטֹן֙	to be reduced, to be diminished;; small, little  ; young  ; minute, insignificant, inconsequential  ; diminutive;; little one, child, toddler  ; younger one, youngest one  ; (coarse slang) male sex organ;; smallness, minuteness;; small, little  ; young  ; minute, insignificant, inconsequential  ; diminutive;; to reduce, to lessen, to diminish;; to diminish, to lessen, to become smaller
+1309	HE	EN	עָשָֽׂה׃	to do  ; to make  ; to produce, to create;; (talmudic, Jewish law) positive command;; (talmudic) to cause someone to do something
+1171	HE	EN	חַיָּה֙	animal  ; beast  ; (Jewish law) non-domesticated animal;; Chaya (also: Haya) (Hebrew name);; to vitalize, to rejuvenate  ; (flowery) to allow to live;; (biblical) life, soul;; to live;; alive  ; alert, vivacious  ; raw, uncooked; fresh
+1628	HE	EN	 כִּ֚י	because  ; that  ; (biblical) when  ; but;; chi (The twenty-second letter of the Greek alphabet)
+1307	HE	EN	מִכָּל־מְלַאכְתֹּ֖ו	
+2179	HE	EN	כִּ֥י	because  ; that  ; (biblical) when  ; but;; chi (The twenty-second letter of the Greek alphabet)
+1310	HE	EN	 וַיְבָ֤רֶךְ	to bless;; to be blessed;; (biblical) to feed  ; to give food to a mourner
+1312	HE	EN	אֶת־יֹ֣ום	
+1314	HE	EN	וַיְקַדֵּ֖שׁ	to sanctify  ; to revere, to exalt  ; (Jewish ritual) to make the blessing over wine on a Sabbath or festival;; to be sanctified;; to be dedicated, to be allocated, to be designated  ; to be dedicated to God
+1317	HE	EN	בֹ֤ו	in, at; with, by; for
+1318	HE	EN	שָׁבַת֙	Sabbath  ; Saturday  ; (talmudic) week  ; sabbath, rest day;; to strike, to stop working;; daughter  ; girl  ; member of group (nation, class, family)  ; native  ; secondary (as in daughter company)  ; aged ... (female)  ; בנות - girls!  ; בתי - my girl, girlie. lassie;; to return  ; to repeat (an action);; aged ...  ; containing, comprising
+1319	HE	EN	מִכָּל־מְלַאכְתֹּ֔ו	
+1320	HE	EN	אֲשֶׁר־בָּרָ֥א	
+1322	HE	EN	לַעֲשֹֽׂות׃	to do  ; to make  ; to produce, to create;; (talmudic) to cause someone to do something
+1323	HE	EN	 אֵ֣לֶּה	these;; terebinth (tree: Pistacia);; club, baton, cudgel;; goddess;; God;; (Biblical) curse, oath, covenant;; God, the Lord  ; a god
+1324	HE	EN	תֹולְדֹ֧ות	outcome, result, consequence  ; (Jewish law) secondary act  ; תולדות - history  ; תולדות - genealogy
+1325	HE	EN	הַשָּׁמַ֛יִם	sky, heaven  ; (talmudic) God;; to put  ; to appoint;; Semite;; to assess, to appraise
+1327	HE	EN	בְּהִבָּֽרְאָ֑ם	to be created
+1328	HE	EN	בְּיֹ֗ום	staging, stage-managing;; day (cf. night)  ; day (calendar day, 24-hour period)  ; ימים - days, period, time  ; לימים - eventually, in time
+1329	HE	EN	עֲשֹׂ֛ות	
+1499	HE	EN	אֶל־הָ֣אָדָ֔ם	
+1332	HE	EN	אֶ֥רֶץ	land, country  ; earth, world  ; ארצה - to Israel  ; ארצה! - down! (command to animal)  ; הארץ - Israel (literally: the country)  ; הארץ - ground
+1333	HE	EN	וְשָׁמָֽיִם׃	to put  ; to appoint;; sky, heaven  ; (talmudic) God;; water;; Semite;; ocean, sea  ; (biblical) West  ; abundance, plethora, profusion;; to assess, to appraise
+1334	HE	EN	 וְכֹ֣ל	all  ; any  ; every  ; כולו - (slang) only, merely  ; כולו - whole  ; מכל - of all
+1336	HE	EN	שִׂ֣יחַ	bush;; (literary) conversation, exchange of words, expression  ; discourse  ; talk, lecture;; sheikh, tribal leader
+1337	HE	EN	הַשָּׂדֶ֗ה	field;; demon, genie, fiend;; chest of drawers
+1338	HE	EN	טֶ֚רֶם	before, not yet, ere
+1339	HE	EN	יִֽהְיֶ֣ה	to be, to exist  ; to happen, to take place, to occur  ; to become, to develop into;; to have
+1340	HE	EN	בָאָ֔רֶץ	land, country  ; earth, world  ; ארצה - to Israel  ; ארצה! - down! (command to animal)  ; הארץ - Israel (literally: the country)  ; הארץ - ground
+1341	HE	EN	וְכָל־עֵ֥שֶׂב	to weed
+1342	HE	EN	הַשָּׂדֶ֖ה	field;; demon, genie, fiend;; chest of drawers
+1343	HE	EN	טֶ֣רֶם	before, not yet, ere
+1344	HE	EN	יִצְמָ֑ח	to grow, to develop  ; to sprout;; to accrue (income, revenue)  ; (talmudic) to grow
+1345	HE	EN	כִּי֩	because  ; that  ; (biblical) when  ; but;; chi (The twenty-second letter of the Greek alphabet)
+1346	HE	EN	לֹ֨א	no, not  ; don't, isn't  ; no matter  ; ולא - if not, otherwise  ; שלא - not  ; שלא - without;; (Aramaic) no;; non-, un-, im-, in-, ir- (negative prefix)
+1347	HE	EN	הִמְטִ֜יר	(literary) to make it rain, to pour upon  ; to water (with a sprinkler)  ; to inundate, to flood
+1500	HE	EN	לִרְאֹ֖ות	to see  ; to perceive, to notice, to understand, to determine  ; to check, to investigate, to examine;; visibility  ; view;; lung;; view, vision;; showcase, display, demonstration  ; לראווה - for show, decorative, ornamental
+1351	HE	EN	וְאָדָ֣ם	man, person, human being  ; someone, somebody  ; האדם - mankind, humanity;; Adam (Hebrew name);; red;; red  ; (colloquial) Lipstick  ; ruby (precious stone);; to become red;; red (noun);; (literary) to silence, to quieten  ; (literary) to cease moving, to stand still
+1873	HE	EN	יְהוָ֥ה	(biblical) Jehovah, God, the Lord;; to constitute
+2060	HE	EN	יְהוָ֤ה	(biblical) Jehovah, God, the Lord;; to constitute
+1498	HE	EN	וַיָּבֵא֙	to come, to enter  ; to approach, to come near  ; יבוא! - come in! enter!;; to import;; imported
+1501	HE	EN	מַה־יִּקְרָא־לֹ֑ו	
+1502	HE	EN	וְכֹל֩	all  ; any  ; every  ; כולו - (slang) only, merely  ; כולו - whole  ; מכל - of all
+1629	HE	EN	יֹדֵ֣עַ	to know something, to be aware  ; to know how to  ; to be familiar with, to undergo   ; (flowery) to recognize, to be familiar with  ; (biblical) to have sexual intercourse;; knowledge;; to inform, to update; (linguistics) to specify a noun as definite;; to be told, to be made aware, to be informed
+1198	HE	EN	וְיִרְדּוּ֩	to descend, to go down  ; to decrease  ; to lessen, to diminish  ; to get off (train, bus), to get out (cab), to alight  ; to fall (rain, snow)  ; (colloquial) to come off (stain)  ; to emigrate from Israel  ; (slang) to come down on (someone);; to oppress, to tyrannize, to subjugate;; to collect (honey from a hive)  ; to remove (bread from an oven)
+1249	HE	EN	אֲשֶׁר֙	that, which, whom  ; who  ; as regards, in regard to  ; באשר - with respect to, with regard to  ; מאשר - than, rather than, compared to;; bliss, happiness;; to approve;; Asher (Hebrew name);; to confirm  ; to approve, to O.K.;; Asher (one of the twelve tribes of Israel);; to fall, to drop  ; (education system) to drop out
+1304	HE	EN	וַיִּשְׁבֹּת֙	to sit  ; to sit down, to be seated  ; to live, to dwell  ; to sit (court)  ; (slang) to be imprisoned  ; (colloquial) to spend time on  ; (colloquial) to be placed, to sit (e.g. the glasses sit firmly on his nose)  ; (slang) to be secure in one's position;; to strike, to stop working;; to settle, to populate, to inhabit;; to be inhabited, to be settled, to be populated;; to be made to stop work, to have something (machinery, equipment) stop working  ; to be made to go on strike;; to settle (dispute), to solve  ; to answer, to explain
+1352	HE	EN	אַ֔יִן	is not, no;; none, nothing, zero  ; (Philosophy) nothingness, nihility;; (flowery) none;; in- (negation);; (slang) in, fashionable;; to nullify, to negate  ; to invalidate, to veto;; (literary) where?
+1353	HE	EN	לַֽעֲבֹ֖ד	to work (land)  ; to process  ; to prepare  ; (musical) to adapt, to arrange;; to work  ; to operate, to function  ; to work on, to convince, to improve  ; (slang) to work one over on  ; (biblical) to worship, to perform religious service;; slave  ; עבדך - your servant;; workpiece
+1354	HE	EN	אֶת־הָֽאֲדָמָֽה׃	
+1355	HE	EN	 וְאֵ֖ד	vapor, fume, steam  ; mist
+1356	HE	EN	יַֽעֲלֶ֣ה	ibex (female)  ; (flowery) graceful woman;; to rise, to ascend  ; to go up  ; to increase  ; to advance  ; to mount, to get up onto, to get into (a vehicle)  ; to immigrate to Israel;; to raise, to elevate, to hoist  ; to increase, to strengthen  ; to reveal, to bring to light  ; to bring immigrants (to Israel)  ; to develop, to become covered with (mold, rust)  ; to put on, to produce (a play, production)  ; (computing) to upload;; to cost;; ibex;; to make efficient;; to be raised, to be elevated, to be hoisted  ; to be increased, to be strengthened  ; to be revealed, to be brought to light;; to be made efficient
+1357	HE	EN	מִן־הָאָ֑רֶץ	
+1358	HE	EN	וְהִשְׁקָ֖ה	to water, to irrigate  ; to give a drink to;; launching (a new boat, new product)  ; overlapping, interfacing; bringing together   ; (geometry) touching  ; (medicine) anastomosis;; to be given to drink;; to be launched
+1359	HE	EN	אֶֽת־כָּל־פְּנֵֽי־הָֽאֲדָמָֽה׃	
+1360	HE	EN	 וַיִּיצֶר֩	to produce, to create, to manufacture;; to be produced, to be created, to be manufactured
+1363	HE	EN	אֶת־הָֽאָדָ֗ם	
+1364	HE	EN	עָפָר֙	earth, dirt  ; (literary) dust  ; (biblical) ashes;; fawn  ; (literary) youth, lad;; Ofer (also: Offer, Opher) (Hebrew name)
+1366	HE	EN	וַיִּפַּ֥ח	to blow, to exhale
+1367	HE	EN	בְּאַפָּ֖יו	nose;; character, personality  ; nature, attributes  ; (slang) character, ambience, atmosphere;; plural form of nose ("af"), used only in phrases
+1368	HE	EN	נִשְׁמַ֣ת	to breathe  ; (biology) to respirate  ; to inhale;; soul, spirit  ; (flowery) essence, gist
+1369	HE	EN	חַיִּ֑ים	life  ; lifestyle  ; (slang) lifeblood, be-all and end-all  ; alive  ; בחיי - I swear to you!, upon my life!  ; בחייך - You don't say! I don't believe it! Do me a favor  ; בחיים - alive, living;; alive  ; alert, vivacious  ; raw, uncooked; fresh;; Haim (also: Chaim) (Hebrew name);; to live
+1370	HE	EN	וַֽיְהִ֥י	to be, to exist  ; to happen, to take place, to occur  ; to become, to develop into
+1372	HE	EN	לְנֶ֥פֶשׁ	to go on vacation, to relax;; soul, spirit  ; person  ; לנפש - per person  ; לנפשו - for oneself;; vacation, holiday
+1373	HE	EN	חַיָּֽה׃	animal  ; beast  ; (Jewish law) non-domesticated animal;; Chaya (also: Haya) (Hebrew name);; to vitalize, to rejuvenate  ; (flowery) to allow to live;; (biblical) life, soul;; to live;; alive  ; alert, vivacious  ; raw, uncooked; fresh
+1374	HE	EN	 וַיִּטַּ֞ע	to plant (a tree)  ; to imbue, to instill
+1377	HE	EN	גַּן־בְּעֵ֖דֶן	
+1378	HE	EN	מִקֶּ֑דֶם	to promote, to advance  ; to welcome;; (mathematics) coefficient;; early  ; מוקדמות - (sports) preliminaries;; early;; (literature) exposition  ; (music) anacrusis;; to be promoted, to be advanced  ; to be welcomed;; to be brought forward;; ancient times  ; (literary) east  ; קדמה - (literary) eastward;; pre- (pre-army, prehistoric);; before, prior to;; to focus, to bring into focus
+1379	HE	EN	וַיָּ֣שֶׂם	to implement;; to be implemented
+1380	HE	EN	שָׁ֔ם	name  ; noun  ; reputation;; there  ; where  ; ibid.;; to put  ; to appoint;; to assess, to appraise
+1381	HE	EN	אֶת־הָֽאָדָ֖ם	
+1383	HE	EN	יָצָֽר׃	to create  ; to produce, to generate;; inclination, tendency, instinct  ; urge, drive;; to produce, to create, to manufacture;; to be produced, to be created, to be manufactured;; to narrow  ; (sewing) to take in
+1384	HE	EN	 וַיַּצְמַ֞ח	to grow, to develop  ; to sprout;; to accrue (income, revenue)  ; (talmudic) to grow
+1387	HE	EN	מִן־הָ֣אֲדָמָ֔ה	
+1388	HE	EN	כָּל־עֵ֛ץ	
+1389	HE	EN	נֶחְמָ֥ד	nice, pleasant, lovely;; lovely;; (literary) to covet
+1390	HE	EN	לְמַרְאֶ֖ה	sight, view  ; look, appearance  ; למראה - at the sight of  ; למראה - in the eyes of the beholder, to look at;; to show  ; to indicate  ; to explain, to demonstrate;; mirror, looking glass;; to be shown, to be indicated
+1391	HE	EN	וְטֹ֣וב	good, kind, thoughtful, moral  ; pleasant  ; appropriate, fitting, good for  ; successful  ; well behaved;; goodness  ; best part  ; בטובך - please, be so kind as to, please do me a favor;; well;; O.K., yes, agreed;; good  ; (colloquial) good idea, good thing  ; feels good, pleased, satisfied;; to be good
+1843	HE	EN	אֱלֹהִ֜ים	God;; God  ; האלוהים - God
+1842	HE	EN	יְהוָ֨ה	(biblical) Jehovah, God, the Lord;; to constitute
+1730	HE	EN	יְהוָ֧ה	(biblical) Jehovah, God, the Lord;; to constitute
+1396	HE	EN	הַגָּ֔ן	to defend, to protect  ; to stand up for someone, to back up someone, to defend someone  ; to defend someone in court, to act as defense attorney;; garden;; kindergarten, nursery school;; gene;; to pronounce, to express  ; to say, to declare, to make a sound  ; to formulate an idea, to plan; to cogitate, to ponder  ; (literary) to study, to investigate
+1397	HE	EN	וְעֵ֕ץ	tree  ; wood;; (flowery) to advise
+1398	HE	EN	הַדַּ֖עַת	knowledge, wisdom  ; intelligence, understanding, common sense. logic  ; awareness, consciousness  ; בדעתו - to intend  ; לדעתו - in his opinion  ; מדעת - deliberately, knowing full well, knowingly
+1401	HE	EN	 וְנָהָר֙	river;; to throng, to surge, to flow (people);; (literary) to glow, to sparkle, to shine
+1402	HE	EN	יֹצֵ֣א	to go outside, to exit  ; to leave (esp. country, state)  ; to leave for  ; to leave for  ; to emanate from, to emerge from  ; to depart  ; to break out, to come forth; to appear (sun, moon)  ; to terminate (Sabbath, Festival)  ; (literary) to pass (time)  ; to escape from, to overcome  ; to originate from , to be derived from  ; to be based on   ; it follows, the result is, the upshot is  ; to be published  ; to announce, to come out in public  ; to so happen, to turn out that;; to export;; to be exported
+1403	HE	EN	מֵעֵ֔דֶן	delicacy;; to soften (skin)  ; to refine, to moderate  ; to sensitize  ; (flowery) to pamper;; refined, sophisticated, elegant  ; genteel, delicate;; to be softened (skin)  ; to be moderated, to be toned down  ; to be refined, to be sensitized  ; (flowery) to be pampered;; Eden, paradise;; Aden (city in Yemen);; era, eon, age  ; (geology) period;; witness
+1404	HE	EN	לְהַשְׁקֹ֖ות	to water, to irrigate  ; to give a drink to;; launching (a new boat, new product)  ; overlapping, interfacing; bringing together   ; (geometry) touching  ; (medicine) anastomosis
+1405	HE	EN	אֶת־הַגָּ֑ן	
+1406	HE	EN	וּמִשָּׁם֙	there  ; where  ; ibid.;; name  ; noun  ; reputation;; to put  ; to appoint;; to draw (from water);; to assess, to appraise
+1407	HE	EN	יִפָּרֵ֔ד	to be separated from, to take leave of  ; to relinquish  ; to separate, to break up;; to be separated
+1408	HE	EN	וְהָיָ֖ה	to be, to exist  ; to happen, to take place, to occur  ; to become, to develop into;; to have
+1409	HE	EN	לְאַרְבָּעָ֥ה	four (male)
+1410	HE	EN	רָאשִֽׁים׃	head  ; top  ; chief  ; hair (of the head)  ; (colloquial) brains, intelligence  ; (biblical) division, section  ; בראש - at the head of
+1411	HE	EN	 שֵׁ֥ם	name  ; noun  ; reputation;; there  ; where  ; ibid.;; to put  ; to appoint;; to assess, to appraise
+1412	HE	EN	הָֽאֶחָ֖ד	to be unified, to be amalgamated, to be coalesced;; one  ; single  ; unique  ; first, former  ; someone, somebody  ; כאחד - simultaneously, at the same time, at one and the same time;; to unify, to amalgamate, to coalesce
+1413	HE	EN	פִּישֹׁ֑ון	
+1415	HE	EN	הַסֹּבֵ֗ב	rotation, revolution  ; round  ; tour, walk-about;; (astronomy) rotation, revolution
+1416	HE	EN	אֵ֚ת	term used to indicate a direct object   ; et  ; אותי - me  ; אותך, אתכם, אתכן - you  ; אותו - him, it  ; אותה - her, it  ; אותנו - us  ; אותם, אותן - them;; you (female, singular);; spade, shovel
+1417	HE	EN	כָּל־אֶ֣רֶץ	
+1418	HE	EN	הַֽחֲוִילָ֔ה	(literary) villa, self-contained houses
+1419	HE	EN	אֲשֶׁר־שָׁ֖ם	to uproot  ; to eradicate
+1420	HE	EN	הַזָּהָֽב׃	to be gilded;; gold  ; (colloquial) wonderful, marvelous, excellent;; golden
+1421	HE	EN	 וּֽזֲהַ֛ב	gold  ; (colloquial) wonderful, marvelous, excellent;; golden
+1422	HE	EN	הָאָ֥רֶץ	land, country  ; earth, world  ; ארצה - to Israel  ; ארצה! - down! (command to animal)  ; הארץ - Israel (literally: the country)  ; הארץ - ground
+1423	HE	EN	הַהִ֖וא	that, that one (male);; he, it  ; is (male)
+1424	HE	EN	טֹ֑וב	good, kind, thoughtful, moral  ; pleasant  ; appropriate, fitting, good for  ; successful  ; well behaved;; goodness  ; best part  ; בטובך - please, be so kind as to, please do me a favor;; good  ; (colloquial) good idea, good thing  ; feels good, pleased, satisfied;; well;; O.K., yes, agreed;; to be good
+1425	HE	EN	שָׁ֥ם	name  ; noun  ; reputation;; there  ; where  ; ibid.;; to put  ; to appoint;; to assess, to appraise
+1426	HE	EN	הַבְּדֹ֖לַח	crystal
+1427	HE	EN	וְאֶ֥בֶן	stone;; to petrify, immobilize, stun  ; to ossify, to turn to stone;; (flowery) bud, young shoot  ; באיבו - In the bud
+1428	HE	EN	הַשֹּֽׁהַם׃	onyx  ; (biblical) one of the twelve precious stones in the High Priest's breast plate, aquamarine;; to postpone, to delay
+1429	HE	EN	 וְשֵֽׁם־הַנָּהָ֥ר	
+1430	HE	EN	הַשֵּׁנִ֖י	second  ; Monday;; difference;; (literary) scarlet, crimson;; dental
+1431	HE	EN	גִּיחֹ֑ון	
+2122	HE	EN	ה֣וּא	he, it  ; is (male)
+1433	HE	EN	הַסֹּובֵ֔ב	to surround, to encircle  ; to revolve, to rotate  ; to turn, to change direction  ; to traverse, to wander around  ; to spread out, to go around;; surroundings, environment
+1434	HE	EN	אֵ֖ת	term used to indicate a direct object   ; et  ; אותי - me  ; אותך, אתכם, אתכן - you  ; אותו - him, it  ; אותה - her, it  ; אותנו - us  ; אותם, אותן - them;; you (female, singular);; spade, shovel
+1435	HE	EN	כָּל־אֶ֥רֶץ	
+1436	HE	EN	כּֽוּשׁ׃	(biblical) Cush, southern Egypt, Ethiopia or Sudan;; spindle stick
+1437	HE	EN	 וְשֵׁ֨ם	there  ; where  ; ibid.;; name  ; noun  ; reputation;; to put  ; to appoint;; to assess, to appraise
+1438	HE	EN	הַנָּהָ֤ר	river;; to clarify
+1439	HE	EN	הַשְּׁלִישִׁי֙	third  ; (colloquial) Tuesday;; to deposit (with a third party)
+1440	HE	EN	חִדֶּ֔קֶל	Tigris (river)
+1442	HE	EN	הַֽהֹלֵ֖ךְ	(literary) wanderer, nomad;; (sports) speed-walker
+1641	HE	EN	וָרָֽע׃	bad, nasty  ; malicious  ; negative, wrong;; friend, comrade, buddy, colleague  ; neighbor, another;; bad, evil  ; villain  ; trouble, ill;; evil, wickedness;; (biblical) thought, idea
+1443	HE	EN	קִדְמַ֣ת	(telephone) area code;; advancement, progress;; to promote, to advance  ; to welcome;; front;; to precede  ; to take precedence;; to be promoted, to be advanced  ; to be welcomed;; (biblical) the past, old days
+1444	HE	EN	אַשּׁ֑וּר	beech (tree);; Assyria;; certificate of approval, confirmation  ; acceptance, confirmation, approval  ; corroboration  ; באישור - with acquiescence (archaic: acquiescently);; to fall, to drop  ; (education system) to drop out;; (flowery) to behold, to watch
+1445	HE	EN	וְהַנָּהָ֥ר	river;; to clarify
+1446	HE	EN	הָֽרְבִיעִ֖י	fourth  ; Wednesday;; to mate (animals)
+1448	HE	EN	פְרָֽת׃	Perth;; Euphrates (river);; cow
+1449	HE	EN	 וַיִּקַּ֛ח	to take  ; (slang) (sports) to win  ; (talmudic) to acquire
+1453	HE	EN	וַיַּנִּחֵ֣הוּ	to lead, to direct, to guide  ; to instruct  ; to officiate, to moderate
+1454	HE	EN	בְגַן־עֵ֔דֶן	
+1455	HE	EN	לְעָבְדָ֖הּ	to work  ; to operate, to function  ; to work on, to convince, to improve  ; (slang) to work one over on  ; (biblical) to worship, to perform religious service;; to work (land)  ; to process  ; to prepare  ; (musical) to adapt, to arrange;; slave  ; עבדך - your servant;; fact
+1456	HE	EN	וּלְשָׁמְרָֽהּ׃	to guard  ; to safeguard  ; to watch, to supervise  ; to keep, to maintain;; to preserve  ; to maintain
+1457	HE	EN	 וַיְצַו֙	
+1460	HE	EN	עַל־הָֽאָדָ֖ם	
+1462	HE	EN	מִכֹּ֥ל	tank (gas, water, oil)  ; bin;; all  ; any  ; every  ; כולו - (slang) only, merely  ; כולו - whole  ; מכל - of all
+1464	HE	EN	אָכֹ֥ל	to eat  ; to destroy, to consume  ; (slang) to use, to use up  ; (slang) to fall for it  ; (slang) to put up with, to absorb, to receive  ; (slang) to worry one, to eat one up;; food  ; dining, meal;; to be consumed, to be destroyed;; to consume, destroy
+1465	HE	EN	תֹּאכֵֽל׃	to eat  ; to destroy, to consume  ; (slang) to use, to use up  ; (slang) to fall for it  ; (slang) to put up with, to absorb, to receive  ; (slang) to worry one, to eat one up;; to be eaten  ; (literary) to be consumed by fire, to be destroyed;; to be fed;; to be consumed, to be destroyed
+1466	HE	EN	 וּמֵעֵ֗ץ	tree  ; wood;; (flowery) to advise
+1467	HE	EN	הַדַּ֙עַת֙	knowledge, wisdom  ; intelligence, understanding, common sense. logic  ; awareness, consciousness  ; בדעתו - to intend  ; לדעתו - in his opinion  ; מדעת - deliberately, knowing full well, knowingly
+1469	HE	EN	וָרָ֔ע	bad, nasty  ; malicious  ; negative, wrong;; friend, comrade, buddy, colleague  ; neighbor, another;; bad, evil  ; villain  ; trouble, ill;; evil, wickedness;; (biblical) thought, idea
+1474	HE	EN	בְּיֹ֛ום	staging, stage-managing;; day (cf. night)  ; day (calendar day, 24-hour period)  ; ימים - days, period, time  ; לימים - eventually, in time
+1475	HE	EN	אֲכָלְךָ֥	food  ; dining, meal;; to eat  ; to destroy, to consume  ; (slang) to use, to use up  ; (slang) to fall for it  ; (slang) to put up with, to absorb, to receive  ; (slang) to worry one, to eat one up
+1476	HE	EN	מִמֶּ֖נּוּ	from  ; of  ; than;; to finance, to pay for;; to be financed, to be paid for
+1477	HE	EN	מֹ֥ות	death  ; (slang) terrible  ; למוות - to death;; to die  ; (slang) to be crazy about
+1478	HE	EN	תָּמֽוּת׃	(flowery) naivete, innocence, purity, simplicity;; theme;; to die  ; (slang) to be crazy about;; honest, artless, unsophisticated  ; honest person, unsophisticated person, naive person  ; (talmudic, Jewish law) non-dangerous (beast)
+1479	HE	EN	 וַיֹּ֙אמֶר֙	to say  ; to tell;; to be said, to be told, to be related  ; to be ordered  ; שנאמר - as it is said
+1608	HE	EN	עֵֽץ־הַגָּ֖ן	
+1482	HE	EN	לֹא־טֹ֛וב	
+1483	HE	EN	הֱיֹ֥ות	since, inasmuch as  ; whereas;; being, existence;; to be, to exist  ; to happen, to take place, to occur  ; to become, to develop into;; to have
+1485	HE	EN	לְבַדֹּ֑ו	alone, by oneself, unaccompanied  ; except for, apart from  ; לבדו - he alone, only he;; material, cloth, fabric  ; screen (movie)
+1486	HE	EN	אֶֽעֱשֶׂהּ־לֹּ֥ו	
+1489	HE	EN	 וַיִּצֶר֩	to create  ; to produce, to generate;; inclination, tendency, instinct  ; urge, drive;; to narrow  ; (sewing) to take in;; to produce, to create, to manufacture;; to be produced, to be created, to be manufactured
+1492	HE	EN	מִן־הָֽאֲדָמָ֗ה	
+1493	HE	EN	כָּל־חַיַּ֤ת	
+1494	HE	EN	הַשָּׂדֶה֙	field;; demon, genie, fiend;; chest of drawers
+1495	HE	EN	וְאֵת֙	term used to indicate a direct object   ; et  ; אותי - me  ; אותך, אתכם, אתכן - you  ; אותו - him, it  ; אותה - her, it  ; אותנו - us  ; אותם, אותן - them;; you (female, singular);; spade, shovel
+1496	HE	EN	כָּל־עֹ֣וף	to fly
+1522	HE	EN	כְּנֶגְדֹּֽו׃	against  ; as opposed to, compared to  ; in exchange for  ; in the event of, in preparation for, as protection against
+1572	HE	EN	הָֽאָדָ֖ם	man, person, human being  ; someone, somebody  ; האדם - mankind, humanity;; red;; red  ; (colloquial) Lipstick  ; ruby (precious stone);; red (noun)
+1799	HE	EN	לֹ֥א	no, not  ; don't, isn't  ; no matter  ; ולא - if not, otherwise  ; שלא - not  ; שלא - without;; (Aramaic) no;; non-, un-, im-, in-, ir- (negative prefix)
+1631	HE	EN	כִּ֗י	because  ; that  ; (biblical) when  ; but;; chi (The twenty-second letter of the Greek alphabet)
+1859	HE	EN	טֹ֣וב	good, kind, thoughtful, moral  ; pleasant  ; appropriate, fitting, good for  ; successful  ; well behaved;; goodness  ; best part  ; בטובך - please, be so kind as to, please do me a favor;; good  ; (colloquial) good idea, good thing  ; feels good, pleased, satisfied;; well;; O.K., yes, agreed;; to be good
+1801	HE	EN	מִמֶּ֑נּוּ	from  ; of  ; than;; to finance, to pay for;; to be financed, to be paid for
+1851	HE	EN	יְהוָ֣ה	(biblical) Jehovah, God, the Lord;; to constitute
+1882	HE	EN	אֶת־הָֽאָדָ֑ם	
+1503	HE	EN	אֲשֶׁ֨ר	that, which, whom  ; who  ; as regards, in regard to  ; באשר - with respect to, with regard to  ; מאשר - than, rather than, compared to;; bliss, happiness;; to approve;; Asher (Hebrew name);; to confirm  ; to approve, to O.K.;; Asher (one of the twelve tribes of Israel);; to fall, to drop  ; (education system) to drop out
+1504	HE	EN	יִקְרָא־לֹ֧ו	
+1506	HE	EN	נֶ֥פֶשׁ	soul, spirit  ; person  ; לנפש - per person  ; לנפשו - for oneself;; to go on vacation, to relax;; vacation, holiday;; to rest  ; to go on vacation, to relax
+1507	HE	EN	חַיָּ֖ה	animal  ; beast  ; (Jewish law) non-domesticated animal;; Chaya (also: Haya) (Hebrew name);; to vitalize, to rejuvenate  ; (flowery) to allow to live;; (biblical) life, soul;; to live;; alive  ; alert, vivacious  ; raw, uncooked; fresh
+1508	HE	EN	ה֥וּא	he, it  ; is (male)
+1509	HE	EN	שְׁמֹֽו׃	name  ; noun  ; reputation;; to put  ; to appoint;; to assess, to appraise
+1512	HE	EN	שֵׁמֹ֗ות	name  ; noun  ; reputation;; Exodus (book of the bible);; to put  ; to appoint;; death  ; (slang) terrible  ; למוות - to death;; to assess, to appraise
+1513	HE	EN	לְכָל־הַבְּהֵמָה֙	
+1514	HE	EN	וּלְעֹ֣וף	to fly;; bird  ; poultry  ; chicken, the flesh of the domestic fowl as food
+1516	HE	EN	וּלְכֹ֖ל	all  ; any  ; every  ; כולו - (slang) only, merely  ; כולו - whole  ; מכל - of all;; to all, to everyone  ; of everything;; everything, all  ; everybody, everyone
+1519	HE	EN	וּלְאָדָ֕ם	man, person, human being  ; someone, somebody  ; האדם - mankind, humanity;; Adam (Hebrew name);; red  ; (colloquial) Lipstick  ; ruby (precious stone);; red (noun);; red
+1520	HE	EN	לֹֽא־מָצָ֥א	
+1521	HE	EN	עֵ֖זֶר	to help, to assist, to aid;; aid, assistance  ; aide, assistant  ; עזרים - aids, accessories
+1523	HE	EN	 וַיַּפֵּל֩	to fall, to stumble  ; to drop, to decline  ; to collapse, to be defeated, to surrender, to be conquered  ; to be killed  ; to fall by the wayside (a proposal, plan)  ; (colloquial) to fall on (a day, date)  ; to descend  ; to be inferior to;; to be knocked over, to be made to fall, to be brought down (aircraft)  ; to be thrown, to be thrown down  ; to be thwarted, to be impeded, to be obstructed  ; to be shot down (argument, idea)
+1527	HE	EN	תַּרְדֵּמָ֛ה	deep sleep  ; hibernation
+1528	HE	EN	עַל־הָאָדָ֖ם	
+1529	HE	EN	וַיִּישָׁ֑ן	to cause to sleep, to put to sleep;; to sleep;; to age (meat, wine)
+1530	HE	EN	וַיִּקַּ֗ח	to take  ; (slang) (sports) to win  ; (talmudic) to acquire
+1531	HE	EN	אַחַת֙	one (female)  ; one  ; באחת - At once, abruptly, immediately  ; כאחת - as one, at one and the same time;; someone (female);; (flowery) to be afraid, to be terrified;; (biblical) to be horrified, to be terrified
+1532	HE	EN	מִצַּלְעֹתָ֔יו	
+1533	HE	EN	וַיִּסְגֹּ֥ר	to close, to lock, to shut  ; to turn off (a machine, a light)  ; to hang up (a telephone)  ; to close in, to shut in  ; to close down (a business)  ; to close in on someone or something (על);; to be closed, to be shut  ; to be blocked  ; to be finished, to be over  ; to be introverted, to be withdrawn;; to be extradited
+1534	HE	EN	בָּשָׂ֖ר	flesh  ; meat  ; flesh of fruit  ; (colloquial) substance, content, essence, gist  ; הבשר - corporeality;; to inform, to apprise (usu. good news);; to be informed;; (government) minister;; to sing
+1535	HE	EN	תַּחְתֶּֽנָּה׃	to perform a marriage ceremony, to marry (refers to the celebrant)  ; to matchmake;; (flowery) to be afraid, to be terrified;; to be married, to be matched;; (biblical) to be horrified, to be terrified
+1536	HE	EN	 וַיִּבֶן֩	
+1538	HE	EN	אֱלֹהִ֧ים	God;; God  ; האלוהים - God
+1540	HE	EN	אֶֽת־הַצֵּלָ֛ע	
+1541	HE	EN	אֲשֶׁר־לָקַ֥ח	
+1542	HE	EN	מִן־הָֽאָדָ֖ם	
+1543	HE	EN	לְאִשָּׁ֑ה	woman  ; wife  ; אשתו - his wife;; fire  ; passion, fervor
+1544	HE	EN	וַיְבִאֶ֖הָ	to import;; imported
+1545	HE	EN	אֶל־הָֽאָדָֽם׃	
+1546	HE	EN	 וַיֹּאמֶר֮	to say  ; to tell;; to be said, to be told, to be related  ; to be ordered  ; שנאמר - as it is said
+1547	HE	EN	הָֽאָדָם֒	man, person, human being  ; someone, somebody  ; האדם - mankind, humanity;; red;; red  ; (colloquial) Lipstick  ; ruby (precious stone);; red (noun)
+1548	HE	EN	זֹ֣את	this (female)  ; בזאת - (formal) hereby
+1549	HE	EN	הַפַּ֗עַם	time, occasion  ; once  ; twice = פעמיים  ; this time = הפעם;; (flowery) pace, step
+1550	HE	EN	עֶ֚צֶם	bone  ; עצמותיו - remains, corpse;; thing, object, item  ; essence, core, gist  ; (philosophy) substance  ; מעצם - in and of itself;; (literary) to become mighty;; to shut, to close (eyes);; tree  ; wood
+1551	HE	EN	מֵֽעֲצָמַ֔י	oneself  ; very, specific;; bone  ; עצמותיו - remains, corpse;; self- (self-confidence, self-pity, self-made);; thing, object, item  ; essence, core, gist  ; (philosophy) substance  ; מעצם - in and of itself
+1552	HE	EN	וּבָשָׂ֖ר	(government) minister;; flesh  ; meat  ; flesh of fruit  ; (colloquial) substance, content, essence, gist  ; הבשר - corporeality;; to inform, to apprise (usu. good news);; to sing;; to be informed
+1553	HE	EN	מִבְּשָׂרִ֑י	herald, messenger  ; harbinger, portent;; flesh  ; meat  ; flesh of fruit  ; (colloquial) substance, content, essence, gist  ; הבשר - corporeality;; to inform, to apprise (usu. good news);; recipient of news;; meat dish, related to meat  ; (literary) bodily, corporeal, of the flesh
+1554	HE	EN	לְזֹאת֙	this (female)  ; בזאת - (formal) hereby
+1555	HE	EN	יִקָּרֵ֣א	to read  ; to call out to, to summon (ל)  ; to call, to name  ; to shout;; to be called, to be named  ; to be nicknamed  ; to be read  ; to be summoned;; to be read
+1683	HE	EN	הָֽאָדָ֜ם	man, person, human being  ; someone, somebody  ; האדם - mankind, humanity;; red;; red  ; (colloquial) Lipstick  ; ruby (precious stone);; red (noun)
+1753	HE	EN	הַשָּׂדֶ֑ה	field;; demon, genie, fiend;; chest of drawers
+1832	HE	EN	הָֽאָדָ֛ם	man, person, human being  ; someone, somebody  ; האדם - mankind, humanity;; red;; red  ; (colloquial) Lipstick  ; ruby (precious stone);; red (noun)
+1558	HE	EN	מֵאִ֖ישׁ	filled (by personnel)  ; manned;; to man  ; to take one's place, to present oneself;; to be occupied, to be manned;; man, person, adult  ; husband, spouse  ; a man of ...., inhabitant of ...., from ...  ; אישי - sir
+1559	HE	EN	לֻֽקֳחָה־זֹּֽאת׃	
+1560	HE	EN	 עַל־כֵּן֙	burden  ; yoke
+1561	HE	EN	יַֽעֲזָב־אִ֔ישׁ	
+1562	HE	EN	אֶת־אָבִ֖יו	
+1563	HE	EN	וְאֶת־אִמֹּ֑ו	
+1564	HE	EN	וְדָבַ֣ק	glue  ; (colloquial) hanger on, leech;; to stick, to adhere, to attach  ; to be attached to;; attached, adherent
+1565	HE	EN	בְּאִשְׁתֹּ֔ו	woman  ; wife  ; אשתו - his wife
+1566	HE	EN	וְהָי֖וּ	to be, to exist  ; to happen, to take place, to occur  ; to become, to develop into;; to have
+1567	HE	EN	לְבָשָׂ֥ר	to inform, to apprise (usu. good news);; flesh  ; meat  ; flesh of fruit  ; (colloquial) substance, content, essence, gist  ; הבשר - corporeality
+1569	HE	EN	 וַיִּֽהְי֤וּ	to be, to exist  ; to happen, to take place, to occur  ; to become, to develop into;; to have
+1570	HE	EN	שְׁנֵיהֶם֙	two (when counting in the masculine);; tooth
+1571	HE	EN	עֲרוּמִּ֔ים	naked, nude;; cunning, deceitful;; naked, nude  ; bereft
+1573	HE	EN	וְאִשְׁתֹּ֑ו	woman  ; wife  ; אשתו - his wife
+1574	HE	EN	וְלֹ֖א	no, not  ; don't, isn't  ; no matter  ; ולא - if not, otherwise  ; שלא - not  ; שלא - without;; (Aramaic) no;; non-, un-, im-, in-, ir- (negative prefix)
+1575	HE	EN	יִתְבֹּשָֽׁשׁוּ׃	
+1582	HE	EN	3	
+1584	HE	EN	 וְהַנָּחָשׁ֙	snake, serpent;; (literary) magic, sorcery, witchcraft
+1585	HE	EN	הָיָ֣ה	to be, to exist  ; to happen, to take place, to occur  ; to become, to develop into;; to have
+1586	HE	EN	עָר֔וּם	naked, nude;; cunning, deceitful;; naked, nude  ; bereft;; piling, heaping, stacking;; to pile, to heap
+1587	HE	EN	מִכֹּל֙	tank (gas, water, oil)  ; bin;; all  ; any  ; every  ; כולו - (slang) only, merely  ; כולו - whole  ; מכל - of all
+1589	HE	EN	הַשָּׂדֶ֔ה	field;; demon, genie, fiend;; chest of drawers
+1591	HE	EN	עָשָׂ֖ה	to do  ; to make  ; to produce, to create;; (talmudic, Jewish law) positive command;; (talmudic) to cause someone to do something
+1595	HE	EN	אֶל־הָ֣אִשָּׁ֔ה	
+1596	HE	EN	אַ֚ף	also  ; even  ; not even;; nose;; (flowery) anger, wrath
+1597	HE	EN	כִּֽי־אָמַ֣ר	
+1600	HE	EN	תֹֽאכְל֔וּ	to eat  ; to destroy, to consume  ; (slang) to use, to use up  ; (slang) to fall for it  ; (slang) to put up with, to absorb, to receive  ; (slang) to worry one, to eat one up;; to be eaten  ; (literary) to be consumed by fire, to be destroyed;; to be fed;; to be consumed, to be destroyed
+1601	HE	EN	מִכֹּ֖ל	tank (gas, water, oil)  ; bin;; all  ; any  ; every  ; כולו - (slang) only, merely  ; כולו - whole  ; מכל - of all
+1604	HE	EN	 וַתֹּ֥אמֶר	to say  ; to tell;; to be said, to be told, to be related  ; to be ordered  ; שנאמר - as it is said
+1605	HE	EN	הָֽאִשָּׁ֖ה	woman  ; wife  ; אשתו - his wife
+1606	HE	EN	אֶל־הַנָּחָ֑שׁ	
+1607	HE	EN	מִפְּרִ֥י	fruit  ; product, result  ; profit;; bovine, bull;; to break, to breach (promise, agreement)  ; to rend, to sever, to interrupt;; to fertilize   ; to pollinate  ; to inspire (creativity, imagination, productivity);; pre-
+1609	HE	EN	נֹאכֵֽל׃	to be eaten  ; (literary) to be consumed by fire, to be destroyed;; to eat  ; to destroy, to consume  ; (slang) to use, to use up  ; (slang) to fall for it  ; (slang) to put up with, to absorb, to receive  ; (slang) to worry one, to eat one up;; to be fed
+1610	HE	EN	 וּמִפְּרִ֣י	fruit  ; product, result  ; profit;; bovine, bull;; to break, to breach (promise, agreement)  ; to rend, to sever, to interrupt;; to fertilize   ; to pollinate  ; to inspire (creativity, imagination, productivity);; pre-
+1611	HE	EN	הָעֵץ֮	tree  ; wood;; (flowery) to advise
+1613	HE	EN	בְּתֹוךְ־הַגָּן֒	
+1614	HE	EN	אָמַ֣ר	to say  ; to tell;; (flowery) utterance, word, saying;; (flowery) to make someone's life a misery, to cause trouble,   ; (flowery) to weep bitterly
+1616	HE	EN	לֹ֤א	no, not  ; don't, isn't  ; no matter  ; ולא - if not, otherwise  ; שלא - not  ; שלא - without;; (Aramaic) no;; non-, un-, im-, in-, ir- (negative prefix)
+1617	HE	EN	תֹֽאכְלוּ֙	to eat  ; to destroy, to consume  ; (slang) to use, to use up  ; (slang) to fall for it  ; (slang) to put up with, to absorb, to receive  ; (slang) to worry one, to eat one up;; to be eaten  ; (literary) to be consumed by fire, to be destroyed;; to be fed;; to be consumed, to be destroyed
+1619	HE	EN	וְלֹ֥א	no, not  ; don't, isn't  ; no matter  ; ולא - if not, otherwise  ; שלא - not  ; שלא - without;; (Aramaic) no;; non-, un-, im-, in-, ir- (negative prefix)
+1620	HE	EN	תִגְּע֖וּ	to low, to bellow, to moo;; to touch  ; (colloquial) to taste (food)  ; (colloquial) to hurt, to damage  ; to touch on  ; (colloquial) to interest, to concern
+1993	HE	EN	וַיֹּ֙אמֶר֙	to say  ; to tell;; to be said, to be told, to be related  ; to be ordered  ; שנאמר - as it is said
+1752	HE	EN	חַיַּ֣ת	Het (eighth letter of Hebrew alphabet)  ; Het-shaped (three sides of a rectangle);; animal  ; beast  ; (Jewish law) non-domesticated animal;; (biblical) life, soul
+1878	HE	EN	אֲשֶׁ֥ר	that, which, whom  ; who  ; as regards, in regard to  ; באשר - with respect to, with regard to  ; מאשר - than, rather than, compared to;; bliss, happiness;; to approve;; Asher (Hebrew name);; to confirm  ; to approve, to O.K.;; Asher (one of the twelve tribes of Israel);; to fall, to drop  ; (education system) to drop out
+1893	HE	EN	עֵ֥ץ	tree  ; wood;; (flowery) to advise
+1994	HE	EN	לֹ֣א	no, not  ; don't, isn't  ; no matter  ; ולא - if not, otherwise  ; שלא - not  ; שלא - without;; (Aramaic) no;; non-, un-, im-, in-, ir- (negative prefix)
+1632	HE	EN	בְּיֹום֙	staging, stage-managing;; day (cf. night)  ; day (calendar day, 24-hour period)  ; ימים - days, period, time  ; לימים - eventually, in time
+1633	HE	EN	אֲכָלְכֶ֣ם	food  ; dining, meal;; to eat  ; to destroy, to consume  ; (slang) to use, to use up  ; (slang) to fall for it  ; (slang) to put up with, to absorb, to receive  ; (slang) to worry one, to eat one up
+1635	HE	EN	וְנִפְקְח֖וּ	to open (eye, ear)
+1636	HE	EN	עֵֽינֵיכֶ֑ם	eye  ; look, gaze, appearance  ; (knitting, crocheting) stitch  ; (wood) knot
+1637	HE	EN	וִהְיִיתֶם֙	to be, to exist  ; to happen, to take place, to occur  ; to become, to develop into
+1638	HE	EN	כֵּֽאלֹהִ֔ים	God  ; האלוהים - God;; God
+1639	HE	EN	יֹדְעֵ֖י	to inform, to update; (linguistics) to specify a noun as definite
+1640	HE	EN	טֹ֥וב	good, kind, thoughtful, moral  ; pleasant  ; appropriate, fitting, good for  ; successful  ; well behaved;; goodness  ; best part  ; בטובך - please, be so kind as to, please do me a favor;; good  ; (colloquial) good idea, good thing  ; feels good, pleased, satisfied;; well;; O.K., yes, agreed;; to be good
+1642	HE	EN	 וַתֵּ֣רֶא	
+1643	HE	EN	הָֽאִשָּׁ֡ה	woman  ; wife  ; אשתו - his wife
+1645	HE	EN	טֹוב֩	good, kind, thoughtful, moral  ; pleasant  ; appropriate, fitting, good for  ; successful  ; well behaved;; goodness  ; best part  ; בטובך - please, be so kind as to, please do me a favor;; good  ; (colloquial) good idea, good thing  ; feels good, pleased, satisfied;; well;; O.K., yes, agreed;; to be good
+1646	HE	EN	הָעֵ֨ץ	tree  ; wood;; (flowery) to advise
+1647	HE	EN	לְמַאֲכָ֜ל	food  ; למאכל - edible;; to consume, destroy;; to be fed;; corrosive, caustic;; to be consumed, to be destroyed;; consumed, corroded
+1648	HE	EN	וְכִ֧י	is it not so? is it? does?;; because  ; that  ; (biblical) when  ; but;; chi (The twenty-second letter of the Greek alphabet)
+1649	HE	EN	תַֽאֲוָה־ה֣וּא	
+1650	HE	EN	לָעֵינַ֗יִם	eye  ; look, gaze, appearance  ; (knitting, crocheting) stitch  ; (wood) knot
+1651	HE	EN	וְנֶחְמָ֤ד	nice, pleasant, lovely;; lovely;; (literary) to covet
+1652	HE	EN	הָעֵץ֙	tree  ; wood;; (flowery) to advise
+1653	HE	EN	לְהַשְׂכִּ֔יל	to learn, to study  ; to succeed (in doing something)
+1654	HE	EN	וַתִּקַּ֥ח	to take  ; (slang) (sports) to win  ; (talmudic) to acquire
+1655	HE	EN	מִפִּרְיֹ֖ו	fruit  ; product, result  ; profit;; bovine, bull
+1656	HE	EN	וַתֹּאכַ֑ל	to eat  ; to destroy, to consume  ; (slang) to use, to use up  ; (slang) to fall for it  ; (slang) to put up with, to absorb, to receive  ; (slang) to worry one, to eat one up;; to be eaten  ; (literary) to be consumed by fire, to be destroyed;; to be fed;; to be consumed, to be destroyed
+1657	HE	EN	וַתִּתֵּ֧ן	to give  ; to allow to, to permit to;; (biblical) to be given (only in future tense)
+1658	HE	EN	גַּם־לְאִישָׁ֛הּ	
+1659	HE	EN	עִמָּ֖הּ	with;; people, nation  ; crowd, populace  ; עממים - minority nations
+1660	HE	EN	וַיֹּאכַֽל׃	to eat  ; to destroy, to consume  ; (slang) to use, to use up  ; (slang) to fall for it  ; (slang) to put up with, to absorb, to receive  ; (slang) to worry one, to eat one up;; to be eaten  ; (literary) to be consumed by fire, to be destroyed;; to consume, destroy;; to be fed;; to be consumed, to be destroyed
+1661	HE	EN	 וַתִּפָּקַ֙חְנָה֙	to oversee, to supervise  ; to inspect;; to open (eye, ear);; to open (one's eyes, ears);; to be supervised  ; to be inspected
+1662	HE	EN	עֵינֵ֣י	ocular;; eye  ; look, gaze, appearance  ; (knitting, crocheting) stitch  ; (wood) knot;; to study, to read  ; to consider, to weigh;; (talmudic) to balance
+1663	HE	EN	שְׁנֵיהֶ֔ם	two (when counting in the masculine);; tooth
+1664	HE	EN	וַיֵּ֣דְע֔וּ	to know something, to be aware  ; to know how to  ; to be familiar with, to undergo   ; (flowery) to recognize, to be familiar with  ; (biblical) to have sexual intercourse;; to inform, to update; (linguistics) to specify a noun as definite;; to be told, to be made aware, to be informed
+1666	HE	EN	עֵֽירֻמִּ֖ם	nudity, nakedness  ; (art) nude  ; בעירום - nude, naked
+1667	HE	EN	הֵ֑ם	they (male)
+1668	HE	EN	וַֽיִּתְפְּרוּ֙	to stitch  ; to sew  ; (medicine) to suture;; to be sewn  ; to be stitched
+1669	HE	EN	עֲלֵ֣ה	to rise, to ascend  ; to go up  ; to increase  ; to advance  ; to mount, to get up onto, to get into (a vehicle)  ; to immigrate to Israel;; leaf, frond  ; filo dough  ; (card games) spade  ; (typography and printing) folio;; to cost;; cause, catalyst  ; reason, rationale;; burden  ; yoke
+1670	HE	EN	תְאֵנָ֔ה	fig;; (flowery) to cause to happen, to induce, to precipitate;; happened, occurred
+1671	HE	EN	וַיַּעֲשׂ֥וּ	to do  ; to make  ; to produce, to create;; to be made from  ; to be done, to be carried out  ; to become;; (talmudic) to cause someone to do something
+1672	HE	EN	לָהֶ֖ם	to, toward  ; of  ; for  ; until, till  ; into  ; לך, לכם, לכן - you, to you  ; לו - him, to him  ; לה - her, to her  ; לנו - us, to us  ; להם, להן - them, to them
+1673	HE	EN	חֲגֹרֹֽת׃	to wear a belt, to gird  ; to tie on, to tuck in;; lame;; (literary) lame person
+1674	HE	EN	 וַֽיִּשְׁמְע֞וּ	to hear  ; to listen;; to be heard  ; to be voiced  ; to sound (happy, sad, suspicious)  ; to be listened to, to be obeyed  ; (law) to have a hearing;; to be heard
+1675	HE	EN	אֶת־קֹ֨ול	
+1678	HE	EN	מִתְהַלֵּ֥ךְ	to pace, to wander  ; to spread (a rumor, joke, story)
+1679	HE	EN	בַּגָּ֖ן	garden;; kindergarten, nursery school;; gene;; (literary, rare) food, foodstuff
+1680	HE	EN	לְר֣וּחַ	to be common, to be widespread, to be accepted;; to space;; to be relieved  ; to be more comfortable;; wind, breeze  ; (literary) soul  ; spirit, essence;; space, gap  ; (typography, printing) spacing;; profit  ; gain
+1681	HE	EN	הַיֹּ֑ום	today  ; now, currently;; day (cf. night)  ; day (calendar day, 24-hour period)  ; ימים - days, period, time  ; לימים - eventually, in time
+1682	HE	EN	וַיִּתְחַבֵּ֨א	to hide oneself
+1857	HE	EN	מִמֶּ֔נּוּ	from  ; of  ; than;; to finance, to pay for;; to be financed, to be paid for
+1684	HE	EN	וְאִשְׁתֹּ֗ו	woman  ; wife  ; אשתו - his wife
+1685	HE	EN	מִפְּנֵי֙	from, of, against  ; over, in favor of  ; (talmudic) because of, due to;; because;; turning point, change;; face  ; surface  ; appearance  ; image  ; aspect  ; "heads" (of a coin);; aspect;; to clear off, to clean off  ; to vacate  ; to evacuate (an injured person, demonstrator);; to turn (one's body, part of one's body)  ; to direct, to divert  ; to refer someone   ; to allocate  ; to draw (one's attention);; penny;; vacated  ; evacuated
+1688	HE	EN	בְּתֹ֖וךְ	inside  ; within, in  ; בתוכו - internally, inside oneself;; inside, interior  ; basis, main idea, central theme;; center, middle  ; (physics) medium  ; (art) solvent  ; בתווך - in between, in the middle
+1690	HE	EN	הַגָּֽן׃	to defend, to protect  ; to stand up for someone, to back up someone, to defend someone  ; to defend someone in court, to act as defense attorney;; garden;; kindergarten, nursery school;; gene;; to pronounce, to express  ; to say, to declare, to make a sound  ; to formulate an idea, to plan; to cogitate, to ponder  ; (literary) to study, to investigate
+1691	HE	EN	 וַיִּקְרָ֛א	Leviticus (third book of Bible);; to read  ; to call out to, to summon (ל)  ; to call, to name  ; to shout;; to be called, to be named  ; to be nicknamed  ; to be read  ; to be summoned;; to be read
+1694	HE	EN	אֶל־הָֽאָדָ֑ם	
+1695	HE	EN	וַיֹּ֥אמֶר	to say  ; to tell;; to be said, to be told, to be related  ; to be ordered  ; שנאמר - as it is said
+1696	HE	EN	לֹ֖ו	if, if only;; to, toward  ; of  ; for  ; until, till  ; into  ; לך, לכם, לכן - you, to you  ; לו - him, to him  ; לה - her, to her  ; לנו - us, to us  ; להם, להן - them, to them
+1697	HE	EN	אַיֶּֽכָּה׃	Lamentations (book of the Bible);; (Biblical) how? how can it be that ....?;; (Biblical) where?;; (syntax) to modify;; (literary) where?
+1699	HE	EN	אֶת־קֹלְךָ֥	
+1700	HE	EN	שָׁמַ֖עְתִּי	to hear  ; to listen;; time, season  ; era, epoch, age  ; בעיתו - at the right time
+1701	HE	EN	בַּגָּ֑ן	garden;; kindergarten, nursery school;; gene;; (literary, rare) food, foodstuff
+1702	HE	EN	וָאִירָ֛א	to fear  ; to stand in awe of, to respect
+1703	HE	EN	כִּֽי־עֵירֹ֥ם	
+1704	HE	EN	אָנֹ֖כִי	perpendicular, vertical;; (flowery) I, me;; (geometry) vertical, perpendicular (noun)  ; plumb line
+1705	HE	EN	וָאֵחָבֵֽא׃	(flowery) to hide oneself;; to be hidden
+1706	HE	EN	 וַיֹּ֕אמֶר	to say  ; to tell;; to be said, to be told, to be related  ; to be ordered  ; שנאמר - as it is said
+1707	HE	EN	מִ֚י	who, who is  ; whoever;; (music) mi, the note E;; mu, the 12th letter of the Greek alphabet;; water
+1708	HE	EN	הִגִּ֣יד	to tell, to inform, to say;; tendon  ; (talmudic, Jewish law) penis (euphemism)
+1709	HE	EN	לְךָ֔	to, toward  ; of  ; for  ; until, till  ; into  ; לך, לכם, לכן - you, to you  ; לו - him, to him  ; לה - her, to her  ; לנו - us, to us  ; להם, להן - them, to them;; to go, to walk  ; to proceed  ; to leave, to pass, to disappear  ; to follow  ; (colloquial) to attend   ; to continue, to intensify  ; (colloquial) to happen  ; (colloquial) to be destroyed, to be lost  ; (slang) to die  ; (slang) to go for
+1711	HE	EN	עֵירֹ֖ם	nudity, nakedness  ; (art) nude  ; בעירום - nude, naked;; nude, naked  ; devoid of;; city, metropolis  ; town  ; העיר - (slang) downtown  ; העירה - (slang) downtown
+1713	HE	EN	הֲמִן־הָעֵ֗ץ	
+1714	HE	EN	אֲשֶׁ֧ר	that, which, whom  ; who  ; as regards, in regard to  ; באשר - with respect to, with regard to  ; מאשר - than, rather than, compared to;; bliss, happiness;; to approve;; Asher (Hebrew name);; to confirm  ; to approve, to O.K.;; Asher (one of the twelve tribes of Israel);; to fall, to drop  ; (education system) to drop out
+1715	HE	EN	צִוִּיתִ֛יךָ	to order, to command, to direct  ; ציוונו - (Jewish ritual) God has commanded us
+1717	HE	EN	אֲכָל־מִמֶּ֖נּוּ	
+1718	HE	EN	אָכָֽלְתָּ׃	to eat  ; to destroy, to consume  ; (slang) to use, to use up  ; (slang) to fall for it  ; (slang) to put up with, to absorb, to receive  ; (slang) to worry one, to eat one up;; to be consumed, to be destroyed
+1720	HE	EN	הָֽאָדָ֑ם	man, person, human being  ; someone, somebody  ; האדם - mankind, humanity;; red;; red  ; (colloquial) Lipstick  ; ruby (precious stone);; red (noun)
+1721	HE	EN	הָֽאִשָּׁה֙	woman  ; wife  ; אשתו - his wife
+1723	HE	EN	נָתַ֣תָּה	
+1724	HE	EN	עִמָּדִ֔י	to stand  ; to rise, to stand up  ; to stand still  ; to be situated  ; to be about to  ; to be based on  ; to withstand (ב);; with;; (publishing) to lay out
+1725	HE	EN	הִ֛וא	he, it  ; is (male)
+1726	HE	EN	נָֽתְנָה־לִּ֥י	
+1727	HE	EN	מִן־הָעֵ֖ץ	
+1732	HE	EN	לָאִשָּׁ֖ה	woman  ; wife  ; אשתו - his wife;; fire  ; passion, fervor
+1733	HE	EN	מַה־זֹּ֣את	this (female)  ; בזאת - (formal) hereby;; sprinkling, splashing
+1734	HE	EN	עָשִׂ֑ית	to do  ; to make  ; to produce, to create;; making, doing  ; achievement, work
+1735	HE	EN	וַתֹּ֙אמֶר֙	to say  ; to tell;; to be said, to be told, to be related  ; to be ordered  ; שנאמר - as it is said
+1737	HE	EN	הַנָּחָ֥שׁ	snake, serpent;; (literary) magic, sorcery, witchcraft
+1765	HE	EN	הָֽאִשָּׁ֔ה	woman  ; wife  ; אשתו - his wife
+1999	HE	EN	 וַיֹּ֖אמֶר	to say  ; to tell;; to be said, to be told, to be related  ; to be ordered  ; שנאמר - as it is said
+2010	HE	EN	אָ֑תָּה	you (singular, male);; with ...;; spade, shovel
+2063	HE	EN	לְבִלְתִּ֥י	(biblical) not to, in order not to, in order to prevent;; not, non;; other than, else, without
+2140	HE	EN	 וַיֹּ֨אמֶר	to say  ; to tell;; to be said, to be told, to be related  ; to be ordered  ; שנאמר - as it is said
+1738	HE	EN	הִשִּׁיאַ֖נִי	to marry off  ; to marry, to officiate at a wedding;; to divert, to redirect (a conversation)  ; (music) to transpose  ; (flowery) to give, to bestow
+1739	HE	EN	וָאֹכֵֽל׃	to eat  ; to destroy, to consume  ; (slang) to use, to use up  ; (slang) to fall for it  ; (slang) to put up with, to absorb, to receive  ; (slang) to worry one, to eat one up;; food  ; dining, meal;; to be consumed, to be destroyed;; to consume, destroy
+1740	HE	EN	 וַיֹּאמֶר֩	to say  ; to tell;; to be said, to be told, to be related  ; to be ordered  ; שנאמר - as it is said
+1741	HE	EN	יְהֹוָ֨ה	(biblical) Jehovah, God, the Lord;; to constitute
+1742	HE	EN	אֱלֹהִ֥ים	God;; God  ; האלוהים - God
+1744	HE	EN	אֶֽל־הַנָּחָשׁ֮	
+1746	HE	EN	עָשִׂ֣יתָ	to do  ; to make  ; to produce, to create;; making, doing  ; achievement, work
+1747	HE	EN	זֹּאת֒	this (female)  ; בזאת - (formal) hereby
+1748	HE	EN	אָר֤וּר	cursed, damned
+1749	HE	EN	אַתָּה֙	you (singular, male);; with ...;; spade, shovel
+1750	HE	EN	מִכָּל־הַבְּהֵמָ֔ה	
+1751	HE	EN	וּמִכֹּ֖ל	all  ; any  ; every  ; כולו - (slang) only, merely  ; כולו - whole  ; מכל - of all;; tank (gas, water, oil)  ; bin
+1754	HE	EN	עַל־גְּחֹנְךָ֣	
+1755	HE	EN	תֵלֵ֔ךְ	to go, to walk  ; to proceed  ; to leave, to pass, to disappear  ; to follow  ; (colloquial) to attend   ; to continue, to intensify  ; (colloquial) to happen  ; (colloquial) to be destroyed, to be lost  ; (slang) to die  ; (slang) to go for;; (archeology) barrow, man-made hill covering the remains of an ancient settlement  ; mound, knoll, down  ; (colloquial) heap, pile;; to hang, to hang up  ; to ascribe to, to associate  ; (colloquial) to be hung
+1756	HE	EN	וְעָפָ֥ר	earth, dirt  ; (literary) dust  ; (biblical) ashes;; fawn  ; (literary) youth, lad;; Ofer (also: Offer, Opher) (Hebrew name)
+1757	HE	EN	תֹּאכַ֖ל	to eat  ; to destroy, to consume  ; (slang) to use, to use up  ; (slang) to fall for it  ; (slang) to put up with, to absorb, to receive  ; (slang) to worry one, to eat one up;; to be eaten  ; (literary) to be consumed by fire, to be destroyed;; to be fed;; to be consumed, to be destroyed
+1758	HE	EN	כָּל־יְמֵ֥י	
+1760	HE	EN	 וְאֵיבָ֣ה	loathing, hatred;; (flowery) bud, young shoot  ; באיבו - In the bud
+1762	HE	EN	אָשִׁ֗ית	to impose, to institute;; (flowery) foundation, basis
+1763	HE	EN	בֵּֽינְךָ֙	between  ; amongst  ; בינינו - between you and me  ; מבין - an expression to indicate one or several of a number of items
+1767	HE	EN	זַרְעֲךָ֖	seed  ; semen  ; sperm  ; (literary) scion;; arm, upper arm  ; handle  ; arm (of river)  ; (military) arm, service, branch
+1769	HE	EN	זַרְעָ֑הּ	to sow  ; to spread, to disseminate;; seed  ; semen  ; sperm  ; (literary) scion;; arm, upper arm  ; handle  ; arm (of river)  ; (military) arm, service, branch
+1770	HE	EN	ה֚וּא	he, it  ; is (male)
+1771	HE	EN	יְשׁוּפְךָ֣	
+1772	HE	EN	רֹ֔אשׁ	head  ; top  ; chief  ; hair (of the head)  ; (colloquial) brains, intelligence  ; (biblical) division, section  ; בראש - at the head of;; (biblical) poisonous plant
+1774	HE	EN	תְּשׁוּפֶ֥נּוּ	
+1775	HE	EN	עָקֵֽב׃	following, because of, due to;; to follow, to tail, to track  ; to watch, to observe  ; to pay attention;; heel  ; trace  ; עקבות - footprints  ; עקבות - trace  ; עקבים - (colloquial) high heeled shoes;; buzzard (bird)
+1776	HE	EN	 אֶֽל־הָאִשָּׁ֣ה	
+1778	HE	EN	הַרְבָּ֤ה	a lot  ; many, much;; to increase;; much, great, vast; numerous  ; multi- (multipurpose, multilingual)  ; important, honorable;; jam;; to argue with, to quarrel with;; (Reform Judaism) female rabbi
+1779	HE	EN	אַרְבֶּה֙	locust;; chimney;; (Aramaic) barge, flat bottomed boat;; to ambush, to lie in wait  ; to lurk;; to increase;; (biblical) to increase, to expand  ; (talmudic) to include
+1780	HE	EN	עִצְּבֹונֵ֣ךְ	
+1781	HE	EN	וְהֵֽרֹנֵ֔ךְ	
+1782	HE	EN	בְּעֶ֖צֶב	sadness, sorrow, grief;; nerve;; (flowery) sad, sorrowful
+1783	HE	EN	תֵּֽלְדִ֣י	to give birth
+1784	HE	EN	בָנִ֑ים	son  ; boy  ; member of group (nation, class, family)  ; native  ; בני - my son, son (usu. term of endearment)  ; הבן - junior, the second (title);; string, cord  ; (anatomy) capillary
+1785	HE	EN	וְאֶל־אִישֵׁךְ֙	
+1786	HE	EN	תְּשׁ֣וּקָתֵ֔ךְ	lust, desire (usu. sexual)  ; passion
+1787	HE	EN	וְה֖וּא	he, it  ; is (male)
+1788	HE	EN	יִמְשָׁל־בָּֽךְ׃	
+1789	HE	EN	 וּלְאָדָ֣ם	man, person, human being  ; someone, somebody  ; האדם - mankind, humanity;; Adam (Hebrew name);; red  ; (colloquial) Lipstick  ; ruby (precious stone);; red (noun);; red
+1790	HE	EN	אָמַ֗ר	to say  ; to tell;; (flowery) utterance, word, saying;; (flowery) to make someone's life a misery, to cause trouble,   ; (flowery) to weep bitterly
+1791	HE	EN	כִּֽי־שָׁמַעְתָּ֮	
+1792	HE	EN	לְקֹ֣ול	voice  ; sound, noise  ; opinion  ; vote;; (commerce) call option;; (slang) cool
+1793	HE	EN	אִשְׁתֶּךָ֒	woman  ; wife  ; אשתו - his wife
+1794	HE	EN	וַתֹּ֙אכַל֙	to eat  ; to destroy, to consume  ; (slang) to use, to use up  ; (slang) to fall for it  ; (slang) to put up with, to absorb, to receive  ; (slang) to worry one, to eat one up;; to be eaten  ; (literary) to be consumed by fire, to be destroyed;; to be fed;; to be consumed, to be destroyed
+1795	HE	EN	מִן־הָעֵ֔ץ	
+1796	HE	EN	אֲשֶׁ֤ר	that, which, whom  ; who  ; as regards, in regard to  ; באשר - with respect to, with regard to  ; מאשר - than, rather than, compared to;; bliss, happiness;; to approve;; Asher (Hebrew name);; to confirm  ; to approve, to O.K.;; Asher (one of the twelve tribes of Israel);; to fall, to drop  ; (education system) to drop out
+1973	HE	EN	וְאַתָּ֖ה	you (singular, male);; with ...;; spade, shovel
+2172	HE	EN	כִּ֣י	because  ; that  ; (biblical) when  ; but;; chi (The twenty-second letter of the Greek alphabet)
+1797	HE	EN	צִוִּיתִ֙יךָ֙	to order, to command, to direct  ; ציוונו - (Jewish ritual) God has commanded us
+1798	HE	EN	לֵאמֹ֔ר	to say  ; to tell;; (formal) to say, saying: (at the beginning of a quote)  ; meaning, which means, in other words;; (flowery) utterance, word, saying
+1800	HE	EN	תֹאכַ֖ל	to eat  ; to destroy, to consume  ; (slang) to use, to use up  ; (slang) to fall for it  ; (slang) to put up with, to absorb, to receive  ; (slang) to worry one, to eat one up;; to be eaten  ; (literary) to be consumed by fire, to be destroyed;; to be fed;; to be consumed, to be destroyed
+1802	HE	EN	אֲרוּרָ֤ה	cursed, damned
+1803	HE	EN	הָֽאֲדָמָה֙	reddening; painting red;; land, earth, soil  ; ground (noun)  ; plot (land);; red
+1804	HE	EN	בַּֽעֲבוּרֶ֔ךָ	for the sake of, for  ; in return;; to violate, to transgress, to breach
+1805	HE	EN	בְּעִצָּבֹון֙	
+1806	HE	EN	תֹּֽאכֲלֶ֔נָּה	to eat  ; to destroy, to consume  ; (slang) to use, to use up  ; (slang) to fall for it  ; (slang) to put up with, to absorb, to receive  ; (slang) to worry one, to eat one up;; to feed  ; to sustain, to nurture  ; (colloquial) to pull the wool over someone's eyes, to convince, to bluff;; to be eaten  ; (literary) to be consumed by fire, to be destroyed;; to be fed;; to be consumed, to be destroyed
+1807	HE	EN	כֹּ֖ל	all  ; any  ; every  ; כולו - (slang) only, merely  ; כולו - whole  ; מכל - of all
+1808	HE	EN	יְמֵ֥י	oceanic, sea, marine;; day (cf. night)  ; day (calendar day, 24-hour period)  ; ימים - days, period, time  ; לימים - eventually, in time;; ocean, sea  ; (biblical) West  ; abundance, plethora, profusion
+1809	HE	EN	חַיֶּֽיךָ׃	to smile;; (archaic, rare) stutterer;; life  ; lifestyle  ; (slang) lifeblood, be-all and end-all  ; alive  ; בחיי - I swear to you!, upon my life!  ; בחייך - You don't say! I don't believe it! Do me a favor  ; בחיים - alive, living
+1810	HE	EN	 וְקֹ֥וץ	thorn, splinter, skelf  ; (talmudic) calligraphical ornament, embellishment on certain Hebrew letters in holy writings;; (literary) to awaken, to wake up
+1811	HE	EN	וְדַרְדַּ֖ר	thistle;; to cause to roll down a slope  ; to cause to deteriorate;; to be rolled, to be made worse
+1812	HE	EN	תַּצְמִ֣יחַֽ	to sprout, to grow
+1814	HE	EN	וְאָכַלְתָּ֖	to eat  ; to destroy, to consume  ; (slang) to use, to use up  ; (slang) to fall for it  ; (slang) to put up with, to absorb, to receive  ; (slang) to worry one, to eat one up;; to be consumed, to be destroyed
+1815	HE	EN	אֶת־עֵ֥שֶׂב	
+1816	HE	EN	הַשָּׂדֶֽה׃	field;; demon, genie, fiend;; chest of drawers
+1817	HE	EN	 בְּזֵעַ֤ת	perspiration, sweat
+1818	HE	EN	אַפֶּ֙יךָ֙	nose;; character, personality  ; nature, attributes  ; (slang) character, ambience, atmosphere;; plural form of nose ("af"), used only in phrases
+1819	HE	EN	תֹּ֣אכַל	to eat  ; to destroy, to consume  ; (slang) to use, to use up  ; (slang) to fall for it  ; (slang) to put up with, to absorb, to receive  ; (slang) to worry one, to eat one up;; to be eaten  ; (literary) to be consumed by fire, to be destroyed;; to be fed;; to be consumed, to be destroyed
+1820	HE	EN	לֶ֔חֶם	bread;; to fight, to war, to combat, to battle  ; to struggle;; solder;; hot  ; feel hot  ; pleasant, affable, genial  ; hot-blooded, hot-tempered  ; hot off the press  ; (slang) angry, annoyed, angry at  ; (slang) have the hot pants for;; heat  ; warmth  ; fever;; father-in-law;; freshness, vitality
+1821	HE	EN	עַ֤ד	to, as far as  ; until, till  ; up to, as much as, as many as  ; such that, that;; eternity;; witness
+1822	HE	EN	שֽׁוּבְךָ֙	dovecote;; (flowery) thicket, lair;; return;; to return  ; to repeat (an action);; captor
+1823	HE	EN	אֶל־הָ֣אֲדָמָ֔ה	
+1825	HE	EN	מִמֶּ֖נָּה	to appoint  ; (biblical) to summon;; supervisor, person in charge;; to be appointed;; from  ; of  ; than;; portion  ; dose, share, unit, ration  ; (mathematics) quotient  ; (slang) rebuke;; to finance, to pay for;; to be financed, to be paid for
+1826	HE	EN	לֻקָּ֑חְתָּ	to take  ; (slang) (sports) to win  ; (talmudic) to acquire;; (biblical) to be taken (from)
+1827	HE	EN	כִּֽי־עָפָ֣ר	
+1828	HE	EN	אַ֔תָּה	you (singular, male);; with ...;; spade, shovel
+1829	HE	EN	וְאֶל־עָפָ֖ר	
+1830	HE	EN	תָּשֽׁוּב׃	to return  ; to repeat (an action);; to blow (wind)
+1833	HE	EN	שֵׁ֥ם	name  ; noun  ; reputation;; there  ; where  ; ibid.;; to put  ; to appoint;; to assess, to appraise
+1834	HE	EN	אִשְׁתֹּ֖ו	woman  ; wife  ; אשתו - his wife
+1835	HE	EN	חַוָּ֑ה	Chava (also: Hava) (Hebrew name);; ranch, farm;; to express, to state;; to experience
+1836	HE	EN	כִּ֛י	because  ; that  ; (biblical) when  ; but;; chi (The twenty-second letter of the Greek alphabet)
+1837	HE	EN	הִ֥וא	he, it  ; is (male)
+1838	HE	EN	הָֽיְתָ֖ה	to be, to exist  ; to happen, to take place, to occur  ; to become, to develop into;; to have
+1839	HE	EN	אֵ֥ם	if;; mother  ; אימהות - matriarchs;; nut (of a bolt);; (flowery) nation, people
+1840	HE	EN	כָּל־חָֽי׃	cheek  ; jaw (of a tool)  ; (talmudic) (Jewish law) pillar, post, doorpost
+1841	HE	EN	 וַיַּעַשׂ֩	
+1844	HE	EN	לְאָדָ֧ם	man, person, human being  ; someone, somebody  ; האדם - mankind, humanity;; Adam (Hebrew name);; red  ; (colloquial) Lipstick  ; ruby (precious stone);; red (noun);; red
+1845	HE	EN	וּלְאִשְׁתֹּ֛ו	woman  ; wife  ; אשתו - his wife
+1846	HE	EN	כָּתְנֹ֥ות	shirt  ; nightshirt, nightgown;; jackal;; jackal (female)
+1847	HE	EN	עֹ֖ור	skin  ; hide, leather;; blind (person);; to blind;; blind, unseeing;; Wake up!, Get up!
+1848	HE	EN	וַיַּלְבִּשֵֽׁם׃	to put on a garment, to dress, to wear  ; (literary) to wear, to be covered
+1853	HE	EN	הֵ֤ן	they (female);; here, inasmuch as;; (literary) yes
+2013	HE	EN	פָּצְתָ֣ה	to open one's mouth (to speak);; to compensate, to recompense;; to be compensated
+1854	HE	EN	הָֽאָדָם֙	man, person, human being  ; someone, somebody  ; האדם - mankind, humanity;; red;; red  ; (colloquial) Lipstick  ; ruby (precious stone);; red (noun)
+1855	HE	EN	הָיָה֙	to be, to exist  ; to happen, to take place, to occur  ; to become, to develop into;; to have
+1856	HE	EN	כְּאַחַ֣ד	one  ; single  ; unique  ; first, former  ; someone, somebody  ; כאחד - simultaneously, at the same time, at one and the same time;; someone, anyone  ; one, a type
+1858	HE	EN	לָדַ֖עַת	to know something, to be aware  ; to know how to  ; to be familiar with, to undergo   ; (flowery) to recognize, to be familiar with  ; (biblical) to have sexual intercourse;; idea, opinion, thought  ; (biblical, talmudic) knowledge  ; (talmudic) wisdom, understanding  ; לדעתו - in his opinion;; knowledge, wisdom  ; intelligence, understanding, common sense. logic  ; awareness, consciousness  ; בדעתו - to intend  ; לדעתו - in his opinion  ; מדעת - deliberately, knowing full well, knowingly
+1860	HE	EN	וָרָ֑ע	bad, nasty  ; malicious  ; negative, wrong;; friend, comrade, buddy, colleague  ; neighbor, another;; bad, evil  ; villain  ; trouble, ill;; evil, wickedness;; (biblical) thought, idea
+1861	HE	EN	וְעַתָּ֣ה	now, currently;; time, season  ; era, epoch, age  ; בעיתו - at the right time
+1863	HE	EN	פֶּן־יִשְׁלַ֣ח	
+1864	HE	EN	יָדֹ֗ו	arm  ; hand  ; forelimb  ; pointer (Torah reading)  ; hand (card games)  ; (football) hand foul  ; (talmudic) backrest  ; (biblical) projection, bump  ; (biblical) designated area  ; ביד - (biblical) by means of, through, via;; (biblical) to throw;; to throw (esp. stones), to hurl;; to be thrown (esp. stones)
+1865	HE	EN	וְלָקַח֙	to take  ; (slang) (sports) to win  ; (talmudic) to acquire;; a lesson;; (Yiddish) 'lekach', sponge cake;; (biblical) to be taken (from)
+1866	HE	EN	גַּ֚ם	also, in addition  ; even  ; (biblical) furthermore, indeed
+1867	HE	EN	מֵעֵ֣ץ	tree  ; wood;; (flowery) to advise
+1868	HE	EN	הַֽחַיִּ֔ים	life  ; lifestyle  ; (slang) lifeblood, be-all and end-all  ; alive  ; בחיי - I swear to you!, upon my life!  ; בחייך - You don't say! I don't believe it! Do me a favor  ; בחיים - alive, living;; alive  ; alert, vivacious  ; raw, uncooked; fresh;; to live
+1869	HE	EN	וְאָכַ֖ל	to eat  ; to destroy, to consume  ; (slang) to use, to use up  ; (slang) to fall for it  ; (slang) to put up with, to absorb, to receive  ; (slang) to worry one, to eat one up;; food  ; dining, meal;; to be consumed, to be destroyed;; to consume, destroy
+1870	HE	EN	וָחַ֥י	to live;; alive  ; alert, vivacious  ; raw, uncooked; fresh;; living thing; animal
+1871	HE	EN	לְעֹלָֽם׃	(literary) youth, young man;; burden  ; yoke
+1872	HE	EN	 וַֽיְשַׁלְּחֵ֛הוּ	to send  ; to dispatch  ; to reach out, (one's hand, arm, leg);; (literary) to release, to send away
+1875	HE	EN	מִגַּן־עֵ֑דֶן	
+1876	HE	EN	לַֽעֲבֹד֙	to work (land)  ; to process  ; to prepare  ; (musical) to adapt, to arrange;; to work  ; to operate, to function  ; to work on, to convince, to improve  ; (slang) to work one over on  ; (biblical) to worship, to perform religious service;; slave  ; עבדך - your servant;; workpiece
+1879	HE	EN	לֻקַּ֖ח	to take  ; (slang) (sports) to win  ; (talmudic) to acquire;; a lesson;; (Yiddish) 'lekach', sponge cake;; (biblical) to be taken (from)
+1880	HE	EN	מִשָּֽׁם׃	there  ; where  ; ibid.;; name  ; noun  ; reputation;; to put  ; to appoint;; to draw (from water);; to assess, to appraise
+1881	HE	EN	 וַיְגָ֖רֶשׁ	to drive out, to expel, to eject  ; to banish, to expel  ; to exile;; to be expelled, to be exiled;; (talmudic, Jewish law) to divorce
+1883	HE	EN	וַיַּשְׁכֵּן֩	to house;; there is, there are  ; one must, it is necessary to  ; one may, it may   ; got it! did it! Yes!  ; some, sometimes, it may be that;; to dwell, to reside  ; to be housed, to be located;; to be housed
+1884	HE	EN	מִקֶּ֨דֶם	to promote, to advance  ; to welcome;; (mathematics) coefficient;; early  ; מוקדמות - (sports) preliminaries;; early;; (literature) exposition  ; (music) anacrusis;; to be promoted, to be advanced  ; to be welcomed;; to be brought forward;; ancient times  ; (literary) east  ; קדמה - (literary) eastward;; pre- (pre-army, prehistoric);; before, prior to;; to focus, to bring into focus
+1885	HE	EN	לְגַן־עֵ֜דֶן	
+1886	HE	EN	אֶת־הַכְּרֻבִ֗ים	
+1888	HE	EN	לַ֤הַט	intense heat, blaze  ; enthusiasm, exuberance, fervor; passion  ; (flowery) flashing brightness (of a sword or saber);; to blaze, to burn  ; (colloquial) to be feverish, to be burning up (with fever);; to blaze, to burn intensely  ; to incense, to impassion
+1889	HE	EN	הַחֶ֙רֶב֙	to be destroyed;; sword  ; (fencing) sabre, saber;; destroyed, demolished;; to be destroyed, to collapse;; to destroy, to demolish;; (literary) dry, parched, arid;; (literary) to dehydrate, to become dry, to run out of water;; (literary) dryness, aridity, heat (usu. refers to desert)
+1890	HE	EN	הַמִּתְהַפֶּ֔כֶת	to turn over, to roll over  ; to tip over
+1891	HE	EN	לִשְׁמֹ֕ר	to preserve  ; to maintain;; to guard  ; to safeguard  ; to watch, to supervise  ; to keep, to maintain;; fennel (plant)
+1892	HE	EN	אֶת־דֶּ֖רֶךְ	to brief;; to be briefed
+1894	HE	EN	הַֽחַיִּֽים׃	life  ; lifestyle  ; (slang) lifeblood, be-all and end-all  ; alive  ; בחיי - I swear to you!, upon my life!  ; בחייך - You don't say! I don't believe it! Do me a favor  ; בחיים - alive, living;; alive  ; alert, vivacious  ; raw, uncooked; fresh;; to live
+1901	HE	EN	4	
+1903	HE	EN	 וְהָ֣אָדָ֔ם	man, person, human being  ; someone, somebody  ; האדם - mankind, humanity;; red;; red  ; (colloquial) Lipstick  ; ruby (precious stone);; red (noun)
+1904	HE	EN	יָדַ֖ע	to know something, to be aware  ; to know how to  ; to be familiar with, to undergo   ; (flowery) to recognize, to be familiar with  ; (biblical) to have sexual intercourse;; knowledge;; to inform, to update; (linguistics) to specify a noun as definite;; to be told, to be made aware, to be informed
+1905	HE	EN	אֶת־חַוָּ֣ה	
+1906	HE	EN	אִשְׁתֹּ֑ו	woman  ; wife  ; אשתו - his wife
+1907	HE	EN	וַתַּ֙הַר֙	
+1909	HE	EN	אֶת־קַ֔יִן	to install, to affix  ; to prepare, to arrange  ; to decree, to legislate, to institute a regulation  ; (flowery) to build, to form
+1910	HE	EN	וַתֹּ֕אמֶר	to say  ; to tell;; to be said, to be told, to be related  ; to be ordered  ; שנאמר - as it is said
+2167	HE	EN	וַתֵּ֣לֶד	to give birth
+1911	HE	EN	קָנִ֥יתִי	to buy, to purchase  ; to acquire, to obtain  ; to captivate  ; (biblical) to create  ; (colloquial) to accept;; purchase, acquisition  ; shopping
+1912	HE	EN	אִ֖ישׁ	man, person, adult  ; husband, spouse  ; a man of ...., inhabitant of ...., from ...  ; אישי - sir;; to man  ; to take one's place, to present oneself;; to be occupied, to be manned
+1913	HE	EN	אֶת־יְהוָֽה׃	
+1914	HE	EN	 וַתֹּ֣סֶף	(economics) to be revalued;; to revalue (incorrect form)
+1915	HE	EN	לָלֶ֔דֶת	to give birth;; birth, delivery (of a baby)
+1916	HE	EN	אֶת־אָחִ֖יו	
+1917	HE	EN	אֶת־הָ֑בֶל	
+1918	HE	EN	וַֽיְהִי־הֶ֙בֶל֙	
+1919	HE	EN	רֹ֣עֵה	evil, iniquity, bad deed  ; harm, trouble, tragedy, disaster;; to herd, to guide  ; to graze;; bad, nasty  ; malicious  ; negative, wrong;; friend, comrade, buddy, colleague  ; neighbor, another;; (biblical) thought, idea
+1920	HE	EN	צֹ֔אן	sheep and goats
+1921	HE	EN	וְקַ֕יִן	(talmudic) someone with large testicles
+1922	HE	EN	הָיָ֖ה	to be, to exist  ; to happen, to take place, to occur  ; to become, to develop into;; to have
+1923	HE	EN	עֹבֵ֥ד	to work  ; to operate, to function  ; to work on, to convince, to improve  ; (slang) to work one over on  ; (biblical) to worship, to perform religious service;; slave  ; עבדך - your servant;; to work (land)  ; to process  ; to prepare  ; (musical) to adapt, to arrange;; to be worked (land)  ; to be processed  ; to be prepared  ; (music) to be adapted, to be arranged;; workpiece
+1924	HE	EN	אֲדָמָֽה׃	land, earth, soil  ; ground (noun)  ; plot (land);; to resemble  ; (flowery) to seem, to appear;; red;; to imagine  ; to conceptualize, to visualize  ; to compare;; to simulate;; to become red;; to resemble, to be similar to;; to model oneself on, to copy, to ape  ; (phonetics) to be assimilated
+1925	HE	EN	 וַֽיְהִ֖י	to be, to exist  ; to happen, to take place, to occur  ; to become, to develop into
+1926	HE	EN	מִקֵּ֣ץ	end, finish, stop  ; death  ; מקץ - (literary) after (a while);; (literary) to be sick of, to have had enough of;; (literary) to awaken, to wake up
+1927	HE	EN	יָמִ֑ים	day (cf. night)  ; day (calendar day, 24-hour period)  ; ימים - days, period, time  ; לימים - eventually, in time;; ocean, sea  ; (biblical) West  ; abundance, plethora, profusion
+1928	HE	EN	וַיָּבֵ֨א	to come, to enter  ; to approach, to come near  ; יבוא! - come in! enter!;; to import;; imported
+1929	HE	EN	קַ֜יִן	(talmudic) someone with large testicles
+1930	HE	EN	מִפְּרִ֧י	fruit  ; product, result  ; profit;; bovine, bull;; to break, to breach (promise, agreement)  ; to rend, to sever, to interrupt;; to fertilize   ; to pollinate  ; to inspire (creativity, imagination, productivity);; pre-
+1931	HE	EN	הָֽאֲדָמָ֛ה	reddening; painting red;; land, earth, soil  ; ground (noun)  ; plot (land);; red
+1932	HE	EN	מִנְחָ֖ה	to lead, to direct, to guide  ; to instruct  ; to officiate, to moderate;; moderator, discussion leader; (radio, television) host  ; master of ceremonies, emcee, M.C.  ; (military) briefing officer  ; (academics) advisor;; (Jewish ritual) Mincha (afternoon prayer service)  ; (biblical) grain offering  ; (flowery) gift, present, tribute  ; (flowery) afternoon;; directed, guided, supervised  ; moderated, chaired;; to be led, to be directed, to be guided  ; to be instructed;; to rest, to relax;; (music) position;; term, expression, specific word;; (grammar) mute (letter)
+1933	HE	EN	לַֽיהוָֽה׃	(biblical) Jehovah, God, the Lord
+1934	HE	EN	 וְהֶ֨בֶל	(literary) steam, vapor  ; breath  ; (flowery) speech, utterance (esp. related to Torah, learned);; foolishness, nonsense, absurdity  ; (flowery) for nothing, uselessly (as adverb)
+1935	HE	EN	הֵבִ֥יא	to bring  ; to transfer, to transport  ; to result in, to cause  ; to bring about  ; to bring with  ; to quote, to refer to  ; to present, to display, to show  ; to garner, to gain, to obtain  ; to introduce  ; to bring to  ; to bring oneself to do, to achieve  ; (colloquial) to give, to proffer  ; (biblical) to offer up
+1936	HE	EN	גַם־ה֛וּא	
+1937	HE	EN	מִבְּכֹרֹ֥ות	to prefer, to give preference to, to favor;; young female camel
+1938	HE	EN	צֹאנֹ֖ו	sheep and goats
+1939	HE	EN	וּמֵֽחֶלְבֵהֶ֑ן	
+1940	HE	EN	וַיִּ֣שַׁע	(flowery) salvation, help, rescue
+1941	HE	EN	יְהוָ֔ה	(biblical) Jehovah, God, the Lord;; to constitute
+1942	HE	EN	אֶל־הֶ֖בֶל	
+1943	HE	EN	וְאֶל־מִנְחָתֹֽו׃	
+1944	HE	EN	 וְאֶל־קַ֥יִן	
+1945	HE	EN	וְאֶל־מִנְחָתֹ֖ו	
+1947	HE	EN	שָׁעָ֑ה	hour  ; o'clock
+1948	HE	EN	וַיִּ֤חַר	(literary) to anger, to upset, to annoy
+1950	HE	EN	מְאֹ֔ד	very, very much, greatly;; vapor, fume, steam  ; mist;; (flowery) might, strength, will
+1951	HE	EN	וַֽיִּפְּל֖וּ	to delouse;; to discriminate against, to act inequitably toward;; to fall, to stumble  ; to drop, to decline  ; to collapse, to be defeated, to surrender, to be conquered  ; to be killed  ; to fall by the wayside (a proposal, plan)  ; (colloquial) to fall on (a day, date)  ; to descend  ; to be inferior to;; to be discriminated against, to be treated inequitably;; to be knocked over, to be made to fall, to be brought down (aircraft)  ; to be thrown, to be thrown down  ; to be thwarted, to be impeded, to be obstructed  ; to be shot down (argument, idea);; (talmudic) to delouse
+1952	HE	EN	פָּנָֽיו׃	face  ; surface  ; appearance  ; image  ; aspect  ; "heads" (of a coin)
+1954	HE	EN	יְהוָ֖ה	(biblical) Jehovah, God, the Lord;; to constitute
+1955	HE	EN	אֶל־קָ֑יִן	
+1956	HE	EN	לָ֚מָּה	why?, for what purpose?;; lama (Tibetan priest);; llama;; what  ; how much  ; why, how
+1957	HE	EN	חָ֣רָה	(literary) to anger, to upset, to annoy;; (vulgar) feces  ; (vulgar) shit!;; hole  ; (colloquial) small place
+1958	HE	EN	לָ֔ךְ	to, toward  ; of  ; for  ; until, till  ; into  ; לך, לכם, לכן - you, to you  ; לו - him, to him  ; לה - her, to her  ; לנו - us, to us  ; להם, להן - them, to them;; to go, to walk  ; to proceed  ; to leave, to pass, to disappear  ; to follow  ; (colloquial) to attend   ; to continue, to intensify  ; (colloquial) to happen  ; (colloquial) to be destroyed, to be lost  ; (slang) to die  ; (slang) to go for
+1959	HE	EN	וְלָ֖מָּה	why?, for what purpose?;; what  ; how much  ; why, how;; lama (Tibetan priest);; llama
+1960	HE	EN	נָפְל֥וּ	to fall, to stumble  ; to drop, to decline  ; to collapse, to be defeated, to surrender, to be conquered  ; to be killed  ; to fall by the wayside (a proposal, plan)  ; (colloquial) to fall on (a day, date)  ; to descend  ; to be inferior to;; stillbirth  ; failure  ; (military) dud
+1961	HE	EN	פָנֶֽיךָ׃	face  ; surface  ; appearance  ; image  ; aspect  ; "heads" (of a coin)
+1962	HE	EN	 הֲלֹ֤וא	was it not, didn't
+1963	HE	EN	אִם־תֵּיטִיב֙	
+1964	HE	EN	שְׂאֵ֔ת	tumor;; term used to indicate a direct object   ; et  ; אותי - me  ; אותך, אתכם, אתכן - you  ; אותו - him, it  ; אותה - her, it  ; אותנו - us  ; אותם, אותן - them;; you (female, singular);; holocaust, disaster, conflagration  ; השואה - the Holocaust;; spade, shovel
+1965	HE	EN	וְאִם֙	if;; mother  ; אימהות - matriarchs;; nut (of a bolt);; (flowery) nation, people
+1967	HE	EN	תֵיטִ֔יב	(literary) to improve, to correct  ; (literary) to do something well  ; (literary) to benefit someone, to be nice to someone
+1968	HE	EN	לַפֶּ֖תַח	to develop  ; to improve, to nurture  ; to invent;; to etch, to engrave;; to open  ; to unlock  ; to unwrap  ; to turn on (a light, electrical appliance)  ; to split open, to injure;; opening  ; entrance  ; in front of - לפתחו של;; patach (Hebrew vowel, corresponding to short a, as in 'car
+1969	HE	EN	חַטָּ֣את	sin offering (sacrifice)  ; (flowery) offense;; to sin, to transgress;; (flowery) sin;; to disinfect
+1970	HE	EN	רֹבֵ֑ץ	to lie down, to crouch  ; to rest on, to hang over, to weigh on  ; (colloquial) to lie around, to hang around, to loiter, to stay
+1971	HE	EN	וְאֵלֶ֙יךָ֙	at, to  ; towards  ; for;; God, the Lord  ; a god
+1972	HE	EN	תְּשׁ֣וּקָתֹ֔ו	lust, desire (usu. sexual)  ; passion
+1974	HE	EN	תִּמְשָׁל־בֹּֽו׃	
+1977	HE	EN	אֶל־הֶ֣בֶל	
+1978	HE	EN	אָחִ֑יו	brother, sibling  ; male nurse  ; compatriot, countryman  ; (flowery) close friend, buddy, pal  ; (Christianity) Brother  ; אחי - (slang) buddy, pal, mate
+1979	HE	EN	וַֽיְהִי֙	to be, to exist  ; to happen, to take place, to occur  ; to become, to develop into
+1980	HE	EN	בִּהְיֹותָ֣ם	to be, to exist  ; to happen, to take place, to occur  ; to become, to develop into;; since he is, being, seeing how  ; when he was;; to have
+1981	HE	EN	בַּשָּׂדֶ֔ה	field;; demon, genie, fiend;; breast;; chest of drawers
+1982	HE	EN	וַיָּ֥קָם	to avenge;; (biblical) to be avenged
+1983	HE	EN	קַ֛יִן	(talmudic) someone with large testicles
+1984	HE	EN	אֶל־הֶ֥בֶל	
+1986	HE	EN	וַיַּהַרְגֵֽהוּ׃	to kill
+1987	HE	EN	 וַיֹּ֤אמֶר	to say  ; to tell;; to be said, to be told, to be related  ; to be ordered  ; שנאמר - as it is said
+1988	HE	EN	יְהוָה֙	(biblical) Jehovah, God, the Lord;; to constitute
+1989	HE	EN	אֶל־קַ֔יִן	
+1990	HE	EN	אֵ֖י	island;; non-, un - (negation);; (literary) Oh!;; in-, il-, im-, ir- (indecisive, illogical, impossible, irrational);; (Biblical) Where is?;; I (letter)
+1991	HE	EN	הֶ֣בֶל	(literary) steam, vapor  ; breath  ; (flowery) speech, utterance (esp. related to Torah, learned);; foolishness, nonsense, absurdity  ; (flowery) for nothing, uselessly (as adverb)
+1992	HE	EN	אָחִ֑יךָ	brother, sibling  ; male nurse  ; compatriot, countryman  ; (flowery) close friend, buddy, pal  ; (Christianity) Brother  ; אחי - (slang) buddy, pal, mate;; to smile;; to vitalize, to rejuvenate  ; (flowery) to allow to live;; to resuscitate, to revive  ; to raise from the dead
+1995	HE	EN	יָדַ֔עְתִּי	to know something, to be aware  ; to know how to  ; to be familiar with, to undergo   ; (flowery) to recognize, to be familiar with  ; (biblical) to have sexual intercourse;; to inform, to update; (linguistics) to specify a noun as definite;; to be told, to be made aware, to be informed
+1996	HE	EN	הֲשֹׁמֵ֥ר	to be kept, to be safeguarded  ; to be maintained  ; to be saved, to be reserved  ; to be observed, to be fulfilled (a rule, regulation, directive);; fennel (plant)
+1997	HE	EN	אָחִ֖י	brother, sibling  ; male nurse  ; compatriot, countryman  ; (flowery) close friend, buddy, pal  ; (Christianity) Brother  ; אחי - (slang) buddy, pal, mate;; fireplace, hearth;; to stitch together, to patch. to darn  ; (flowery) to unite
+1998	HE	EN	אָנֹֽכִי׃	perpendicular, vertical;; (flowery) I, me;; (geometry) vertical, perpendicular (noun)  ; plumb line
+2000	HE	EN	מֶ֣ה	what  ; how much  ; why, how
+2001	HE	EN	עָשִׂ֑יתָ	to do  ; to make  ; to produce, to create;; making, doing  ; achievement, work
+2002	HE	EN	קֹ֚ול	voice  ; sound, noise  ; opinion  ; vote;; (slang) cool;; (commerce) call option
+2003	HE	EN	דְּמֵ֣י	(literary) silence, quiet;; hemorrhagic  ; bloodred;; (flowery) silence, stillness;; (literary) money, price, value;; blood  ; life, existence  ; (colloquial) courage, grit, "guts"  ; בדמו - in one's blood, part of one  ; דמים - blood sample  ; דמים - (literary) lifeblood, gore;; to imagine  ; to conceptualize, to visualize  ; to compare;; (literary) to silence, to quieten  ; (literary) to cease moving, to stand still
+2004	HE	EN	אָחִ֔יךָ	brother, sibling  ; male nurse  ; compatriot, countryman  ; (flowery) close friend, buddy, pal  ; (Christianity) Brother  ; אחי - (slang) buddy, pal, mate;; to smile;; to vitalize, to rejuvenate  ; (flowery) to allow to live;; to resuscitate, to revive  ; to raise from the dead
+2005	HE	EN	צֹעֲקִ֥ים	
+2006	HE	EN	אֵלַ֖י	Eli (Hebrew name);; (flowery) to, towards;; at, to  ; towards  ; for;; God, the Lord  ; a god
+2007	HE	EN	מִן־הָֽאֲדָמָֽה׃	
+2008	HE	EN	 וְעַתָּ֖ה	now, currently;; time, season  ; era, epoch, age  ; בעיתו - at the right time
+2009	HE	EN	אָר֣וּר	cursed, damned
+2011	HE	EN	מִן־הָֽאֲדָמָה֙	
+2012	HE	EN	אֲשֶׁ֣ר	that, which, whom  ; who  ; as regards, in regard to  ; באשר - with respect to, with regard to  ; מאשר - than, rather than, compared to;; bliss, happiness;; to approve;; Asher (Hebrew name);; to confirm  ; to approve, to O.K.;; Asher (one of the twelve tribes of Israel);; to fall, to drop  ; (education system) to drop out
+2014	HE	EN	אֶת־פִּ֔יהָ	
+2015	HE	EN	לָקַ֛חַת	to take  ; (slang) (sports) to win  ; (talmudic) to acquire;; (biblical) to be taken (from)
+2016	HE	EN	אֶת־דְּמֵ֥י	
+2017	HE	EN	אָחִ֖יךָ	brother, sibling  ; male nurse  ; compatriot, countryman  ; (flowery) close friend, buddy, pal  ; (Christianity) Brother  ; אחי - (slang) buddy, pal, mate;; to smile;; to vitalize, to rejuvenate  ; (flowery) to allow to live;; to resuscitate, to revive  ; to raise from the dead
+2018	HE	EN	מִיָּדֶֽךָ׃	arm  ; hand  ; forelimb  ; pointer (Torah reading)  ; hand (card games)  ; (football) hand foul  ; (talmudic) backrest  ; (biblical) projection, bump  ; (biblical) designated area  ; ביד - (biblical) by means of, through, via
+2019	HE	EN	 כִּ֤י	because  ; that  ; (biblical) when  ; but;; chi (The twenty-second letter of the Greek alphabet)
+2020	HE	EN	תַֽעֲבֹד֙	to work (land)  ; to process  ; to prepare  ; (musical) to adapt, to arrange;; to work  ; to operate, to function  ; to work on, to convince, to improve  ; (slang) to work one over on  ; (biblical) to worship, to perform religious service;; to be worked (land)  ; to be processed  ; to be prepared  ; (music) to be adapted, to be arranged;; to be made to work hard, to be enslaved
+2021	HE	EN	אֶת־הָ֣אֲדָמָ֔ה	
+2022	HE	EN	לֹֽא־תֹסֵ֥ף	
+2023	HE	EN	תֵּת־כֹּחָ֖הּ	
+2024	HE	EN	לָ֑ךְ	to, toward  ; of  ; for  ; until, till  ; into  ; לך, לכם, לכן - you, to you  ; לו - him, to him  ; לה - her, to her  ; לנו - us, to us  ; להם, להן - them, to them;; to go, to walk  ; to proceed  ; to leave, to pass, to disappear  ; to follow  ; (colloquial) to attend   ; to continue, to intensify  ; (colloquial) to happen  ; (colloquial) to be destroyed, to be lost  ; (slang) to die  ; (slang) to go for
+2025	HE	EN	נָ֥ע	to move  ; to advance  ; to fluctuate, to range;; moving, mobile
+2026	HE	EN	וָנָ֖ד	(literary) pillar of water, wall of water;; (flowery) to wander, to roam  ; (literary) to move back and forth
+2027	HE	EN	תִּֽהְיֶ֥ה	amazement, wonderment  ; pondering, consideration, meditation;; to be, to exist  ; to happen, to take place, to occur  ; to become, to develop into
+2028	HE	EN	בָאָֽרֶץ׃	land, country  ; earth, world  ; ארצה - to Israel  ; ארצה! - down! (command to animal)  ; הארץ - Israel (literally: the country)  ; הארץ - ground
+2031	HE	EN	אֶל־יְהוָ֑ה	
+2032	HE	EN	גָּדֹ֥ול	big, large, great  ; older  ; significant, important, serious  ; strong, powerful  ; famous, influential, successful  ; (slang) wonderful, marvelous, superb, "out of this world"  ; גדולים - (euphemism) bowel movement  ; הגדול - the Great (e.g. Alexander the Great);; growth, expansion, increase  ; upbringing, nurturing  ; (agriculture) crops  ; (medicine) tumor, malignancy;; important personage, respected person  ; (colloquial) big boy
+2033	HE	EN	עֲוֹנִ֖י	poverty  ; (biblical) suffering, distress
+2034	HE	EN	מִנְּשֹֽׂא׃	carrier;; (medicine) carrier, vector;; to bear, to carry  ; to deliver (a speech, address, prayer)  ; to suffer, to tolerate;; to be raised, to be lifted up, to be carried away  ; to be elevated  ; to be given (a speech, lecture);; to be married;; lofty, exalted;; mobile, portable, moveable
+2035	HE	EN	 הֵן֩	they (female);; here, inasmuch as;; (literary) yes
+2036	HE	EN	גֵּרַ֨שְׁתָּ	to drive out, to expel, to eject  ; to banish, to expel  ; to exile;; to be expelled, to be exiled;; (talmudic, Jewish law) to divorce
+2037	HE	EN	אֹתִ֜י	ethical;; with ...;; spade, shovel
+2038	HE	EN	הַיֹּ֗ום	today  ; now, currently;; day (cf. night)  ; day (calendar day, 24-hour period)  ; ימים - days, period, time  ; לימים - eventually, in time
+2039	HE	EN	מֵעַל֙	above, over  ; on top of  ; from on top of, off of  ; (flowery) away from;; to embezzle, to misappropriate;; on  ; about, regarding  ; because of, for  ; with, including  ; beside, near, at  ; by;; super- (superhuman, supernatural);; burden  ; yoke
+2040	HE	EN	פְּנֵ֣י	penny;; face  ; surface  ; appearance  ; image  ; aspect  ; "heads" (of a coin);; aspect;; to turn, to face  ; to speak to (ל) ,to apply to (ל);; to clear off, to clean off  ; to vacate  ; to evacuate (an injured person, demonstrator)
+2041	HE	EN	הָֽאֲדָמָ֔ה	reddening; painting red;; land, earth, soil  ; ground (noun)  ; plot (land);; red
+2042	HE	EN	וּמִפָּנֶ֖יךָ	from, of, against  ; over, in favor of  ; (talmudic) because of, due to;; face  ; surface  ; appearance  ; image  ; aspect  ; "heads" (of a coin)
+2043	HE	EN	אֶסָּתֵ֑ר	Esther (Hebrew name);; Esther (book of the Bible);; aster (plant);; to be hidden, to be concealed, to be invisible  ; (flowery) to hide, to conceal (oneself);; to be hidden, to have one's view blocked;; to contradict; to refute  ; (chemistry) to neutralize, to counteract  ; (literary, talmudic) to muss, to make untidy (hair)
+2044	HE	EN	וְהָיִ֜יתִי	to be, to exist  ; to happen, to take place, to occur  ; to become, to develop into
+2045	HE	EN	נָ֤ע	to move  ; to advance  ; to fluctuate, to range;; moving, mobile
+2046	HE	EN	וָנָד֙	(literary) pillar of water, wall of water;; (flowery) to wander, to roam  ; (literary) to move back and forth
+2047	HE	EN	בָּאָ֔רֶץ	land, country  ; earth, world  ; ארצה - to Israel  ; ארצה! - down! (command to animal)  ; הארץ - Israel (literally: the country)  ; הארץ - ground
+2048	HE	EN	וְהָיָ֥ה	to be, to exist  ; to happen, to take place, to occur  ; to become, to develop into;; to have
+2049	HE	EN	כָל־מֹצְאִ֖י	
+2050	HE	EN	יַֽהַרְגֵֽנִי׃	to kill
+2051	HE	EN	 וַיֹּ֧אמֶר	to say  ; to tell;; to be said, to be told, to be related  ; to be ordered  ; שנאמר - as it is said
+2052	HE	EN	לֹ֣ו	if, if only;; to, toward  ; of  ; for  ; until, till  ; into  ; לך, לכם, לכן - you, to you  ; לו - him, to him  ; לה - her, to her  ; לנו - us, to us  ; להם, להן - them, to them
+2053	HE	EN	יְהוָ֗ה	(biblical) Jehovah, God, the Lord;; to constitute
+2054	HE	EN	לָכֵן֙	therefore, so;; yes  ; so, thusly;; to, toward  ; of  ; for  ; until, till  ; into  ; לך, לכם, לכן - you, to you  ; לו - him, to him  ; לה - her, to her  ; לנו - us, to us  ; להם, להן - them, to them;; honest, sincere, trustworthy, truthful, open;; base, pedestal
+2055	HE	EN	כָּל־הֹרֵ֣ג	to kill
+2067	HE	EN	קַ֖יִן	(talmudic) someone with large testicles
+2132	HE	EN	קַ֔יִן	(talmudic) someone with large testicles
+2058	HE	EN	יֻקָּ֑ם	to avenge;; (biblical) to be avenged
+2059	HE	EN	וַיָּ֨שֶׂם	to implement;; to be implemented
+2061	HE	EN	לְקַ֙יִן֙	(talmudic) someone with large testicles
+2062	HE	EN	אֹ֔ות	sign (noun)  ; omen, sign, indication  ; (military) ribbon, badge  ; לאות - as a sign of;; letter (of alphabet);; (flowery) lust, passion
+2064	HE	EN	הַכֹּות־אֹתֹ֖ו	
+2065	HE	EN	כָּל־מֹצְאֹֽו׃	to find, to discover, to encounter
+2066	HE	EN	 וַיֵּ֥צֵא	to go outside, to exit  ; to leave (esp. country, state)  ; to leave for  ; to leave for  ; to emanate from, to emerge from  ; to depart  ; to break out, to come forth; to appear (sun, moon)  ; to terminate (Sabbath, Festival)  ; (literary) to pass (time)  ; to escape from, to overcome  ; to originate from , to be derived from  ; to be based on   ; it follows, the result is, the upshot is  ; to be published  ; to announce, to come out in public  ; to so happen, to turn out that;; to export;; to be exported
+2068	HE	EN	מִלִּפְנֵ֣י	from before  ; (scholarly) from  ; (biblical) in the presence of, before;; before, prior to  ; ago  ; in front of  ; in the presence of  ; (colloquial) until  ; לפניו - ahead of one, in one's future
+2069	HE	EN	יְהוָ֑ה	(biblical) Jehovah, God, the Lord;; to constitute
+2070	HE	EN	וַיֵּ֥שֶׁב	to sit  ; to sit down, to be seated  ; to live, to dwell  ; to sit (court)  ; (slang) to be imprisoned  ; (colloquial) to spend time on  ; (colloquial) to be placed, to sit (e.g. the glasses sit firmly on his nose)  ; (slang) to be secure in one's position;; to settle, to populate, to inhabit;; to be inhabited, to be settled, to be populated;; to blow (wind);; to be settled, to be determined;; to settle (dispute), to solve  ; to answer, to explain
+2071	HE	EN	בְּאֶֽרֶץ־נֹ֖וד	
+2072	HE	EN	קִדְמַת־עֵֽדֶן׃	
+2073	HE	EN	 וַיֵּ֤דַע	to know something, to be aware  ; to know how to  ; to be familiar with, to undergo   ; (flowery) to recognize, to be familiar with  ; (biblical) to have sexual intercourse;; knowledge;; to inform, to update; (linguistics) to specify a noun as definite;; to be told, to be made aware, to be informed
+2074	HE	EN	קַ֙יִן֙	(talmudic) someone with large testicles
+2076	HE	EN	וַתַּ֖הַר	
+2078	HE	EN	אֶת־חֲנֹ֑וךְ	
+2079	HE	EN	וַֽיְהִי֙	to be, to exist  ; to happen, to take place, to occur  ; to become, to develop into
+2080	HE	EN	בֹּ֣נֶה	to build, to construct  ; to build up, to develop  ; (geometry) to construct  ; (colloquial) to rely, to depend;; son  ; boy  ; member of group (nation, class, family)  ; native  ; בני - my son, son (usu. term of endearment)  ; הבן - junior, the second (title)
+2081	HE	EN	עִ֔יר	city, metropolis  ; town  ; העיר - (slang) downtown  ; העירה - (slang) downtown;; donkey foal;; to urbanize
+2082	HE	EN	וַיִּקְרָא֙	Leviticus (third book of Bible);; to read  ; to call out to, to summon (ל)  ; to call, to name  ; to shout;; to be called, to be named  ; to be nicknamed  ; to be read  ; to be summoned;; to be read
+2083	HE	EN	שֵׁ֣ם	name  ; noun  ; reputation;; there  ; where  ; ibid.;; to put  ; to appoint;; to assess, to appraise
+2084	HE	EN	הָעִ֔יר	to remark, to comment;; to wake (someone up);; city, metropolis  ; town  ; העיר - (slang) downtown  ; העירה - (slang) downtown;; donkey foal
+2085	HE	EN	כְּשֵׁ֖ם	inasmuch as, just as, in the same manner as;; name  ; noun  ; reputation;; to put  ; to appoint;; there  ; where  ; ibid.;; to assess, to appraise
+2086	HE	EN	בְּנֹ֥ו	in, at; with, by; for;; son  ; boy  ; member of group (nation, class, family)  ; native  ; בני - my son, son (usu. term of endearment)  ; הבן - junior, the second (title);; to build, to construct  ; to build up, to develop  ; (geometry) to construct  ; (colloquial) to rely, to depend;; (flowery) to understand
+2087	HE	EN	חֲנֹֽוךְ׃	Hanoch (Hebrew name);; education;; to inaugurate, to dedicate, to consecrate;; to guide, to tutor, to educate  ; (biblical) to teach
+2088	HE	EN	 וַיִּוָּלֵ֤ד	to give birth;; to be delivered (baby)  ; (biblical) to be born;; to be born  ; to be born to  ; to come into being, to be created
+2089	HE	EN	לַֽחֲנֹוךְ֙	to inaugurate, to dedicate, to consecrate;; to guide, to tutor, to educate  ; (biblical) to teach;; Hanoch (Hebrew name);; education
+2090	HE	EN	אֶת־עִירָ֔ד	
+2091	HE	EN	וְעִירָ֕ד	
+2092	HE	EN	יָלַ֖ד	son, boy   ; child, kid  ; (colloquial) childish person;; to give birth;; to deliver (baby);; to be delivered (baby)  ; (biblical) to be born
+2093	HE	EN	אֶת־מְחֽוּיָאֵ֑ל	
+2094	HE	EN	וּמְחִיּיָאֵ֗ל	
+2095	HE	EN	יָלַד֙	son, boy   ; child, kid  ; (colloquial) childish person;; to give birth;; to deliver (baby);; to be delivered (baby)  ; (biblical) to be born
+2096	HE	EN	אֶת־מְת֣וּשָׁאֵ֔ל	
+2097	HE	EN	וּמְתוּשָׁאֵ֖ל	to be interrogated, to be questioned
+2098	HE	EN	יָלַ֥ד	son, boy   ; child, kid  ; (colloquial) childish person;; to give birth;; to deliver (baby);; to be delivered (baby)  ; (biblical) to be born
+2099	HE	EN	אֶת־לָֽמֶךְ׃	
+2100	HE	EN	 וַיִּֽקַּֽח־לֹ֥ו	
+2101	HE	EN	לֶ֖מֶךְ	(colloquial) fool, schlemiel, clumsy person;; (biblical) to become impoverished
+2102	HE	EN	שְׁתֵּ֣י	(weaving) warp;; two (when counting in the feminine);; to drink, to swallow
+2103	HE	EN	נָשִׁ֑ים	woman  ; wife  ; אשתו - his wife;; to put  ; to appoint;; to put, to place  ; to turn into, to make into
+2104	HE	EN	שֵׁ֤ם	name  ; noun  ; reputation;; there  ; where  ; ibid.;; to put  ; to appoint;; to assess, to appraise
+2105	HE	EN	הָֽאַחַת֙	one (female)  ; one  ; באחת - At once, abruptly, immediately  ; כאחת - as one, at one and the same time
+2106	HE	EN	עָדָ֔ה	ethnic group  ; group;; Ada (also: Adah) (Hebrew name);; witness
+2107	HE	EN	וְשֵׁ֥ם	there  ; where  ; ibid.;; name  ; noun  ; reputation;; to put  ; to appoint;; to assess, to appraise
+2108	HE	EN	הַשֵּׁנִ֖ית	(medicine) scarlatina, scarlet fever;; dental
+2166	HE	EN	אֶת־אִשְׁתֹּ֔ו	
+2109	HE	EN	צִלָּֽה׃	to grill, to toast, to roast, to broil;; Tzila (also: Tsila, Zillah) (Hebrew name);; shadow  ; shade  ; iota, trace
+2110	HE	EN	 וַתֵּ֥לֶד	to give birth
+2111	HE	EN	עָדָ֖ה	ethnic group  ; group;; Ada (also: Adah) (Hebrew name);; witness
+2112	HE	EN	אֶת־יָבָ֑ל	
+2116	HE	EN	יֹשֵׁ֥ב	to sit  ; to sit down, to be seated  ; to live, to dwell  ; to sit (court)  ; (slang) to be imprisoned  ; (colloquial) to spend time on  ; (colloquial) to be placed, to sit (e.g. the glasses sit firmly on his nose)  ; (slang) to be secure in one's position;; to settle, to populate, to inhabit;; to be inhabited, to be settled, to be populated;; to be settled, to be determined;; to settle (dispute), to solve  ; to answer, to explain;; to blow (wind)
+2117	HE	EN	אֹ֖הֶל	aloe (plant);; tent
+2118	HE	EN	וּמִקְנֶֽה׃	(biblical) livestock;; to instill, to imbue with, to introduce  ; to provide, grant;; nest;; (botany) stem, cane, stalk  ; (weaponry) barrel  ; arm (of a candelabra)  ; reed  ; (talmudic) windpipe, trachea;; (biblical) purchase, acquisition;; to be instilled, to be imbued with, to be introduced  ; to be provided with
+2119	HE	EN	 וְשֵׁ֥ם	there  ; where  ; ibid.;; name  ; noun  ; reputation;; to put  ; to appoint;; to assess, to appraise
+2120	HE	EN	אָחִ֖יו	brother, sibling  ; male nurse  ; compatriot, countryman  ; (flowery) close friend, buddy, pal  ; (Christianity) Brother  ; אחי - (slang) buddy, pal, mate
+2121	HE	EN	יוּבָ֑ל	jubilee, fiftieth anniversary  ; anniversary  ; (Jewish law) fiftieth year jubilee  ; יובלות - (colloquial) ages, eons;; river, tributary, creek;; Yuval (Hebrew name);; (biblical) ram's horn;; to be brought, to be transported
+2123	HE	EN	הָיָ֔ה	to be, to exist  ; to happen, to take place, to occur  ; to become, to develop into;; to have
+2124	HE	EN	אֲבִ֕י	Avi (Hebrew name);; father  ; male parent  ; ancestor, forefather, patriarch  ; arche- (archetype), proto- (prototype)  ; האב - (Christianity) Father  ; האבות - (Judaism) The patriarchs (Abraham, Isaac and Jacob);; (flowery) bud, young shoot  ; באיבו - In the bud
+2125	HE	EN	כָּל־תֹּפֵ֥שׂ	to catch  ; to comprehend, to grasp  ; to occupy, to take up space  ; to apprehend
+2126	HE	EN	כִּנֹּ֖ור	violin  ; (biblical) stringed musical instrument
+2127	HE	EN	וְעוּגָֽב׃	pipe organ;; (archaic) suitor, wooer ; lover;; (literary) to court
+2128	HE	EN	 וְצִלָּ֣ה	to grill, to toast, to roast, to broil;; shadow  ; shade  ; iota, trace;; Tzila (also: Tsila, Zillah) (Hebrew name)
+2129	HE	EN	גַם־הִ֗וא	
+2130	HE	EN	יָֽלְדָה֙	girl, daughter  ; (colloquial) childish person (female);; births, birthrate;; to give birth;; son, boy   ; child, kid  ; (colloquial) childish person;; to deliver (baby);; to be delivered (baby)  ; (biblical) to be born
+2131	HE	EN	אֶת־תּ֣וּבַל	
+2133	HE	EN	לֹטֵ֕שׁ	(biblical) to sharpen, to hone;; to pour cold water on (dough, hot pasta)  ; (talmudic) to pour cold water on dough while kneading, in order to prevent rising;; to polish, to burnish, to shine  ; to put the finishing touches on  ; to refine;; to be polished, to be shined
+2134	HE	EN	כָּל־חֹרֵ֥שׁ	to plow  ; (colloquial) to travel a long way, to cover a large distance
+2135	HE	EN	נְחֹ֖שֶׁת	copper;; to guess  ; to hypothesize, to conjecture, to speculate
+2136	HE	EN	וּבַרְזֶ֑ל	iron
+2137	HE	EN	וַֽאֲחֹ֥ות	sister, sibling  ; nurse (female)  ; close relation, kinswoman  ; (Christianity) Sister (Nun);; fraternity, comradeship, brotherhood
+2138	HE	EN	תּֽוּבַל־קַ֖יִן	
+2139	HE	EN	נַֽעֲמָֽה׃	Naama (also: Na'ama, Naamah) (Hebrew name);; to please
+2141	HE	EN	לֶ֜מֶךְ	(colloquial) fool, schlemiel, clumsy person;; (biblical) to become impoverished
+2142	HE	EN	לְנָשָׁ֗יו	woman  ; wife  ; אשתו - his wife
+2143	HE	EN	עָדָ֤ה	ethnic group  ; group;; Ada (also: Adah) (Hebrew name);; witness
+2144	HE	EN	וְצִלָּה֙	to grill, to toast, to roast, to broil;; shadow  ; shade  ; iota, trace;; Tzila (also: Tsila, Zillah) (Hebrew name)
+2145	HE	EN	שְׁמַ֣עַן	address;; audio  ; renown;; to address;; to hear  ; to listen;; to address;; to be addressed
+2146	HE	EN	קֹולִ֔י	vocal;; collie (dog);; coolie;; voice  ; sound, noise  ; opinion  ; vote;; to toast, to brown
+2147	HE	EN	נְשֵׁ֣י	feminine  ; effeminate;; woman  ; wife  ; אשתו - his wife
+2148	HE	EN	לֶ֔מֶךְ	(colloquial) fool, schlemiel, clumsy person;; (biblical) to become impoverished
+2149	HE	EN	הַאְזֵ֖נָּה	listening  ; eavesdropping, listening in, bugging  ; (medicine) auscultation;; to listen attentively  ; to eavesdrop, to listen in, to bug
+2150	HE	EN	אִמְרָתִ֑י	to say  ; to tell;; saying, expression
+2152	HE	EN	אִ֤ישׁ	man, person, adult  ; husband, spouse  ; a man of ...., inhabitant of ...., from ...  ; אישי - sir;; to man  ; to take one's place, to present oneself;; to be occupied, to be manned
+2153	HE	EN	הָרַ֙גְתִּי֙	to kill
+2154	HE	EN	לְפִצְעִ֔י	wound, injury, sore
+2155	HE	EN	וְיֶ֖לֶד	son, boy   ; child, kid  ; (colloquial) childish person;; to give birth;; to deliver (baby);; to be delivered (baby)  ; (biblical) to be born
+2156	HE	EN	לְחַבֻּרָתִֽי׃	friend, companion; boyfriend  ; partner, companion, steady (slang)  ; member (of organization etc.)  ; associate  ; Comrade  ; חברים - Friends!;; society  ; group of friends, company  ; בחברת - in the company of, together with;; social
+2157	HE	EN	 כִּ֥י	because  ; that  ; (biblical) when  ; but;; chi (The twenty-second letter of the Greek alphabet)
+2158	HE	EN	שִׁבְעָתַ֖יִם	(literary) many times over, much much more  ; (flowery) seven times over;; time, season  ; era, epoch, age  ; בעיתו - at the right time;; phobia
+2159	HE	EN	יֻקַּם־קָ֑יִן	
+2160	HE	EN	וְלֶ֖מֶךְ	(colloquial) fool, schlemiel, clumsy person;; (biblical) to become impoverished
+2161	HE	EN	שִׁבְעִ֥ים	seventy  ; השבעים - seventy;; satiated, full (of food)  ; sated
+2162	HE	EN	וְשִׁבְעָֽה׃	seven (male);; to be satiated, to be full (of food)  ; to sate;; satiated, full (of food)  ; sated;; (colloquial) (Jewish ritual) shiv'ah, seven days of mourning after the death of a family member;; satiation
+2163	HE	EN	 וַיֵּ֨דַע	to know something, to be aware  ; to know how to  ; to be familiar with, to undergo   ; (flowery) to recognize, to be familiar with  ; (biblical) to have sexual intercourse;; knowledge;; to inform, to update; (linguistics) to specify a noun as definite;; to be told, to be made aware, to be informed
+2164	HE	EN	אָדָ֥ם	man, person, human being  ; someone, somebody  ; האדם - mankind, humanity;; Adam (Hebrew name);; red  ; (colloquial) Lipstick  ; ruby (precious stone);; to become red;; red;; red (noun);; (literary) to silence, to quieten  ; (literary) to cease moving, to stand still
+2165	HE	EN	עֹוד֙	more, another  ; still  ; yet  ; בעוד - in another (minute, hour, month)  ; בעוד - while  ; בעודו - while still  ; מעודו - ever  ; עודו - still, yet  ; עודנו - is still;; (Arabic) oud
+2168	HE	EN	בֵּ֔ן	son  ; boy  ; member of group (nation, class, family)  ; native  ; בני - my son, son (usu. term of endearment)  ; הבן - junior, the second (title);; (flowery) to understand;; aged ..., having reached the age of  ; comprising, made up of, composed of;; in, at; with, by; for
+2169	HE	EN	וַתִּקְרָ֥א	to read  ; to call out to, to summon (ל)  ; to call, to name  ; to shout;; to be called, to be named  ; to be nicknamed  ; to be read  ; to be summoned;; to be read
+2171	HE	EN	שֵׁ֑ת	(literary) backside
+2173	HE	EN	שָֽׁת־לִ֤י	(archeology) barrow, man-made hill covering the remains of an ancient settlement  ; mound, knoll, down  ; (colloquial) heap, pile;; to plant;; coat hanger; hanger, something for suspending an object  ; (flowery) quiver (arrows)  ; (anatomy) suspensory ligament;; (medicine) graft, transplant
+2174	HE	EN	אֱלֹהִים֙	God;; God  ; האלוהים - God
+2175	HE	EN	זֶ֣רַע	to sow  ; to spread, to disseminate;; seed  ; semen  ; sperm  ; (literary) scion;; arm, upper arm  ; handle  ; arm (of river)  ; (military) arm, service, branch
+2176	HE	EN	אַחֵ֔ר	different, varying  ; another, different  ; האחר - the other (one), the second (one);; later, afterwards  ; after  ; as a result of, after  ; then, followed by;; to be late;; to delay, make late
+2177	HE	EN	תַּ֣חַת	below, beneath, under  ; subordinate;; (slang) bottom, buttocks, behind, "arse";; (flowery) to be afraid, to be terrified;; (biblical) to be horrified, to be terrified
+2178	HE	EN	הֶ֔בֶל	(literary) steam, vapor  ; breath  ; (flowery) speech, utterance (esp. related to Torah, learned);; foolishness, nonsense, absurdity  ; (flowery) for nothing, uselessly (as adverb)
+2180	HE	EN	הֲרָגֹ֖ו	to kill;; ragout
+2181	HE	EN	קָֽיִן׃	(talmudic) someone with large testicles
+2182	HE	EN	 וּלְשֵׁ֤ת	to knead;; (literary) backside
+2183	HE	EN	גַּם־הוּא֙	
+2184	HE	EN	יֻלַּד־בֵּ֔ן	
+2185	HE	EN	וַיִּקְרָ֥א	Leviticus (third book of Bible);; to read  ; to call out to, to summon (ל)  ; to call, to name  ; to shout;; to be called, to be named  ; to be nicknamed  ; to be read  ; to be summoned;; to be read
+2186	HE	EN	אֶת־שְׁמֹ֖ו	
+2187	HE	EN	אֱנֹ֑ושׁ	(flowery) man, person;; mortal, fatal
+2188	HE	EN	אָ֣ז	then, at that time  ; then, followed by  ; (colloquial) So  ; (colloquial) then what?
+2189	HE	EN	הוּחַ֔ל	to be applied (refers to a law), to be implemented;; to be begun, to be started;; (literary) to wait; to hold back, to restrain
+2190	HE	EN	לִקְרֹ֖א	to read  ; to call out to, to summon (ל)  ; to call, to name  ; to shout
+2191	HE	EN	בְּשֵׁ֥ם	perfume  ; scent;; (talmudic) perfumer, spice manufacturer;; to perfume;; to be perfumed;; name  ; noun  ; reputation;; to put  ; to appoint;; there  ; where  ; ibid.;; to assess, to appraise
+2192	HE	EN	יְהוָֽה׃	(biblical) Jehovah, God, the Lord;; to constitute
+\.
+
+
+--
+-- Data for Name: Languages_userdictionary; Type: TABLE DATA; Schema: public; Owner: paralleltext
+--
+
+COPY "Languages_userdictionary" (id, "userID", "definitionID") FROM stdin;
+\.
+
+
+--
+-- Name: Languages_userdictionary_id_seq; Type: SEQUENCE SET; Schema: public; Owner: paralleltext
+--
+
+SELECT pg_catalog.setval('"Languages_userdictionary_id_seq"', 1, false);
+
+
+--
+-- Data for Name: auth_group; Type: TABLE DATA; Schema: public; Owner: paralleltext
+--
+
+COPY auth_group (id, name) FROM stdin;
+\.
+
+
+--
+-- Name: auth_group_id_seq; Type: SEQUENCE SET; Schema: public; Owner: paralleltext
+--
+
+SELECT pg_catalog.setval('auth_group_id_seq', 1, false);
+
+
+--
+-- Data for Name: auth_group_permissions; Type: TABLE DATA; Schema: public; Owner: paralleltext
+--
+
+COPY auth_group_permissions (id, group_id, permission_id) FROM stdin;
+\.
+
+
+--
+-- Name: auth_group_permissions_id_seq; Type: SEQUENCE SET; Schema: public; Owner: paralleltext
+--
+
+SELECT pg_catalog.setval('auth_group_permissions_id_seq', 1, false);
+
+
+--
+-- Data for Name: auth_permission; Type: TABLE DATA; Schema: public; Owner: paralleltext
+--
+
+COPY auth_permission (id, name, content_type_id, codename) FROM stdin;
+1	Can add permission	1	add_permission
+2	Can change permission	1	change_permission
+3	Can delete permission	1	delete_permission
+4	Can add group	2	add_group
+5	Can change group	2	change_group
+6	Can delete group	2	delete_group
+7	Can add user	3	add_user
+8	Can change user	3	change_user
+9	Can delete user	3	delete_user
+10	Can add content type	4	add_contenttype
+11	Can change content type	4	change_contenttype
+12	Can delete content type	4	delete_contenttype
+13	Can add session	5	add_session
+14	Can change session	5	change_session
+15	Can delete session	5	delete_session
+16	Can add log entry	6	add_logentry
+17	Can change log entry	6	change_logentry
+18	Can delete log entry	6	delete_logentry
+19	Can add user account	7	add_useraccount
+20	Can change user account	7	change_useraccount
+21	Can delete user account	7	delete_useraccount
+22	Can add book info	8	add_bookinfo
+23	Can change book info	8	change_bookinfo
+24	Can delete book info	8	delete_bookinfo
+25	Can add book translation	9	add_booktranslation
+26	Can change book translation	9	change_booktranslation
+27	Can delete book translation	9	delete_booktranslation
+28	Can add translations	10	add_translations
+29	Can change translations	10	change_translations
+30	Can delete translations	10	delete_translations
+31	Can add user dictionary	11	add_userdictionary
+32	Can change user dictionary	11	change_userdictionary
+33	Can delete user dictionary	11	delete_userdictionary
+34	Can add languages	12	add_languages
+35	Can change languages	12	change_languages
+36	Can delete languages	12	delete_languages
+\.
+
+
+--
+-- Name: auth_permission_id_seq; Type: SEQUENCE SET; Schema: public; Owner: paralleltext
+--
+
+SELECT pg_catalog.setval('auth_permission_id_seq', 36, true);
+
+
+--
+-- Data for Name: auth_user; Type: TABLE DATA; Schema: public; Owner: paralleltext
+--
+
+COPY auth_user (id, password, last_login, is_superuser, username, first_name, last_name, email, is_staff, is_active, date_joined) FROM stdin;
+\.
+
+
+--
+-- Data for Name: auth_user_groups; Type: TABLE DATA; Schema: public; Owner: paralleltext
+--
+
+COPY auth_user_groups (id, user_id, group_id) FROM stdin;
+\.
+
+
+--
+-- Name: auth_user_groups_id_seq; Type: SEQUENCE SET; Schema: public; Owner: paralleltext
+--
+
+SELECT pg_catalog.setval('auth_user_groups_id_seq', 1, false);
+
+
+--
+-- Name: auth_user_id_seq; Type: SEQUENCE SET; Schema: public; Owner: paralleltext
+--
+
+SELECT pg_catalog.setval('auth_user_id_seq', 1, false);
+
+
+--
+-- Data for Name: auth_user_user_permissions; Type: TABLE DATA; Schema: public; Owner: paralleltext
+--
+
+COPY auth_user_user_permissions (id, user_id, permission_id) FROM stdin;
+\.
+
+
+--
+-- Name: auth_user_user_permissions_id_seq; Type: SEQUENCE SET; Schema: public; Owner: paralleltext
+--
+
+SELECT pg_catalog.setval('auth_user_user_permissions_id_seq', 1, false);
+
+
+--
+-- Data for Name: books_bookinfo; Type: TABLE DATA; Schema: public; Owner: paralleltext
+--
+
+COPY books_bookinfo (id, title, author, chaps) FROM stdin;
+\.
+
+
+--
+-- Name: books_bookinfo_id_seq; Type: SEQUENCE SET; Schema: public; Owner: paralleltext
+--
+
+SELECT pg_catalog.setval('books_bookinfo_id_seq', 1, false);
+
+
+--
+-- Data for Name: books_booktranslation; Type: TABLE DATA; Schema: public; Owner: paralleltext
+--
+
+COPY books_booktranslation (id, book_id_id, language_id_id, translator_name, copyright_info) FROM stdin;
+\.
+
+
+--
+-- Name: books_booktranslation_id_seq; Type: SEQUENCE SET; Schema: public; Owner: paralleltext
+--
+
+SELECT pg_catalog.setval('books_booktranslation_id_seq', 1, false);
+
+
+--
+-- Data for Name: django_admin_log; Type: TABLE DATA; Schema: public; Owner: paralleltext
+--
+
+COPY django_admin_log (id, action_time, user_id, content_type_id, object_id, object_repr, action_flag, change_message) FROM stdin;
+\.
+
+
+--
+-- Name: django_admin_log_id_seq; Type: SEQUENCE SET; Schema: public; Owner: paralleltext
+--
+
+SELECT pg_catalog.setval('django_admin_log_id_seq', 1, false);
+
+
+--
+-- Data for Name: django_content_type; Type: TABLE DATA; Schema: public; Owner: paralleltext
+--
+
+COPY django_content_type (id, name, app_label, model) FROM stdin;
+1	permission	auth	permission
+2	group	auth	group
+3	user	auth	user
+4	content type	contenttypes	contenttype
+5	session	sessions	session
+6	log entry	admin	logentry
+7	user account	users	useraccount
+8	book info	books	bookinfo
+9	book translation	books	booktranslation
+10	translations	Languages	translations
+11	user dictionary	Languages	userdictionary
+12	languages	Languages	languages
+\.
+
+
+--
+-- Name: django_content_type_id_seq; Type: SEQUENCE SET; Schema: public; Owner: paralleltext
+--
+
+SELECT pg_catalog.setval('django_content_type_id_seq', 12, true);
+
+
+--
+-- Data for Name: django_session; Type: TABLE DATA; Schema: public; Owner: paralleltext
+--
+
+COPY django_session (session_key, session_data, expire_date) FROM stdin;
+hf21dcmqsj5rkkv20va3xcb0vwzka4t5	N2RmZGFlNGUzOTllMzdlY2I3MDYyZGM1Nzg2MWU5ODUxZmY5ODYwNzqAAn1xAS4=	2013-05-06 19:46:05.487992-04
+\.
+
+
+--
+-- Data for Name: users_useraccount; Type: TABLE DATA; Schema: public; Owner: paralleltext
+--
+
+COPY users_useraccount (user_id, native_lang) FROM stdin;
+\.
+
+
+--
+-- Name: Languages_languages_abbr_name_key; Type: CONSTRAINT; Schema: public; Owner: paralleltext; Tablespace: 
+--
+
+ALTER TABLE ONLY "Languages_languages"
+    ADD CONSTRAINT "Languages_languages_abbr_name_key" UNIQUE (abbr, name);
+
+
+--
+-- Name: Languages_languages_pkey; Type: CONSTRAINT; Schema: public; Owner: paralleltext; Tablespace: 
+--
+
+ALTER TABLE ONLY "Languages_languages"
+    ADD CONSTRAINT "Languages_languages_pkey" PRIMARY KEY ("langID");
+
+
+--
+-- Name: Languages_translations_pkey; Type: CONSTRAINT; Schema: public; Owner: paralleltext; Tablespace: 
+--
+
+ALTER TABLE ONLY "Languages_translations"
+    ADD CONSTRAINT "Languages_translations_pkey" PRIMARY KEY (original);
+
+
+--
+-- Name: Languages_userdictionary_pkey; Type: CONSTRAINT; Schema: public; Owner: paralleltext; Tablespace: 
+--
+
+ALTER TABLE ONLY "Languages_userdictionary"
+    ADD CONSTRAINT "Languages_userdictionary_pkey" PRIMARY KEY (id);
+
+
+--
+-- Name: auth_group_name_key; Type: CONSTRAINT; Schema: public; Owner: paralleltext; Tablespace: 
+--
+
+ALTER TABLE ONLY auth_group
+    ADD CONSTRAINT auth_group_name_key UNIQUE (name);
+
+
+--
+-- Name: auth_group_permissions_group_id_permission_id_key; Type: CONSTRAINT; Schema: public; Owner: paralleltext; Tablespace: 
+--
+
+ALTER TABLE ONLY auth_group_permissions
+    ADD CONSTRAINT auth_group_permissions_group_id_permission_id_key UNIQUE (group_id, permission_id);
+
+
+--
+-- Name: auth_group_permissions_pkey; Type: CONSTRAINT; Schema: public; Owner: paralleltext; Tablespace: 
+--
+
+ALTER TABLE ONLY auth_group_permissions
+    ADD CONSTRAINT auth_group_permissions_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: auth_group_pkey; Type: CONSTRAINT; Schema: public; Owner: paralleltext; Tablespace: 
+--
+
+ALTER TABLE ONLY auth_group
+    ADD CONSTRAINT auth_group_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: auth_permission_content_type_id_codename_key; Type: CONSTRAINT; Schema: public; Owner: paralleltext; Tablespace: 
+--
+
+ALTER TABLE ONLY auth_permission
+    ADD CONSTRAINT auth_permission_content_type_id_codename_key UNIQUE (content_type_id, codename);
+
+
+--
+-- Name: auth_permission_pkey; Type: CONSTRAINT; Schema: public; Owner: paralleltext; Tablespace: 
+--
+
+ALTER TABLE ONLY auth_permission
+    ADD CONSTRAINT auth_permission_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: auth_user_groups_pkey; Type: CONSTRAINT; Schema: public; Owner: paralleltext; Tablespace: 
+--
+
+ALTER TABLE ONLY auth_user_groups
+    ADD CONSTRAINT auth_user_groups_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: auth_user_groups_user_id_group_id_key; Type: CONSTRAINT; Schema: public; Owner: paralleltext; Tablespace: 
+--
+
+ALTER TABLE ONLY auth_user_groups
+    ADD CONSTRAINT auth_user_groups_user_id_group_id_key UNIQUE (user_id, group_id);
+
+
+--
+-- Name: auth_user_pkey; Type: CONSTRAINT; Schema: public; Owner: paralleltext; Tablespace: 
+--
+
+ALTER TABLE ONLY auth_user
+    ADD CONSTRAINT auth_user_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: auth_user_user_permissions_pkey; Type: CONSTRAINT; Schema: public; Owner: paralleltext; Tablespace: 
+--
+
+ALTER TABLE ONLY auth_user_user_permissions
+    ADD CONSTRAINT auth_user_user_permissions_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: auth_user_user_permissions_user_id_permission_id_key; Type: CONSTRAINT; Schema: public; Owner: paralleltext; Tablespace: 
+--
+
+ALTER TABLE ONLY auth_user_user_permissions
+    ADD CONSTRAINT auth_user_user_permissions_user_id_permission_id_key UNIQUE (user_id, permission_id);
+
+
+--
+-- Name: auth_user_username_key; Type: CONSTRAINT; Schema: public; Owner: paralleltext; Tablespace: 
+--
+
+ALTER TABLE ONLY auth_user
+    ADD CONSTRAINT auth_user_username_key UNIQUE (username);
+
+
+--
+-- Name: books_bookinfo_pkey; Type: CONSTRAINT; Schema: public; Owner: paralleltext; Tablespace: 
+--
+
+ALTER TABLE ONLY books_bookinfo
+    ADD CONSTRAINT books_bookinfo_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: books_booktranslation_pkey; Type: CONSTRAINT; Schema: public; Owner: paralleltext; Tablespace: 
+--
+
+ALTER TABLE ONLY books_booktranslation
+    ADD CONSTRAINT books_booktranslation_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: django_admin_log_pkey; Type: CONSTRAINT; Schema: public; Owner: paralleltext; Tablespace: 
+--
+
+ALTER TABLE ONLY django_admin_log
+    ADD CONSTRAINT django_admin_log_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: django_content_type_app_label_model_key; Type: CONSTRAINT; Schema: public; Owner: paralleltext; Tablespace: 
+--
+
+ALTER TABLE ONLY django_content_type
+    ADD CONSTRAINT django_content_type_app_label_model_key UNIQUE (app_label, model);
+
+
+--
+-- Name: django_content_type_pkey; Type: CONSTRAINT; Schema: public; Owner: paralleltext; Tablespace: 
+--
+
+ALTER TABLE ONLY django_content_type
+    ADD CONSTRAINT django_content_type_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: django_session_pkey; Type: CONSTRAINT; Schema: public; Owner: paralleltext; Tablespace: 
+--
+
+ALTER TABLE ONLY django_session
+    ADD CONSTRAINT django_session_pkey PRIMARY KEY (session_key);
+
+
+--
+-- Name: users_useraccount_pkey; Type: CONSTRAINT; Schema: public; Owner: paralleltext; Tablespace: 
+--
+
+ALTER TABLE ONLY users_useraccount
+    ADD CONSTRAINT users_useraccount_pkey PRIMARY KEY (user_id);
+
+
+--
+-- Name: Languages_translations_original_like; Type: INDEX; Schema: public; Owner: paralleltext; Tablespace: 
+--
+
+CREATE INDEX "Languages_translations_original_like" ON "Languages_translations" USING btree (original varchar_pattern_ops);
+
+
+--
+-- Name: auth_group_name_like; Type: INDEX; Schema: public; Owner: paralleltext; Tablespace: 
+--
+
+CREATE INDEX auth_group_name_like ON auth_group USING btree (name varchar_pattern_ops);
+
+
+--
+-- Name: auth_group_permissions_group_id; Type: INDEX; Schema: public; Owner: paralleltext; Tablespace: 
+--
+
+CREATE INDEX auth_group_permissions_group_id ON auth_group_permissions USING btree (group_id);
+
+
+--
+-- Name: auth_group_permissions_permission_id; Type: INDEX; Schema: public; Owner: paralleltext; Tablespace: 
+--
+
+CREATE INDEX auth_group_permissions_permission_id ON auth_group_permissions USING btree (permission_id);
+
+
+--
+-- Name: auth_permission_content_type_id; Type: INDEX; Schema: public; Owner: paralleltext; Tablespace: 
+--
+
+CREATE INDEX auth_permission_content_type_id ON auth_permission USING btree (content_type_id);
+
+
+--
+-- Name: auth_user_groups_group_id; Type: INDEX; Schema: public; Owner: paralleltext; Tablespace: 
+--
+
+CREATE INDEX auth_user_groups_group_id ON auth_user_groups USING btree (group_id);
+
+
+--
+-- Name: auth_user_groups_user_id; Type: INDEX; Schema: public; Owner: paralleltext; Tablespace: 
+--
+
+CREATE INDEX auth_user_groups_user_id ON auth_user_groups USING btree (user_id);
+
+
+--
+-- Name: auth_user_user_permissions_permission_id; Type: INDEX; Schema: public; Owner: paralleltext; Tablespace: 
+--
+
+CREATE INDEX auth_user_user_permissions_permission_id ON auth_user_user_permissions USING btree (permission_id);
+
+
+--
+-- Name: auth_user_user_permissions_user_id; Type: INDEX; Schema: public; Owner: paralleltext; Tablespace: 
+--
+
+CREATE INDEX auth_user_user_permissions_user_id ON auth_user_user_permissions USING btree (user_id);
+
+
+--
+-- Name: auth_user_username_like; Type: INDEX; Schema: public; Owner: paralleltext; Tablespace: 
+--
+
+CREATE INDEX auth_user_username_like ON auth_user USING btree (username varchar_pattern_ops);
+
+
+--
+-- Name: books_booktranslation_book_id_id; Type: INDEX; Schema: public; Owner: paralleltext; Tablespace: 
+--
+
+CREATE INDEX books_booktranslation_book_id_id ON books_booktranslation USING btree (book_id_id);
+
+
+--
+-- Name: books_booktranslation_language_id_id; Type: INDEX; Schema: public; Owner: paralleltext; Tablespace: 
+--
+
+CREATE INDEX books_booktranslation_language_id_id ON books_booktranslation USING btree (language_id_id);
+
+
+--
+-- Name: django_admin_log_content_type_id; Type: INDEX; Schema: public; Owner: paralleltext; Tablespace: 
+--
+
+CREATE INDEX django_admin_log_content_type_id ON django_admin_log USING btree (content_type_id);
+
+
+--
+-- Name: django_admin_log_user_id; Type: INDEX; Schema: public; Owner: paralleltext; Tablespace: 
+--
+
+CREATE INDEX django_admin_log_user_id ON django_admin_log USING btree (user_id);
+
+
+--
+-- Name: django_session_expire_date; Type: INDEX; Schema: public; Owner: paralleltext; Tablespace: 
+--
+
+CREATE INDEX django_session_expire_date ON django_session USING btree (expire_date);
+
+
+--
+-- Name: django_session_session_key_like; Type: INDEX; Schema: public; Owner: paralleltext; Tablespace: 
+--
+
+CREATE INDEX django_session_session_key_like ON django_session USING btree (session_key varchar_pattern_ops);
+
+
+--
+-- Name: auth_group_permissions_permission_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: paralleltext
+--
+
+ALTER TABLE ONLY auth_group_permissions
+    ADD CONSTRAINT auth_group_permissions_permission_id_fkey FOREIGN KEY (permission_id) REFERENCES auth_permission(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: auth_user_groups_group_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: paralleltext
+--
+
+ALTER TABLE ONLY auth_user_groups
+    ADD CONSTRAINT auth_user_groups_group_id_fkey FOREIGN KEY (group_id) REFERENCES auth_group(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: auth_user_user_permissions_permission_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: paralleltext
+--
+
+ALTER TABLE ONLY auth_user_user_permissions
+    ADD CONSTRAINT auth_user_user_permissions_permission_id_fkey FOREIGN KEY (permission_id) REFERENCES auth_permission(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: books_booktranslation_book_id_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: paralleltext
+--
+
+ALTER TABLE ONLY books_booktranslation
+    ADD CONSTRAINT books_booktranslation_book_id_id_fkey FOREIGN KEY (book_id_id) REFERENCES books_bookinfo(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: content_type_id_refs_id_d043b34a; Type: FK CONSTRAINT; Schema: public; Owner: paralleltext
+--
+
+ALTER TABLE ONLY auth_permission
+    ADD CONSTRAINT content_type_id_refs_id_d043b34a FOREIGN KEY (content_type_id) REFERENCES django_content_type(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: django_admin_log_content_type_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: paralleltext
+--
+
+ALTER TABLE ONLY django_admin_log
+    ADD CONSTRAINT django_admin_log_content_type_id_fkey FOREIGN KEY (content_type_id) REFERENCES django_content_type(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: django_admin_log_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: paralleltext
+--
+
+ALTER TABLE ONLY django_admin_log
+    ADD CONSTRAINT django_admin_log_user_id_fkey FOREIGN KEY (user_id) REFERENCES auth_user(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: group_id_refs_id_f4b32aac; Type: FK CONSTRAINT; Schema: public; Owner: paralleltext
+--
+
+ALTER TABLE ONLY auth_group_permissions
+    ADD CONSTRAINT group_id_refs_id_f4b32aac FOREIGN KEY (group_id) REFERENCES auth_group(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: language_id_id_refs_langID_0d966dd7; Type: FK CONSTRAINT; Schema: public; Owner: paralleltext
+--
+
+ALTER TABLE ONLY books_booktranslation
+    ADD CONSTRAINT "language_id_id_refs_langID_0d966dd7" FOREIGN KEY (language_id_id) REFERENCES "Languages_languages"("langID") DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: user_id_refs_id_40c41112; Type: FK CONSTRAINT; Schema: public; Owner: paralleltext
+--
+
+ALTER TABLE ONLY auth_user_groups
+    ADD CONSTRAINT user_id_refs_id_40c41112 FOREIGN KEY (user_id) REFERENCES auth_user(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: user_id_refs_id_4dc23c39; Type: FK CONSTRAINT; Schema: public; Owner: paralleltext
+--
+
+ALTER TABLE ONLY auth_user_user_permissions
+    ADD CONSTRAINT user_id_refs_id_4dc23c39 FOREIGN KEY (user_id) REFERENCES auth_user(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: users_useraccount_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: paralleltext
+--
+
+ALTER TABLE ONLY users_useraccount
+    ADD CONSTRAINT users_useraccount_user_id_fkey FOREIGN KEY (user_id) REFERENCES auth_user(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: public; Type: ACL; Schema: -; Owner: postgres
+--
+
+REVOKE ALL ON SCHEMA public FROM PUBLIC;
+REVOKE ALL ON SCHEMA public FROM postgres;
+GRANT ALL ON SCHEMA public TO postgres;
+GRANT ALL ON SCHEMA public TO PUBLIC;
+
+
+--
+-- PostgreSQL database dump complete
+--
+

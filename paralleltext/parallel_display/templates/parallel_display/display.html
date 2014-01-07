@@ -1,0 +1,25 @@
+    {% extends 'base.html' %}
+
+    {% autoescape off %}
+    {% block bodycontent %}
+        <h3 style="color:DarkMagenta;text-align:center">{{chosen_book}}, {{chosen_chapter}}, {{left_lang}} vs. {{right_lang}}</h3>   
+	<div>
+        <table border="2" width="100%" style="vertical-align: top;">
+            <tr> 
+                <td style="width:50%">
+                    <div class="scroll">
+                        {% block page1 %}
+                        {% endblock %}
+                    </div>
+                </td>
+                <td>
+                    <div class="scroll">
+                        {% block page2 %}
+                        {% endblock %}
+                    </div>
+                </td>
+            </tr>
+        </table>  
+	</div>  
+    {% endblock %}
+    {% endautoescape %}

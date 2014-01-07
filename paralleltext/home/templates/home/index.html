@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block bodycontent %}
+
+<section id="carousel">
+<div id="slideshow" class="carousel slide">
+    <ol class="carousel-indicators">
+        <li data-target="#" data-slide-to="0" class="active"></li>
+        <li data-target="#" data-slide-to="1"></li>
+        <li data-target="#" data-slide-to="2"></li>
+    </ol>
+    <div class="carousel-inner">
+        <div class="item active">
+            <img id="slideImg" src="{{ STATIC_URL }}/home/image1.png" alt="">
+        </div>
+    </div>
+</div>
+<a class="left carousel-control" href="#" data-slide="prev" onClick="prevImage('slideImg'); clearTimeout(timerID)">&lsaquo;</a>
+<a class="right carousel-control" href="#" data-slide="next" onClick="nextImage('slideImg'); clearTimeout(timerID)">&rsaquo;</a>
+</section>
+
+{% endblock %}
+

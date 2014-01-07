@@ -1,0 +1,149 @@
+************* Module ajax
+C: 36,0: Line too long (119/80)
+F:  5,0: Unable to import 'languages.models'
+F:  6,0: Unable to import 'languages.models'
+************* Module forms
+W:  7,0:Texts: Class has no __init__ method
+R:  7,0:Texts: Too few public methods (0/2)
+W: 17,0:Book: Class has no __init__ method
+R: 17,0:Book: Too few public methods (0/2)
+************* Module test
+F:  9,0: Unable to import 'mechanize'
+F: 12,0: Unable to import 'books.models'
+C: 22,4:TestPDSearch.setUp: Invalid name "setUp" for type method (should match [a-z_][a-z0-9_]{2,30}$)
+R: 18,0:TestPDSearch: Too many public methods (49/20)
+************* Module views
+F: 23,0: Unable to import 'books.models'
+F: 24,0: Unable to import 'parallel_display.forms'
+F: 27,0: Unable to import 'ptext.views'
+R:125,0:select_book: Too many local variables (28/15)
+
+
+Report
+======
+203 statements analysed.
+
+Messages by category
+--------------------
+
++-----------+-------+---------+-----------+
+|type       |number |previous |difference |
++===========+=======+=========+===========+
+|convention |2      |2        |=          |
++-----------+-------+---------+-----------+
+|refactor   |4      |1        |+3.00      |
++-----------+-------+---------+-----------+
+|warning    |2      |0        |+2.00      |
++-----------+-------+---------+-----------+
+|error      |0      |0        |=          |
++-----------+-------+---------+-----------+
+
+
+
+% errors / warnings by module
+-----------------------------
+
++-------+------+--------+---------+-----------+
+|module |error |warning |refactor |convention |
++=======+======+========+=========+===========+
+|forms  |0.00  |100.00  |50.00    |0.00       |
++-------+------+--------+---------+-----------+
+
+
+
+Messages
+--------
+
++-----------+------------+
+|message id |occurrences |
++===========+============+
+|F0401      |7           |
++-----------+------------+
+|W0232      |2           |
++-----------+------------+
+|R0903      |2           |
++-----------+------------+
+|R0914      |1           |
++-----------+------------+
+|R0904      |1           |
++-----------+------------+
+|C0301      |1           |
++-----------+------------+
+|C0103      |1           |
++-----------+------------+
+
+
+
+Global evaluation
+-----------------
+Your code has been rated at 9.61/10 (previous run: 9.76/10)
+
+Duplication
+-----------
+
++-------------------------+------+---------+-----------+
+|                         |now   |previous |difference |
++=========================+======+=========+===========+
+|nb duplicated lines      |0     |0        |=          |
++-------------------------+------+---------+-----------+
+|percent duplicated lines |0.000 |0.000    |=          |
++-------------------------+------+---------+-----------+
+
+
+
+Statistics by type
+------------------
+
++---------+-------+-----------+-----------+------------+---------+
+|type     |number |old number |difference |%documented |%badname |
++=========+=======+===========+===========+============+=========+
+|module   |6      |4          |+2.00      |100.00      |0.00     |
++---------+-------+-----------+-----------+------------+---------+
+|class    |3      |2          |+1.00      |100.00      |0.00     |
++---------+-------+-----------+-----------+------------+---------+
+|method   |5      |9          |-4.00      |100.00      |20.00    |
++---------+-------+-----------+-----------+------------+---------+
+|function |8      |3          |+5.00      |100.00      |0.00     |
++---------+-------+-----------+-----------+------------+---------+
+
+
+
+Raw metrics
+-----------
+
++----------+-------+------+---------+-----------+
+|type      |number |%     |previous |difference |
++==========+=======+======+=========+===========+
+|code      |234    |55.71 |139      |+95.00     |
++----------+-------+------+---------+-----------+
+|docstring |121    |28.81 |42       |+79.00     |
++----------+-------+------+---------+-----------+
+|comment   |8      |1.90  |14       |-6.00      |
++----------+-------+------+---------+-----------+
+|empty     |57     |13.57 |40       |+17.00     |
++----------+-------+------+---------+-----------+
+
+
+
+External dependencies
+---------------------
+::
+
+    bs4 
+      \-BeautifulSoup (test,views)
+    dajaxice 
+      \-decorators 
+        \-dajaxice_register (ajax)
+    django 
+      \-contrib 
+      | \-auth 
+      |   \-models 
+      |     \-User (ajax,views)
+      \-forms (forms)
+      \-shortcuts 
+      | \-render (views)
+      \-utils 
+        \-simplejson (ajax)
+
+
+
